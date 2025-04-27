@@ -5,7 +5,8 @@ export const combatMachine = createMachine({
   initial: 'idle',
   context: {
     playerHealth: 100,
-    enemyHealth: 100
+    enemyHealth: 100,
+		healthPotions: 2
   },
   states: {
     idle: {
@@ -64,7 +65,7 @@ export const combatMachine = createMachine({
       on: {
         healed: [
           {
-            target: 'enemyAttack',
+            target: 'idle',
             actions: 'healPlayer'
           }
 				]
@@ -99,6 +100,10 @@ export const combatMachine = createMachine({
 				const healValue = res.event.healValue ?? 15
 				const newHealth = res.context.playerHealth + healValue;
 				return newHealth >= 100 ? 100 : newHealth;
+			},
+			healthPotions: (res) => {
+				const remainingPotions = res.context.healthPotions - 1
+				return remainingPotions;
 			}
 		}),
 		enemyTakeDamage: assign({

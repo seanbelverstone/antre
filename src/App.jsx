@@ -11,23 +11,38 @@ For testing purposes and this project (temp)
 - add chance to crit for user and enemy
 - add stats to influence damage rolls
 - try to move it all to be inside the combat machine instead of in the app too
+- after heal, go back to idle
 
 */
 const weapons = [
 	{ name: 'shortsword', damage: 15, crit: 1.5 },
 	{ name: 'longsword', damage: 20, crit: 1.5 },
 	{ name: 'battleaxe', damage: 25, crit: 2 },
-	{ name: 'dagger', damage: 10, crit: 5 },
+	{ name: 'dagger', damage: 10, crit: 4 },
 	{ name: 'staff', damage: 18, crit: 2.5 },
 	{ name: 'bow', damage: 20, crit: 1.75 }
 ]
 
-// const enemyWeapons = [
-// 	{ name: 'shiv', damage: 8, crit: 2 },
-// 	{ name: 'rusty sword', damage: 14, crit: 1.5 },
-// 	{ name: 'shiv', damage: 8, crit: 2 },
-// 	{ name: 'shiv', damage: 8, crit: 2 }
-// ]
+const playerStats = {
+	strength: 5,
+	defense: 4,
+	wisdom: 2,
+	luck: 2
+}
+
+const enemyWeapons = [
+	{ name: 'shiv', damage: 8, crit: 2 },
+	{ name: 'rusty sword', damage: 14, crit: 1.5 },
+	{ name: 'mace', damage: 16, crit: 1.5 },
+	{ name: 'axe', damage: 20, crit: 2 }
+]
+
+const enemyStats = {
+	strength: 2,
+	defense: 2,
+	wisdom: 1,
+	luck: 1
+}
 
 export function CombatComponent() {
   const [state, send] = useMachine(combatMachine);
@@ -41,27 +56,33 @@ export function CombatComponent() {
   }, [battleText, bottomRef]);
 
 	
-	const damageCalculator = (playerWeapon) => {
+	const damageCalculator = (selectedWeapon, stats) => {
 		const missChance = Math.random() <= 0.1;
 		const critChance = Math.random() <= 0.2;
+		const diceRoll = Math.ceil(Math.random() * 20);  // Roll between 1 and 20
+    const rollModifier = 1.0 + (diceRoll - 10) / 50; // Modifier between 0.91x and 1.10x
+		const damage = Math.ceil((selectedWeapon.damage + stats.strength) * rollModifier);
+		console.log(rollModifier, damage);
 		if (missChance) {
-			return 0;
+			return { type: 'miss', value: 0 };
 		} else if (critChance) {
-			return playerWeapon.damage * playerWeapon.crit;
+			return { type: 'crit', value: Math.ceil(damage * selectedWeapon.crit) };
 		} else {
-			return playerWeapon.damage
+			return { type: 'normal', value: damage }
 		}
 	}
 
 	useEffect(() => {
 		if (state.value === 'attacking') {
 			setBattleText(prev => [...prev, 'You are attacking'])
-			const damage = damageCalculator(weapon)
+			const result = damageCalculator(weapon, playerStats)
+			const {type, value: damage} = result;
+			console.log(type, damage);
 			setTimeout(() => {
-				if (damage === 0) {
+				if (type === 'miss') {
 					setBattleText(prev => [...prev, 'Oh no, you missed!'])
 					send({ type: 'hit', damage });
-				} else if (damage > weapon.damage) {
+				} else if (type === 'crit') {
 					setBattleText(prev => [...prev, `Nice, you score a critical hit for ${damage} damage!`])
 					send({ type: 'hit', damage });			
 				} else {
@@ -71,9 +92,21 @@ export function CombatComponent() {
 			}, 1000)
 		}
 		if (state.value === 'enemyAttack' || state.value === 'enemyWeakAttack') {
+			const enemyWeapon = enemyWeapons[1]
 			setBattleText(prev => [...prev, 'enemy attacking!'])
+			const result = damageCalculator(enemyWeapon, enemyStats)
+			const {type, value: damage} = result;
 			setTimeout(() => {
-				send({ type: 'hit', damage: 30 });			
+				if (type === 'miss') {
+					setBattleText(prev => [...prev, 'Haha, the enemy missed!'])
+					send({ type: 'hit', damage });
+				} else if (type === 'crit') {
+					setBattleText(prev => [...prev, `Uh oh, the enemy hit you critically for ${damage} damage!`])
+					send({ type: 'hit', damage });			
+				} else {
+					setBattleText(prev => [...prev, `The enemy did ${damage} damage`])
+					send({ type: 'hit', damage });			
+				}		
 			}, 1000)
 		}
 		if (state.value === 'healing') {
@@ -101,19 +134,15 @@ export function CombatComponent() {
 				</ul>
 				<h2>Enemy Health: {state.context.enemyHealth}</h2>
 
-				{state.matches('idle') && (
-					<>
-						<button className="btn" onClick={() => send({ type: 'attack', damage: 30 })} disabled={!weapon.name}>
-							Attack
-						</button>
-						<button className="btn" onClick={() => send({ type: 'defend', damage: 30 })} disabled={!weapon.name}>
-							Defend
-						</button>
-						<button className="btn" onClick={() => send({ type: 'heal' })} disabled={!weapon.name}>
-							Use a Health Potion
-						</button>
-					</>
-				)}
+					<button className="btn" onClick={() => send({ type: 'attack', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'}>
+						Attack
+					</button>
+					<button className="btn" onClick={() => send({ type: 'defend', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'}>
+						Defend
+					</button>
+					<button className="btn" onClick={() => send({ type: 'heal' })} disabled={!weapon.name || state.context.healthPotions === 0 || state.value !== 'idle'}>
+						Use a Health Potion: ({state.context.healthPotions} remaining)
+					</button>
 			</div>
 			<div>
 				<div style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto' }}>
