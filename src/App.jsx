@@ -1,21 +1,23 @@
+/*
+--- PLAN ---
+- setup Supabase connection
+- create login page using auth from supabase, maybe username/password no email necessary
+- Create a character screen
+- store all this information in Supabase
+- Import story list from old project
+- implement special abilities based on class
+- Race also has an effect on stats?
+- Create UI
+- Test
+
+*/
+
 import { useMachine } from '@xstate/react';
 import { combatMachine } from './combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
 import { handleMove } from './utils/damageCalculations.js';
 
-/*
-For testing purposes and this project (temp)
-
-- buttons at the top of the page to lock in a weapon
-- each weapon has a damage value
-- add chance to miss for user and enemy
-- add chance to crit for user and enemy
-- add stats to influence damage rolls
-- try to move it all to be inside the combat machine instead of in the app too
-- after heal, go back to idle
-
-*/
-
+// TODO: Turn stats into state object
 const playerStats = {
 	strength: 5,
 	defense: 4,
@@ -23,6 +25,7 @@ const playerStats = {
 	luck: 2
 }
 
+// TODO: remove once game is implemented as weapons will be rewards
 const weapons = [
 	{ name: 'shortsword', damage: 15, crit: 1.5 },
 	{ name: 'longsword', damage: 20, crit: 1.5 },
