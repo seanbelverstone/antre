@@ -2,10 +2,28 @@ import { useMachine } from '@xstate/react';
 import { combatMachine } from './combatMachine.js';
 import { useEffect } from 'react';
 
+/*
+For testing purposes and this project (temp)
+
+- buttons at the top of the page to lock in a weapon
+- each weapon has a damage value
+- add chance to miss for user and enemy
+- add chance to crit for user and enemy
+- add stats to influence damage rolls
+- try to move it all to be inside the combat machine instead of in the app too
+
+*/
+
 export function CombatComponent() {
   const [state, send] = useMachine(combatMachine);
 
 	useEffect(() => {
+		if (state.value === 'attacking') {
+			console.log('You are attacking')
+			setTimeout(() => {
+				send({ type: 'hit', damage: 30 });			
+			}, 1000)
+		}
 		if (state.value === 'enemyAttack' || state.value === 'enemyWeakAttack') {
 			console.log('enemy attacking!')
 			setTimeout(() => {

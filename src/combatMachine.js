@@ -10,11 +10,26 @@ export const combatMachine = createMachine({
   states: {
     idle: {
       on: {
-        attack: 'enemyAttack',
+        attack: 'attacking',
         defend: 'enemyWeakAttack',
         heal: 'healing'
       },
     },
+		attacking: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				]
+			}
+		},
     enemyAttack: {
       on: {
         hit: [
@@ -57,6 +72,9 @@ export const combatMachine = createMachine({
     },
     dead: {
       type: 'final',
+    },
+    enemyDead: {
+      type: 'final',
     }
   }
 }, {
@@ -82,11 +100,21 @@ export const combatMachine = createMachine({
 				const newHealth = res.context.playerHealth + healValue;
 				return newHealth >= 100 ? 100 : newHealth;
 			}
+		}),
+		enemyTakeDamage: assign({
+			enemyHealth: (res) => {
+				const damage = res.event.damage ?? 15;
+				const newEnemyHealth = res.context.enemyHealth - damage;
+				return newEnemyHealth <= 0 ? 0 : newEnemyHealth;
+			}
 		})
   },
   guards: {
     isPlayerDead: (res) => {
       return res.context.playerHealth - 20 <= 0; // Because we apply 20 damage right after
-    }
+    },
+		isEnemyDead: (res) => {
+			return res.context.enemyHealth - res.event.damage <= 0;
+		}
   }
 });
