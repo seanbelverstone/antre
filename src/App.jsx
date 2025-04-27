@@ -1,6 +1,7 @@
 import { useMachine } from '@xstate/react';
 import { combatMachine } from './combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
+import { handleMove } from './utils/damageCalculations.js';
 
 /*
 For testing purposes and this project (temp)
@@ -14,6 +15,14 @@ For testing purposes and this project (temp)
 - after heal, go back to idle
 
 */
+
+const playerStats = {
+	strength: 5,
+	defense: 4,
+	wisdom: 2,
+	luck: 2
+}
+
 const weapons = [
 	{ name: 'shortsword', damage: 15, crit: 1.5 },
 	{ name: 'longsword', damage: 20, crit: 1.5 },
@@ -23,31 +32,12 @@ const weapons = [
 	{ name: 'bow', damage: 20, crit: 1.75 }
 ]
 
-const playerStats = {
-	strength: 5,
-	defense: 4,
-	wisdom: 2,
-	luck: 2
-}
-
-const enemyWeapons = [
-	{ name: 'shiv', damage: 8, crit: 2 },
-	{ name: 'rusty sword', damage: 14, crit: 1.5 },
-	{ name: 'mace', damage: 16, crit: 1.5 },
-	{ name: 'axe', damage: 20, crit: 2 }
-]
-
-const enemyStats = {
-	strength: 2,
-	defense: 2,
-	wisdom: 1,
-	luck: 1
-}
-
 export function CombatComponent() {
   const [state, send] = useMachine(combatMachine);
 	const [weapon, setWeapon] = useState({});
 	const [battleText, setBattleText] = useState([]);
+	// eslint-disable-next-line no-unused-vars
+	const [enemyName, setEnemyName] = useState('skeleton');
 
 	const bottomRef = useRef(null);
 
@@ -55,68 +45,10 @@ export function CombatComponent() {
     bottomRef.current?.scrollIntoView({ behavior: 'instant' });
   }, [battleText, bottomRef]);
 
-	
-	const damageCalculator = (selectedWeapon, stats) => {
-		const missChance = Math.random() <= 0.1;
-		const critChance = Math.random() <= 0.2;
-		const diceRoll = Math.ceil(Math.random() * 20);  // Roll between 1 and 20
-    const rollModifier = 1.0 + (diceRoll - 10) / 50; // Modifier between 0.91x and 1.10x
-		const damage = Math.ceil((selectedWeapon.damage + stats.strength) * rollModifier);
-		console.log(rollModifier, damage);
-		if (missChance) {
-			return { type: 'miss', value: 0 };
-		} else if (critChance) {
-			return { type: 'crit', value: Math.ceil(damage * selectedWeapon.crit) };
-		} else {
-			return { type: 'normal', value: damage }
-		}
-	}
-
 	useEffect(() => {
-		if (state.value === 'attacking') {
-			setBattleText(prev => [...prev, 'You are attacking'])
-			const result = damageCalculator(weapon, playerStats)
-			const {type, value: damage} = result;
-			console.log(type, damage);
-			setTimeout(() => {
-				if (type === 'miss') {
-					setBattleText(prev => [...prev, 'Oh no, you missed!'])
-					send({ type: 'hit', damage });
-				} else if (type === 'crit') {
-					setBattleText(prev => [...prev, `Nice, you score a critical hit for ${damage} damage!`])
-					send({ type: 'hit', damage });			
-				} else {
-					setBattleText(prev => [...prev, `You did ${damage} damage`])
-					send({ type: 'hit', damage });			
-				}
-			}, 1000)
-		}
-		if (state.value === 'enemyAttack' || state.value === 'enemyWeakAttack') {
-			const enemyWeapon = enemyWeapons[1]
-			setBattleText(prev => [...prev, 'enemy attacking!'])
-			const result = damageCalculator(enemyWeapon, enemyStats)
-			const {type, value: damage} = result;
-			setTimeout(() => {
-				if (type === 'miss') {
-					setBattleText(prev => [...prev, 'Haha, the enemy missed!'])
-					send({ type: 'hit', damage });
-				} else if (type === 'crit') {
-					setBattleText(prev => [...prev, `Uh oh, the enemy hit you critically for ${damage} damage!`])
-					send({ type: 'hit', damage });			
-				} else {
-					setBattleText(prev => [...prev, `The enemy did ${damage} damage`])
-					send({ type: 'hit', damage });			
-				}		
-			}, 1000)
-		}
-		if (state.value === 'healing') {
-			const randomPotionValue = Math.ceil(Math.random() * 15) + 15;
-			setBattleText(prev => [...prev, `You healed for ${randomPotionValue}HP`])
-			setTimeout(() => {
-				send({ type: 'healed', healValue: randomPotionValue });			
-			}, 1000)
-		}
-	}, [state.value, send, weapon])
+		console.log(state.value, weapon)
+		handleMove(state.value, setBattleText, playerStats, weapon.name, enemyName, send)
+	}, [state.value, send, weapon, enemyName])
 
 
   return (
