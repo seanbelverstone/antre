@@ -63,10 +63,10 @@ export const combatMachine = createMachine({
     healing: {
       on: {
         healed: [
-					{
-						target: 'enemyAttack',
-						actions: 'healPlayer'
-					}
+          {
+            target: 'enemyAttack',
+            actions: 'healPlayer'
+          }
 				]
       },
     },
@@ -111,10 +111,12 @@ export const combatMachine = createMachine({
   },
   guards: {
     isPlayerDead: (res) => {
-      return res.context.playerHealth - 20 <= 0; // Because we apply 20 damage right after
+			const damage = res.event.damage ?? 20;
+    	return res.context.playerHealth - damage <= 0;
     },
 		isEnemyDead: (res) => {
-			return res.context.enemyHealth - res.event.damage <= 0;
+			const damage = res.event.damage ?? 15;
+    	return res.context.enemyHealth - damage <= 0;
 		}
   }
 });
