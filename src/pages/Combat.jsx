@@ -17,6 +17,7 @@ import { combatMachine } from '../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
 import { handleMove } from '../utils/damageCalculations.js';
 import { Link } from 'react-router-dom';
+import Button from '../components/Button.jsx';
 
 // TODO: Turn stats into state object
 const playerStats = {
@@ -71,15 +72,9 @@ const CombatPage = () => {
 					</ul>
 					<h2>Enemy Health: {state.context.enemyHealth}</h2>
 
-						<button className="btn" onClick={() => send({ type: 'attack', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'}>
-							Attack
-						</button>
-						<button className="btn" onClick={() => send({ type: 'defend', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'}>
-							Defend
-						</button>
-						<button className="btn" onClick={() => send({ type: 'heal' })} disabled={!weapon.name || state.context.healthPotions === 0 || state.value !== 'idle'}>
-							Use a Health Potion: ({state.context.healthPotions} remaining)
-						</button>
+						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'} text="Attack" />
+						<Button onClick={() => send({ type: 'defend', damage: 30 })} disabled={!weapon.name || state.value !== 'idle'} text="Defend" />
+						<Button onClick={() => send({ type: 'heal' })} disabled={!weapon.name || state.context.healthPotions === 0 || state.value !== 'idle'} text={`Use a Health Potion: (${state.context.healthPotions} remaining)`} />
 				</div>
 				<div>
 					<div style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto' }}>
@@ -90,13 +85,13 @@ const CombatPage = () => {
 			</div>	
 			<div style={{ marginTop: '50px' }}>
 				<Link to="/">
-					<button className="btn">Home</button>
+					<Button text="Home" />
 				</Link>
 				<Link to="/login">
-					<button className="btn">Login</button>
+					<Button text="Login" />
 				</Link>
 				<Link to="/select">
-					<button className="btn">Character Select</button>
+					<Button text="select" />
 				</Link>
 			</div>			
 		</>

@@ -1,0 +1,17 @@
+#homePage {
+	display: flex;
+	flex-direction: column;
+	background-color: var(--foreground);
+	padding: 20px;
+}
+
+#mainLogo {
+	max-width: 600px;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+}
