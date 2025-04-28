@@ -13,7 +13,7 @@
 */
 
 import { useMachine } from '@xstate/react';
-import { combatMachine } from '../combatMachine.js';
+import { combatMachine } from '../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
 import { handleMove } from '../utils/damageCalculations.js';
 import { Link } from 'react-router-dom';

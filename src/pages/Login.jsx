@@ -1,19 +1,12 @@
 import { Link } from 'react-router-dom';
+import antreLogo from '../assets/images/AntreCrop.png';
 
 const LoginPage = () => {
 	return (
-		<>
-			<div>Home Page</div>
-				<Link to="/">
-					<button className="btn">Home</button>
-				</Link>
-				<Link to="/select">
-					<button className="btn">Character Select</button>
-				</Link>
-				<Link to="/combat">
-					<button className="btn">Combat</button>
-				</Link>
-		</>
+		<div id="loginPage">
+			<img src={antreLogo} />
+
+		</div>
 	)
 }
 

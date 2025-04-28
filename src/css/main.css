@@ -1,0 +1,31 @@
+/* Whole project styling */
+:root {
+  --background:  #282c34;
+  --foreground:  #f7f7f7;
+  --info: lightskyblue;
+  --strength: darkred;
+  --defense: darkgreen;
+  --wisdom: darkblue;
+  --luck: goldenrod;
+  --primary: rgb(43, 89, 129);
+  --secondary: darkred;
+  --choice: darkgoldenrod;
+  --gold: darkgoldenrod;
+}
+
+/* Combat font:
+	font-family: "Tagesschrift", system-ui;
+  font-weight: 400;
+  font-style: normal;
+*/
+
+body {
+	margin: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  background-color: var(--background);
+}
