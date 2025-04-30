@@ -37,3 +37,19 @@ body {
 .page {
 	border-radius: 1em;
 }
+
+.strength {
+  color: var(--strength);
+}
+
+.defense {
+  color: var(--defense);
+}
+
+.wisdom {
+  color: var(--wisdom);
+}
+
+.luck {
+  color: var(--luck);
+}

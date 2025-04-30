@@ -11,8 +11,8 @@ function App({ supabase }) {
 			<Route path="/">
 				<Route index element={<Start supabase={supabase} />} />
 				<Route path="antreV2" element={<Start supabase={supabase} />} />
-				<Route path="combat" element={<Combat />} />
-				<Route path="select" element={<CharacterSelect />} />
+				<Route path="combat" element={<Combat supabase={supabase} />} />
+				<Route path="select" element={<CharacterSelect supabase={supabase} />} />
 			</Route>
 		)
 	)

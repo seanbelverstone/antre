@@ -31,7 +31,6 @@ const LoginSignUp = (props) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log(user);
 		if (user?.id) {
 			navigate('/select');
 		}
@@ -121,7 +120,6 @@ const LoginSignUp = (props) => {
 				email,
 				password
 			})
-		console.log(data, error)
 		if (data.session === null) {
 			setOpenSnackBar(true);
 			setSnackbarErrorMessage(error.message)
