@@ -19,6 +19,8 @@ jobs:
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
+        env:
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
 
       - name: Build project
         run: npm run build
