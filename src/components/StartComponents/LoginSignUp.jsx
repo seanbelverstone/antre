@@ -2,9 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 import Button from '../Button';
 import TextField from '@mui/material/TextField';
 import { useDebouncedValidator } from '../../utils/functions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../../redux/reducers/userSlice';
 import { Alert, Slide, Snackbar } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const LoginSignUp = (props) => {
 	const { type, callback, supabase } = props;
@@ -24,7 +25,16 @@ const LoginSignUp = (props) => {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [openSnackbar, setOpenSnackBar] = useState(false);
 	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
-	
+
+	const user = useSelector((state) => state.user);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		console.log(user);
+		if (user?.id) {
+			navigate('/select');
+		}
+	}, [user, navigate]);
 	
 	// -- VALIDATION
 	const validateEmail = (email) => {
@@ -114,7 +124,6 @@ const LoginSignUp = (props) => {
 		if (data.session === null) {
 			setOpenSnackBar(true);
 			setSnackbarErrorMessage(error.message)
-			console.log(error);
 		} else {
 			dispatch(setUserData({
 				id: data.user.id,
