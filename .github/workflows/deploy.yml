@@ -10,7 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      VITE_SUPABASE_KEY: '%env:VITE_SUPABASE_KEY'
+      VITE_SUPABASE_KEY: vars.VITE_SUPABASE_KEY
 
     steps:
       - name: Checkout repo
