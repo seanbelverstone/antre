@@ -1,0 +1,151 @@
+import { useEffect, useMemo, useState } from 'react';
+import Button from '../Button';
+import TextField from '@mui/material/TextField';
+import { useDebouncedValidator } from '../../utils/functions';
+
+const LoginSignUp = (props) => {
+	const { type, callback, supabase } = props;
+	//  -- EMAIL -- 
+	const [email, setEmail] = useState('');
+	const [emailError, setEmailError] = useState(false);
+	const [emailHelperText, setEmailHelperText] = useState('');
+	//  -- PASSWORD -- 
+	const [password, setPassword] = useState('');
+	const [passwordError, setPasswordError] = useState(false);
+	const [passwordHelperText, setPasswordHelperText] = useState('');
+	//  -- CONFIRM PASSWORD --
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+	const [confirmPasswordHelperText, setConfirmPasswordHelperText] = useState('');
+
+	const [isFormValid, setIsFormValid] = useState(false);
+	
+	
+	// -- VALIDATION
+	const validateEmail = (email) => {
+		const reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return reg.test(email);
+	};
+
+	const validatePassword = (password) => {
+		const reg = /^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/;
+		return reg.test(password); // returns true if invalid
+	}
+	
+	const debouncedValidateEmail = useDebouncedValidator((value) => {
+		const valid = validateEmail(value);
+		setEmailError(!valid);
+		setEmailHelperText(!valid ? 'Please enter a valid email' : '');
+	}, 300, []);
+	
+	const debouncedValidatePassword = useDebouncedValidator((value) => {
+		const valid = validatePassword(value);
+		setPasswordError(valid);
+		setPasswordHelperText(
+			valid
+				? 'Password must be at least 8 characters, include upper/lowercase and a number.'
+				: ''
+		);
+	}, 300, []);
+	
+	const debouncedValidateConfirmPassword = useDebouncedValidator((value) => {
+		const match = value === password;
+		setConfirmPasswordError(!match);
+		setConfirmPasswordHelperText(!match ? 'Passwords must match' : '');
+	}, 300, [password]);
+
+	const fields = useMemo(() => [
+		{ value: email, validate: debouncedValidateEmail },
+		{ value: password, validate: debouncedValidatePassword },
+		{ value: confirmPassword, validate: debouncedValidateConfirmPassword },
+	], [
+		email,
+		password,
+		confirmPassword,
+		debouncedValidateEmail,
+		debouncedValidatePassword,
+		debouncedValidateConfirmPassword
+	]);
+
+	useEffect(() => {
+		fields.forEach(({ value, validate }) => {
+			if (value) validate(value);
+		});
+	}, [fields]);
+
+	// -- Checking Global Validation
+
+	const anyFieldsEmpty = [email, password, confirmPassword].some(value => value.trim() === '');
+
+	useEffect(() => {
+		if (type === 'signUp') {
+			if (emailError || passwordError || confirmPasswordError || anyFieldsEmpty) {
+				setIsFormValid(false)
+			} else {
+				setIsFormValid(true);
+			}
+		}
+		if (type === 'login') {
+			const loginValid = !([email, password].some(value => value.trim() === '')) && !emailError
+			setIsFormValid(loginValid);
+		}
+
+	}, [email, emailError, password, passwordError, confirmPasswordError, anyFieldsEmpty, type])
+
+
+	const signInUser = async () => {
+		const { data, error } = await supabase.auth.signInWithPassword({
+			email,
+			password
+		})
+		console.log(data, error);
+	}
+
+	const signUpNewUser = async () => {
+		const { data, error } = await supabase.auth.signUp({
+			email,
+			password
+		})
+		console.log(data);
+		console.log(error);
+	}
+
+	return (
+		<>
+			<TextField
+				className="outlined-basic"
+				label="Email"
+				variant="outlined"
+				onChange={event => setEmail(event.target.value)}
+				error={emailError}
+				helperText={emailHelperText}
+			/>
+			<TextField
+				className="outlined-basic"
+				label="Password"
+				variant="outlined"
+				type="password"
+				onChange={event => setPassword(event.target.value)}
+				error={type === 'login' ? false : passwordError}
+				helperText={type === 'login' ? false : passwordHelperText}
+			/>
+			{type === 'signUp' && (
+				<TextField
+				className="outlined-basic"
+				label="Confirm Password"
+				variant="outlined"
+				type="password"
+				onChange={event => setConfirmPassword(event.target.value)}
+				error={confirmPasswordError}
+				helperText={confirmPasswordHelperText}
+			/>
+			)}
+
+			<Button text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={type === 'login' ? signInUser : signUpNewUser}/>
+			<Button text="Go Back" onClick={() => callback('home')} />
+		</>
+	)
+}
+
+
+export default LoginSignUp;

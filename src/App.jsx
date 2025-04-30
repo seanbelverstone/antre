@@ -1,28 +1,26 @@
 import React from 'react';
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import Start from './pages/Start';
 import Combat from './pages/Combat';
 import CharacterSelect from './pages/CharacterSelect';
 
 
+function App({ supabase }) {
+	const router = createBrowserRouter(
+		createRoutesFromElements(
+			<Route path="/">
+				<Route index element={<Start supabase={supabase} />} />
+				<Route path="combat" element={<Combat />} />
+				<Route path="select" element={<CharacterSelect />} />
+			</Route>
+		)
+	)
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/">
-      <Route index element={<Home />} />
-      <Route path="login" element={<Login />} />
-      <Route path="combat" element={<Combat />} />
-      <Route path="select" element={<CharacterSelect />} />
-    </Route>
-  )
-)
 
-function App() {
 
   return (
     <>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </>
   );
 }

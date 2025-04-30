@@ -23,6 +23,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	height: 95vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: "Open Sans", sans-serif;
