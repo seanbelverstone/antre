@@ -10,6 +10,7 @@ function App({ supabase }) {
 		createRoutesFromElements(
 			<Route path="/">
 				<Route index element={<Start supabase={supabase} />} />
+				<Route path="antreV2" element={<Start supabase={supabase} />} />
 				<Route path="combat" element={<Combat />} />
 				<Route path="select" element={<CharacterSelect />} />
 			</Route>
