@@ -22,6 +22,12 @@ jobs:
         env:
           VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
 
+      - name: Ensure env is available
+        run: |
+          echo "Env check: $VITE_SUPABASE_KEY"
+        env:
+          VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+
       - name: Build project
         run: npm run build
         env: 
