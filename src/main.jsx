@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './css/main.css'
 import { createClient } from '@supabase/supabase-js'
@@ -14,3 +13,4 @@ createRoot(document.getElementById('root')).render(
     <App supabase={supabase} />
   </Provider>,
 )
+
