@@ -7,5 +7,5 @@ export default defineConfig({
 	server: {
 		open: true
 	},
-	base: "antreV2"
+	base: "/antreV2"
 })
