@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Button from '../Button';
 import TextField from '@mui/material/TextField';
 import { useDebouncedValidator } from '../../utils/functions';
+import { useDispatch } from 'react-redux';
+import { setUserData } from '../../redux/reducers/userSlice';
 
 const LoginSignUp = (props) => {
 	const { type, callback, supabase } = props;
@@ -92,26 +94,35 @@ const LoginSignUp = (props) => {
 
 	}, [email, emailError, password, passwordError, confirmPasswordError, anyFieldsEmpty, type])
 
+	const dispatch = useDispatch();
 
-	const signInUser = async () => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email,
-			password
-		})
-		console.log(data, error);
-	}
-
-	const signUpNewUser = async () => {
-		const { data, error } = await supabase.auth.signUp({
-			email,
-			password
-		})
-		console.log(data);
-		console.log(error);
+	const handleUser = async (event) => {
+		event.preventDefault();
+		const { data, error } = type === 'login'
+			? await supabase.auth.signInWithPassword({
+					email,
+					password
+				})
+			: await supabase.auth.signUp({
+				email,
+				password
+			})
+		console.log(data, error)
+		if (data.session === null) {
+			console.log(error);
+		} else {
+			dispatch(setUserData({
+				id: data.user.id,
+				email: data.user.email,
+				access_token: data.session.access_token,
+				expires_at: data.session.expires_at,
+				expires_in: data.session.expires_in
+			}));
+		}
 	}
 
 	return (
-		<>
+		<form onSubmit={handleUser}>
 			<TextField
 				className="outlined-basic"
 				label="Email"
@@ -141,9 +152,9 @@ const LoginSignUp = (props) => {
 			/>
 			)}
 
-			<Button text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={type === 'login' ? signInUser : signUpNewUser}/>
+			<Button text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={e => handleUser(e)}/>
 			<Button text="Go Back" onClick={() => callback('home')} />
-		</>
+		</form>
 	)
 }
 
