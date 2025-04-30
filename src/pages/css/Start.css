@@ -3,6 +3,7 @@
 	flex-direction: column;
 	background-color: var(--foreground);
 	padding: 20px;
+	min-height: 40em;
 }
 
 #mainLogo {

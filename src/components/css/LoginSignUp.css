@@ -1,0 +1,28 @@
+#loginSignUpForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.MuiFormControl-root {
+	max-width: 20em;
+	margin: 0.5em !important;
+}
+
+.Mui-error {
+	max-width: 15em;
+	text-wrap: wrap;
+}
+
+.button {
+	margin-top: 0.5em;
+}
+
+#loginSignUpButton  {
+	background-color: var(--defense);
+}
+
+#loginSignUpButton.disabled {
+	background-color: #1a1a1a;
+}

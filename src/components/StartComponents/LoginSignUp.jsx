@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../../redux/reducers/userSlice';
 import { Alert, Slide, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import '../css/LoginSignUp.css';
 
 const LoginSignUp = (props) => {
 	const { type, callback, supabase } = props;
@@ -136,23 +137,8 @@ const LoginSignUp = (props) => {
 	}
 
 	return (
-		<form onSubmit={handleUser}>
-			<Snackbar
-				open={openSnackbar}
-				autoHideDuration={5000}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-			>
-			  <Alert
-					severity="error"
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
+		<>
+		<form id="loginSignUpForm" onSubmit={handleUser}>
 			<TextField
 				className="outlined-basic"
 				label="Email"
@@ -182,9 +168,26 @@ const LoginSignUp = (props) => {
 			/>
 			)}
 
-			<Button text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={e => handleUser(e)}/>
-			<Button text="Go Back" onClick={() => callback('home')} />
+			<Button id="loginSignUpButton" text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={e => handleUser(e)}/>
+			<Button id="goBackButton" text="Go Back" onClick={() => callback('home')} />
 		</form>
+		<Snackbar
+				open={openSnackbar}
+				autoHideDuration={5000}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'center'
+				}}
+			>
+			  <Alert
+					severity="error"
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarErrorMessage}
+				</Alert>
+			</Snackbar>
+			</>
 	)
 }
 

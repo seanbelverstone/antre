@@ -1,6 +1,11 @@
-.row {
+#homeSection {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: space-evenly;
 	align-items: center;
+	margin: 2em;
+}
+
+.homeButton {
+	margin: 0.5em;
 }
