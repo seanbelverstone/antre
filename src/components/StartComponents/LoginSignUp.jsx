@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import { useDebouncedValidator } from '../../utils/functions';
 import { useDispatch } from 'react-redux';
 import { setUserData } from '../../redux/reducers/userSlice';
+import { Alert, Slide, Snackbar } from '@mui/material';
 
 const LoginSignUp = (props) => {
 	const { type, callback, supabase } = props;
@@ -21,6 +22,8 @@ const LoginSignUp = (props) => {
 	const [confirmPasswordHelperText, setConfirmPasswordHelperText] = useState('');
 
 	const [isFormValid, setIsFormValid] = useState(false);
+	const [openSnackbar, setOpenSnackBar] = useState(false);
+	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 	
 	
 	// -- VALIDATION
@@ -109,6 +112,8 @@ const LoginSignUp = (props) => {
 			})
 		console.log(data, error)
 		if (data.session === null) {
+			setOpenSnackBar(true);
+			setSnackbarErrorMessage(error.message)
 			console.log(error);
 		} else {
 			dispatch(setUserData({
@@ -123,6 +128,22 @@ const LoginSignUp = (props) => {
 
 	return (
 		<form onSubmit={handleUser}>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={5000}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'center'
+				}}
+			>
+			  <Alert
+					severity="error"
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarErrorMessage}
+				</Alert>
+			</Snackbar>
 			<TextField
 				className="outlined-basic"
 				label="Email"
