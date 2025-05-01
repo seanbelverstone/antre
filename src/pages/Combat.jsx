@@ -84,13 +84,13 @@ const CombatPage = () => {
 				</div>
 			</div>	
 			<div style={{ marginTop: '50px' }}>
-				<Link to="/">
+				<Link to="/antreV2">
 					<Button text="Home" />
 				</Link>
-				<Link to="/login">
+				<Link to="/antreV2/login">
 					<Button text="Login" />
 				</Link>
-				<Link to="/select">
+				<Link to="/antreV2/select">
 					<Button text="select" />
 				</Link>
 			</div>			

@@ -10,7 +10,7 @@ const Home = (props) => {
 
 	const popupAndGo = () => {
 		alert(`Starting a game without logging in won't save your progress, but you will get the option to create an account later.`)
-		navigate('/combat');
+		navigate('/antreV2/combat');
 	}
 
 	return (
