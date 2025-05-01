@@ -19,7 +19,7 @@ export const LogoutButton = () => {
 
 	return (
 		<>
-			<Button newClassName="logout" text="Sign Out" onClick={handleOpen}/>
+			<Button customClassName="logout" text="Sign Out" onClick={handleOpen}/>
 			<Dialog
         open={open}
         onClose={handleClose}
@@ -35,7 +35,7 @@ export const LogoutButton = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} text="Cancel" newClassName="warning"/>
+          <Button onClick={handleClose} text="Cancel" customClassName="warning"/>
           <Button onClick={handleLogout} text="Sign Out" />
         </DialogActions>
       </Dialog>

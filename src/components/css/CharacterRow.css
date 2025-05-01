@@ -85,4 +85,6 @@ section.health {
 
 #play, #delete {
 	margin: 2px;
+	background-color: var(--defense);
+	min-width: 1em;
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
 import './css/CharacterSelect.css';
@@ -15,12 +14,16 @@ const CharacterSelectPage = (props) => {
 		getCharacters();
 	}, [])
 
+	window.onbeforeunload = function () {
+		return false;
+	}
+
 	const getCharacters = async () => {
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
 		.eq('user_id', user.id)
-		if (characters.length > 0) {
+		if (characters?.length > 0) {
 			setCharacters(characters);
 		} else if (error) {
 			console.log('oops ran into an error')
@@ -29,20 +32,26 @@ const CharacterSelectPage = (props) => {
 		}
 	}
 
+	const playThisCharacter = (char) => {
+		console.log(char);
+	}
+
 	const renderCharacters = () => {
 		return characters.map(character => {
-			return <CharacterRow character={character} key={character.id} />;
+			return <CharacterRow character={character} key={character.id} playThisCharacter={playThisCharacter}/>;
 		});
 	};
 
 	return (
-		<div className="page">
+		<div className="page" id="characterSelectPage">
 			<section id="allCharacters">
 				{renderCharacters()}
-				{characters.length < 4 ? (
-					<Button id="createCharacterButton" text="Create a Character" />
-				) : <></>}
-				<LogoutButton />
+				<section id="buttonsSection">
+					{characters.length < 4 ? (
+						<Button id="createCharacterButton" text="Create a Character" />
+					) : <></>}
+					<LogoutButton />
+				</section>
 			</section>
 		</div>
 	)

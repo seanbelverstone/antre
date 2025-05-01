@@ -2,7 +2,7 @@ import Button from "./Button";
 import './css/CharacterRow.css';
 
 const CharacterRow = (props) => {
-	const { character } = props;
+	const { character, playThisCharacter } = props;
 	const { stats } = character;
 	return (
 		<div className="characterBlock">
@@ -52,11 +52,10 @@ const CharacterRow = (props) => {
 			</div>
 			<section className="charButtons">
 				<Button
-					newClassName="primaryButton"
-					variant="contained"
+					customClassName="primaryButton"
 					id="play"
 					text="PLAY"
-					// onClick={() => playThisCharacter(character)}
+					onClick={() => playThisCharacter(character)}
 				/>
 
 				{/* <DeleteButton
