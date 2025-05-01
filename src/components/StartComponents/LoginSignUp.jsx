@@ -24,7 +24,7 @@ const LoginSignUp = (props) => {
 	const [confirmPasswordHelperText, setConfirmPasswordHelperText] = useState('');
 
 	const [isFormValid, setIsFormValid] = useState(false);
-	const [openSnackbar, setOpenSnackBar] = useState(false);
+	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const user = useSelector((state) => state.user);
@@ -121,7 +121,7 @@ const LoginSignUp = (props) => {
 				password
 			})
 		if (data.session === null) {
-			setOpenSnackBar(true);
+			setOpenSnackbar(true);
 			setSnackbarErrorMessage(error.message)
 		} else {
 			dispatch(setUserData({
