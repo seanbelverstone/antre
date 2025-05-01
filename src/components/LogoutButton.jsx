@@ -27,9 +27,9 @@ export const LogoutButton = (props) => {
 			navigate('/antreV2');
 		}
 		if (type === 'backToSelect') {
-			dispatch(clearCharacter());
 			navigate('/antreV2/select');
 		}
+		dispatch(clearCharacter());
 	}
 
 	return (

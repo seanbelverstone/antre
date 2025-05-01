@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Button from '../Button';
 import TextField from '@mui/material/TextField';
 import { useDebouncedValidator } from '../../utils/functions';
@@ -6,7 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../../redux/reducers/userSlice';
 import { Alert, Slide, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import HCaptcha from '@hcaptcha/react-hcaptcha'
 import '../css/LoginSignUp.css';
+
+const captchaKey = import.meta.env.VITE_CAPTCHA_KEY;
 
 const LoginSignUp = (props) => {
 	const { type, callback, supabase } = props;
@@ -26,6 +29,8 @@ const LoginSignUp = (props) => {
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
+
+	const [captchaToken, setCaptchaToken] = useState()
 
 	const user = useSelector((state) => state.user);
 	const navigate = useNavigate();
@@ -94,7 +99,7 @@ const LoginSignUp = (props) => {
 
 	useEffect(() => {
 		if (type === 'signUp') {
-			if (emailError || passwordError || confirmPasswordError || anyFieldsEmpty) {
+			if (emailError || passwordError || confirmPasswordError || anyFieldsEmpty || !captchaToken) {
 				setIsFormValid(false)
 			} else {
 				setIsFormValid(true);
@@ -105,7 +110,7 @@ const LoginSignUp = (props) => {
 			setIsFormValid(loginValid);
 		}
 
-	}, [email, emailError, password, passwordError, confirmPasswordError, anyFieldsEmpty, type])
+	}, [email, emailError, password, passwordError, confirmPasswordError, anyFieldsEmpty, type, captchaToken])
 
 	const dispatch = useDispatch();
 
@@ -118,7 +123,8 @@ const LoginSignUp = (props) => {
 				})
 			: await supabase.auth.signUp({
 				email,
-				password
+				password,
+				options: { captchaToken }
 			})
 		if (data.session === null) {
 			setOpenSnackbar(true);
@@ -132,7 +138,10 @@ const LoginSignUp = (props) => {
 				expires_in: data.session.expires_in
 			}));
 		}
+		type === 'signUp' && captcha.current.resetCaptcha()
 	}
+// '{"luck": 0, "wisdom": 0, "defense": 0, "strength": 0, "health": 80}'::jsonb
+	const captcha = useRef()
 
 	return (
 		<>
@@ -155,15 +164,21 @@ const LoginSignUp = (props) => {
 				helperText={type === 'login' ? false : passwordHelperText}
 			/>
 			{type === 'signUp' && (
-				<TextField
-				className="outlined-basic"
-				label="Confirm Password"
-				variant="outlined"
-				type="password"
-				onChange={event => setConfirmPassword(event.target.value)}
-				error={confirmPasswordError}
-				helperText={confirmPasswordHelperText}
-			/>
+				<>
+					<TextField
+						className="outlined-basic"
+						label="Confirm Password"
+						variant="outlined"
+						type="password"
+						onChange={event => setConfirmPassword(event.target.value)}
+						error={confirmPasswordError}
+						helperText={confirmPasswordHelperText} />
+					<HCaptcha
+						ref={captcha}
+						sitekey={captchaKey}
+						onVerify={(token) => { setCaptchaToken(token);} }
+					/>
+				</>
 			)}
 
 			<Button id="loginSignUpButton" text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={e => handleUser(e)}/>

@@ -21,11 +21,14 @@ jobs:
         run: yarn install
         env:
           VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+          VITE_CAPTCHA_KEY: ${{ secrets.VITE_CAPTCHA_KEY }}
 
       - name: Build project
         run: yarn build
         env: 
           VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
+          VITE_CAPTCHA_KEY: ${{ secrets.VITE_CAPTCHA_KEY }}
+
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v4
