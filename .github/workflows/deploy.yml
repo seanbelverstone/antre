@@ -17,13 +17,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
 
-      - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+      - name: Install dependencies (Yarn)
+        run: yarn install
         env:
           VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
 
       - name: Build project
-        run: npm run build
+        run: yarn build
         env: 
           VITE_SUPABASE_KEY: ${{ secrets.VITE_SUPABASE_KEY }}
 

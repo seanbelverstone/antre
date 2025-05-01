@@ -25,5 +25,3 @@ dist-ssr
 
 # Misc
 .env
-yarn.lock
-./yarn.lock
