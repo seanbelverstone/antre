@@ -29,3 +29,7 @@ button:focus, button:focus-visible {
 button.warning {
 	background-color: var(--strength);
 }
+
+button.success {
+	background-color: var(--primary);
+}

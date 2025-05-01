@@ -17,9 +17,12 @@ const characterData = createSlice({
 				pastLevels: action.payload.pastLevels,
 				user_id: action.payload.user_id
       }
-    }
+    },
+		clearCharacter() {
+			return null;
+		}
   }
 })
 
-export const { setCharacterData, logoutUser } = characterData.actions
+export const { setCharacterData, clearCharacter } = characterData.actions
 export default characterData.reducer

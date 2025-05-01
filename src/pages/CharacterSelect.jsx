@@ -1,14 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
 import './css/CharacterSelect.css';
 import { LogoutButton } from '../components/LogoutButton.jsx';
+import { useNavigate } from 'react-router-dom';
+import { setCharacterData } from '../redux/reducers/characterSlice.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
 	const user = useSelector(state => state.user);
+	const character = useSelector(state => state.character);
 	const [characters, setCharacters] = useState([]);
+
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (character?.id) {
+			navigate('/antreV2/combat');
+		}
+	}, [character, navigate]);
 
 	useEffect(() => {
 		getCharacters();
@@ -32,8 +42,22 @@ const CharacterSelectPage = (props) => {
 		}
 	}
 
+	const dispatch = useDispatch();
+
 	const playThisCharacter = (char) => {
-		console.log(char);
+		dispatch(setCharacterData({
+			id: char.id,
+			charClass: char.charClass,
+			name: char.name,
+			race: char.race,
+			stats: char.stats,
+			items: char.items,
+			gold: char.gold,
+			level: char.level,
+			pastLevels: char.pastLevels,
+			user_id: char.user_id
+		}));
+
 	}
 
 	const renderCharacters = () => {
