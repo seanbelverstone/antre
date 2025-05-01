@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import { Alert, Snackbar } from '@mui/material';
 import './css/CharacterSelect.css';
@@ -23,15 +23,11 @@ const CharacterSelectPage = (props) => {
 		}
 	}, [character, navigate]);
 
-	useEffect(() => {
-		getCharacters();
-	}, [])
-
 	window.onbeforeunload = function () {
 		return false;
 	}
 
-	const getCharacters = async () => {
+	const getCharacters = useCallback(async () => {
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
@@ -43,7 +39,11 @@ const CharacterSelectPage = (props) => {
 			setSnackbarErrorMessage(error.message)
 		}
 		// otherwise, it's a new account
-	}
+	}, [supabase, user])
+	
+	useEffect(() => {
+		getCharacters();
+	}, [getCharacters])
 
 	const dispatch = useDispatch();
 
@@ -75,7 +75,9 @@ const CharacterSelectPage = (props) => {
 				{renderCharacters()}
 				<section id="buttonsSection">
 					{characters.length < 4 ? (
+					<Link to="/antreV2/create">
 						<Button id="createCharacterButton" text="Create a Character" />
+					</Link>
 					) : <></>}
 					<LogoutButton />
 				</section>

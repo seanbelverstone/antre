@@ -3,6 +3,7 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import Start from './pages/Start';
 import Combat from './pages/Combat';
 import CharacterSelect from './pages/CharacterSelect';
+import CharacterCreatePage from './pages/CharacterCreate';
 
 
 function App({ supabase }) {
@@ -13,6 +14,7 @@ function App({ supabase }) {
 				<Route path="/antreV2" element={<Start supabase={supabase} />} />
 				<Route path="/antreV2/combat" element={<Combat supabase={supabase} />} />
 				<Route path="/antreV2/select" element={<CharacterSelect supabase={supabase} />} />
+				<Route path="/antreV2/create" element={<CharacterCreatePage supabase={supabase} />} />
 			</Route>
 		)
 	)
