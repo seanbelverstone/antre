@@ -18,6 +18,7 @@ import { useEffect, useRef, useState } from 'react';
 import { handleMove } from '../utils/damageCalculations.js';
 import { Link } from 'react-router-dom';
 import Button from '../components/Button.jsx';
+import { LogoutButton } from '../components/LogoutButton.jsx';
 
 // TODO: Turn stats into state object
 const playerStats = {
@@ -55,7 +56,6 @@ const CombatPage = () => {
 		handleMove(state.value, setBattleText, playerStats, weapon.name, enemyName, send)
 	}, [state.value, send, weapon, enemyName])
 
-
   return (
 		<>
 			<div style={{ display: 'flex', justifyItems: 'center', alignContent: 'space-evenly', width: '100vw', flexWrap: 'wrap' }}>
@@ -84,15 +84,11 @@ const CombatPage = () => {
 				</div>
 			</div>	
 			<div style={{ marginTop: '50px' }}>
-				<Link to="/">
+				<Link to="/antreV2">
 					<Button text="Home" />
 				</Link>
-				<Link to="/login">
-					<Button text="Login" />
-				</Link>
-				<Link to="/select">
-					<Button text="select" />
-				</Link>
+				<LogoutButton text="Back to Character Select" type="backToSelect"/>
+				<LogoutButton />
 			</div>			
 		</>
   );

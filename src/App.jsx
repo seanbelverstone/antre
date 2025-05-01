@@ -8,11 +8,11 @@ import CharacterSelect from './pages/CharacterSelect';
 function App({ supabase }) {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
-			<Route path="/">
+			<Route path="/antreV2">
 				<Route index element={<Start supabase={supabase} />} />
-				<Route path="antreV2" element={<Start supabase={supabase} />} />
-				<Route path="combat" element={<Combat />} />
-				<Route path="select" element={<CharacterSelect />} />
+				<Route path="/antreV2" element={<Start supabase={supabase} />} />
+				<Route path="/antreV2/combat" element={<Combat supabase={supabase} />} />
+				<Route path="/antreV2/select" element={<CharacterSelect supabase={supabase} />} />
 			</Route>
 		)
 	)

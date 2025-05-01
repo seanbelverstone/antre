@@ -25,3 +25,11 @@ button:focus, button:focus-visible {
 	opacity: 0.6;
 	cursor: not-allowed;
 }
+
+button.warning {
+	background-color: var(--strength);
+}
+
+button.success {
+	background-color: var(--primary);
+}

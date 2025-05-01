@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import setUserData from './reducers/userSlice';
+import userData from './reducers/userSlice';
+import characterData from './reducers/characterSlice';
 
 export const store = configureStore({
   reducer: {
-    user: setUserData
+    user: userData,
+		character: characterData
   }
 })

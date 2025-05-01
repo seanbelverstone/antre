@@ -24,16 +24,15 @@ const LoginSignUp = (props) => {
 	const [confirmPasswordHelperText, setConfirmPasswordHelperText] = useState('');
 
 	const [isFormValid, setIsFormValid] = useState(false);
-	const [openSnackbar, setOpenSnackBar] = useState(false);
+	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const user = useSelector((state) => state.user);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		console.log(user);
 		if (user?.id) {
-			navigate('/select');
+			navigate('/antreV2/select');
 		}
 	}, [user, navigate]);
 	
@@ -121,9 +120,8 @@ const LoginSignUp = (props) => {
 				email,
 				password
 			})
-		console.log(data, error)
 		if (data.session === null) {
-			setOpenSnackBar(true);
+			setOpenSnackbar(true);
 			setSnackbarErrorMessage(error.message)
 		} else {
 			dispatch(setUserData({

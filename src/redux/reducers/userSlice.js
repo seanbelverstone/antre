@@ -5,7 +5,6 @@ const userData = createSlice({
   initialState: [],
   reducers: {
     setUserData(state, action) {
-			console.log(state, action)
       return {
         id: action.payload.id,
         email: action.payload.email,
