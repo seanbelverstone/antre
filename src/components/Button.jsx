@@ -1,9 +1,10 @@
 import "./css/Button.css";
 
 const Button = (props) => {
-	const { text, onClick, disabled, className = '' } = props;
+	const { text, onClick, disabled, newClassName = '' } = props;
+	const fullClassName = `button${newClassName ? ` ${newClassName}` : ''}${disabled ? ` disabled ` : ''}`
 	return (
-		<button className={`button ${disabled ? 'disabled' : ''}${className === '' ? '' : ` ${className}`}`} onClick={onClick} {...props} disabled={disabled}>
+		<button className={fullClassName} onClick={onClick} {...props} disabled={disabled}>
 			{text}
 		</button>
 	)

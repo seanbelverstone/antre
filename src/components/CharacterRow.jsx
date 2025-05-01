@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import Button from "./Button";
 import './css/CharacterRow.css';
 
 const CharacterRow = (props) => {
@@ -44,21 +44,20 @@ const CharacterRow = (props) => {
 						<div className="subHeadings">Level</div>   
 						<div>{character.level}</div>
 					</section>
-					<section  className="time">
+					{/* <section  className="time">
 						<div className="subHeadings">Time</div>
-						{/* <div>{timePlayed}</div> */}
-					</section>                    
+						<div>{timePlayed}</div>
+					</section>                     */}
 				</section>
 			</div>
 			<section className="charButtons">
 				<Button
-					className="primaryButton"
+					newClassName="primaryButton"
 					variant="contained"
 					id="play"
+					text="PLAY"
 					// onClick={() => playThisCharacter(character)}
-				>
-					PLAY
-				</Button>
+				/>
 
 				{/* <DeleteButton
 					id={character.id.toString()}

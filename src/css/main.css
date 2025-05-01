@@ -36,6 +36,10 @@ body {
 
 .page {
 	border-radius: 1em;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--foreground);
+	padding: 20px;
 }
 
 .strength {

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CharacterRow from '../components/CharacterRow';
+import Button from '../components/Button.jsx';
+import './css/CharacterSelect.css';
+import { LogoutButton } from '../components/LogoutButton.jsx';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -13,11 +16,10 @@ const CharacterSelectPage = (props) => {
 	}, [])
 
 	const getCharacters = async () => {
-		console.log('user_id', user.id);
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
-		console.log(characters, error);
+		.eq('user_id', user.id)
 		if (characters.length > 0) {
 			setCharacters(characters);
 		} else if (error) {
@@ -34,15 +36,15 @@ const CharacterSelectPage = (props) => {
 	};
 
 	return (
-		<>
-			<div>Character Select Page</div>
+		<div className="page">
 			<section id="allCharacters">
 				{renderCharacters()}
+				{characters.length < 4 ? (
+					<Button id="createCharacterButton" text="Create a Character" />
+				) : <></>}
+				<LogoutButton />
 			</section>
-				<Link to="/">
-					<button className="btn">Home</button>
-				</Link>
-		</>
+		</div>
 	)
 }
 
