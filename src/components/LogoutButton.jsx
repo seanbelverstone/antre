@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Button from "./Button"
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../redux/reducers/userSlice";
+import { useNavigate } from "react-router-dom";
 
 export const LogoutButton = () => {
 	const [open, setOpen] = useState(false);
@@ -13,8 +16,12 @@ export const LogoutButton = () => {
 		setOpen(false);
 	}
 
-	const handleLogout = () => {
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
+	const handleLogout = () => {
+		dispatch(logoutUser());
+		navigate('/antreV2');
 	}
 
 	return (
