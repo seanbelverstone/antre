@@ -59,7 +59,7 @@ const CharacterRow = (props) => {
 				/>
 				<Modal
 					id={`delete_${character.id}`}
-					text="Are you sure you want to delete this character?"
+					modalText="Are you sure you want to delete this character?"
 					callback={() => deleteThisCharacter(character.id)}
 					buttonText="DELETE"
 					buttonClassName="deleteCharacter"

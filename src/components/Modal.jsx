@@ -11,7 +11,7 @@ const captchaKey = import.meta.env.VITE_CAPTCHA_KEY;
 
 
 export default function Modal(props) {
-	const { id, type, title, text, buttonClassName, buttonText, callback } = props;
+	const { id, type, modalTitle, modalText, buttonClassName, buttonText, callback, disagreeText, agreeText } = props;
 
   const [open, setOpen] = useState(false);
 	const [captchaToken, setCaptchaToken] = useState()
@@ -39,11 +39,11 @@ export default function Modal(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {title ?? 'Warning!'}
+          {modalTitle ?? 'Warning!'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {text ?? 'Are you sure you want to proceed?'}
+            {modalText ?? 'Are you sure you want to proceed?'}
           </DialogContentText>
         </DialogContent>
 				{type === 'anonSignIn' && (
@@ -56,8 +56,8 @@ export default function Modal(props) {
 						</div>
 				)}
         <DialogActions>
-          <Button onClick={() => handleClose('disagree')} text="Disagree" />
-          <Button onClick={() => handleClose('agree')} autoFocus disabled={type === 'anonSignIn' && !captchaToken} text="Agree" />
+          <Button customClassName="modalDisagree" onClick={() => handleClose('disagree')} text={disagreeText ?? "Disagree"} />
+          <Button customClassName="modalAgree" onClick={() => handleClose('agree')} autoFocus disabled={type === 'anonSignIn' && !captchaToken} text={agreeText ?? "Agree"} />
         </DialogActions>
       </Dialog>
     </>

@@ -36,14 +36,12 @@ const CharacterSelectPage = (props) => {
 		.select('*')
 		.eq('user_id', user.id)
 		console.log(characters);
-		if (characters?.length > 0) {
-			setCharacters(characters);
-		} else if (error) {
+		if (error) {
 			setOpenSnackbar(true);
 			setSnackbarErrorMessage(error.message)
 			setSnackbarSeverity('error');
 		}
-		// otherwise, it's a new account
+		setCharacters(characters);
 	}, [supabase, user])
 	
 	useEffect(() => {

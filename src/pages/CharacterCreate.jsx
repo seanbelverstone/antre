@@ -212,7 +212,7 @@ const CharacterCreatePage = ({ supabase }) => {
 				<MenuItem value={'rogue'} id="rogue">Rogue</MenuItem>
 				<MenuItem value={'paladin'} id="paladin">Paladin</MenuItem>
 			</Select>
-			<div id="classDescription" class={`${description === '' ? 'hidden' : 'show'}`}>
+			<div id="classDescription" className={`${description === '' ? 'hidden' : 'show'}`}>
 				<div id="stats">
 					<div className="health">HP: {stats.health}</div>
 					<div className="strength">Strength: {stats.strength}</div>
