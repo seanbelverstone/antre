@@ -1,8 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import './css/CharacterSelect.css';
+import { useSelector } from "react-redux";
 
-const CharacterCreatePage = () => {
+const CharacterCreatePage = ({ supabase }) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState(false);
 	const [nameHelperText, setNameHelperText] = useState('');
@@ -13,43 +15,49 @@ const CharacterCreatePage = () => {
 	const [defense, setDefense] = useState(0);
 	const [wisdom, setWisdom] = useState(0);
 	const [luck, setLuck] = useState(0);
+	const [raceDescription, setRaceDescription] = useState('');
 	const [description, setDescription] = useState('');
-	const [descriptonDisplay, setDescriptionDisplay] = useState(0);
 	const [skill, setSkill] = useState('');
+	const [weapon, setWeapon] = useState('rusty shortsword');
+	const [gold, setGold] = useState(0);
+
+	const user = useSelector(state => state.user);
+
+	const classInfo = useMemo(() => ({
+		warrior: {
+			health: 80,
+			strength: 5,
+			defense: 4,
+			wisdom: 1,
+			luck: 2,
+			description: 'Strong and fierce, the warrior is a reliable combatant.',
+			skill: 'Bone Crush: Using their bare hands, the warrior bypasses an enemy\'s defense for massive damage.'
+		},
+		rogue: {
+			health: 60,
+			strength: 2,
+			defense: 2,
+			wisdom: 2,
+			luck: 4,
+			description: 'As deadly as they are cunning, the rogue utilizes their luck to end fights quickly.',
+			skill: 'Throw Knives: Get a free opportunity to deal damage with your trusty throwing knives.'
+		},
+		paladin: {
+			health: 70,
+			strength: 3,
+			defense: 3,
+			wisdom: 3,
+			luck: 3,
+			description: 'Using holy powers to surpass their foes, the paladin is the wisest of them all.',
+			skill: 'Holy Blade: Call upon the heavens to infuse your blade with light, allowing the paladin to strike with strength and wisdom combined.'
+		}
+	}), [])
 
 	const setStats = useCallback(() => {
-		switch (charClass) {
-		case 'Warrior':
-			setHealth(80);
-			setStrength(5);
-			setDefense(4);
-			setWisdom(1);
-			setLuck(2);
-			setDescription('Strong and fierce, the warrior is a reliable combatant.');
-			setSkill('Bone Crush: Using their bare hands, the warrior bypasses an enemy\'s defense for massive damage.');
-			setDescriptionDisplay(1);
-			break;
-		case 'Rogue':
-			setHealth(60);
-			setStrength(4);
-			setDefense(2);
-			setWisdom(2);
-			setLuck(4);
-			setDescription('As deadly as they are cunning, the rogue utilizes their luck to end fights quickly.');
-			setSkill('Throw Knives: Get a free opportunity to deal damage with your trusty throwing knives.');
-			setDescriptionDisplay(1);
-			break;
-		case 'Paladin':
-			setHealth(70);
-			setStrength(3);
-			setDefense(3);
-			setWisdom(4);
-			setLuck(2);
-			setDescription('Using holy powers to surpass their foes, the paladin is the wisest of them all.');
-			setSkill('Holy Blade: Call upon the heavens to infuse your blade with light, allowing the paladin to strike with strength and wisdom combined.');
-			setDescriptionDisplay(1);
-			break;
-		default:
+		console.log(classInfo);
+		console.log(charClass);
+		console.log(classInfo[charClass]);
+		if (charClass === '') {
 			setHealth(0);
 			setStrength(0);
 			setDefense(0);
@@ -57,13 +65,47 @@ const CharacterCreatePage = () => {
 			setLuck(0);
 			setDescription('');
 			setSkill('');
+		} else {
+			setHealth(classInfo[charClass].health);
+			setStrength(classInfo[charClass].strength);
+			setDefense(classInfo[charClass].defense);
+			setWisdom(classInfo[charClass].wisdom);
+			setLuck(classInfo[charClass].luck);
+			setDescription(classInfo[charClass].description);
+			setSkill(classInfo[charClass].skill);
 		}
-	}, [charClass]);
+		race !== '' && setRaceBuffs();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [charClass, classInfo]);
+
+	const setRaceBuffs = useCallback(() => {
+		if (race === 'human') {
+			setWeapon('longsword');
+			setGold(0);
+			setWisdom(classInfo?.[charClass]?.wisdom);
+			setRaceDescription('Humans come equipped with a steel longsword.')
+		}
+		if (race === 'dwarf') {
+			setGold(20);
+			setWeapon('rusty shortsword')
+			setWisdom(classInfo?.[charClass]?.wisdom);
+			setRaceDescription('Dwarves come equipped with a small bag of gold.')
+		}
+		if (race === 'elf') {
+			const newWisdom = wisdom + 1;
+			setWisdom(newWisdom);
+			setWeapon('rusty shortsword');
+			setGold(0);
+			setRaceDescription('Elves start with a bonus to wisdom.')
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [race,charClass, classInfo])
 
 	
 	useEffect(() => {
 		setStats();
-	}, [charClass, setStats]);
+		setRaceBuffs();
+	}, [charClass, setStats, race, setRaceBuffs]);
 
 	const handleRaceChange = (event) => {
 		setRace(event.target.value);
@@ -86,9 +128,36 @@ const CharacterCreatePage = () => {
 		} else {
 			setNameError(false);
 			setNameHelperText('');
-			// createNewCharacter();
+			createNewCharacter();
 		}
 	};
+
+	const createNewCharacter = async () => {
+		const items = {
+			head: 'None',
+			chest: 'Ragged shirt',
+			legs: 'Ragged pants',
+			hands: 'None',
+			feet: 'Old boots',
+			weapon,
+			healthPotions: 0,
+			torch: 0,
+			amulet: 0
+		}
+		const { data, error } = await supabase
+			.from('characters')
+			.insert([
+				{ name,
+					race,
+					charClass,
+					items,
+					gold,
+					user_id: user.id
+				}
+			])
+			.select();
+			console.log(data, error);
+	}
 	
 	return (
 		<div className="page" id="characterCreatePage">
@@ -108,10 +177,13 @@ const CharacterCreatePage = () => {
 				value={race}
 				onChange={handleRaceChange}
 			>
-				<MenuItem value={'Human'} id="human">Human</MenuItem>
-				<MenuItem value={'Elf'} id="elf">Elf</MenuItem>
-				<MenuItem value={'Dwarf'} id="dwarf">Dwarf</MenuItem>
+				<MenuItem value={'human'} id="human">Human</MenuItem>
+				<MenuItem value={'elf'} id="elf">Elf</MenuItem>
+				<MenuItem value={'dwarf'} id="dwarf">Dwarf</MenuItem>
 			</Select>
+			<div id="raceDescription" class={`${raceDescription === '' ? 'hidden' : 'show'}`}>
+				<div id="description">{raceDescription}</div>
+			</div>
 			<InputLabel id="classLabel">Class</InputLabel>
 			<Select
 				labelId="classLabel"
@@ -119,11 +191,11 @@ const CharacterCreatePage = () => {
 				value={charClass}
 				onChange={handleClassChange}
 			>
-				<MenuItem value={'Warrior'} id="warrior">Warrior</MenuItem>
-				<MenuItem value={'Rogue'} id="rogue">Rogue</MenuItem>
-				<MenuItem value={'Paladin'} id="paladin">Paladin</MenuItem>
+				<MenuItem value={'warrior'} id="warrior">Warrior</MenuItem>
+				<MenuItem value={'rogue'} id="rogue">Rogue</MenuItem>
+				<MenuItem value={'paladin'} id="paladin">Paladin</MenuItem>
 			</Select>
-			<div id="classDescription" style={{ opacity: descriptonDisplay }}>
+			<div id="classDescription" class={`${description === '' ? 'hidden' : 'show'}`}>
 				<div id="stats">
 					<div className="health">HP: {health}</div>
 					<div className="strength">Strength: {strength}</div>

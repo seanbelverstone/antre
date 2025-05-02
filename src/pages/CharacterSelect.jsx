@@ -28,6 +28,7 @@ const CharacterSelectPage = (props) => {
 	}
 
 	const getCharacters = useCallback(async () => {
+		// on load, check if user_id exists, if not throw a warning then go back to homepage
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
