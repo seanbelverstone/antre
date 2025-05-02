@@ -1,0 +1,13 @@
+#captchaSection {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.modalDisagree {
+	background-color: var(--strength);
+}
+
+.modalAgree {
+	background-color: var(--primary);
+}

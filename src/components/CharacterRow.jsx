@@ -1,8 +1,9 @@
 import Button from "./Button";
+import Modal from "./Modal";
 import './css/CharacterRow.css';
 
 const CharacterRow = (props) => {
-	const { character, playThisCharacter } = props;
+	const { character, playThisCharacter, deleteThisCharacter } = props;
 	const { stats } = character;
 	return (
 		<div className="characterBlock">
@@ -52,18 +53,17 @@ const CharacterRow = (props) => {
 			</div>
 			<section className="charButtons">
 				<Button
-					customClassName="primaryButton"
-					id="play"
+					customClassName="playCharacter"
 					text="PLAY"
 					onClick={() => playThisCharacter(character)}
 				/>
-
-				{/* <DeleteButton
-					id={character.id.toString()}
-					jwtToken={user.jwtToken}
-					customText="Are you sure you want to delete this character?"
-					callback={handleDelete}
-				/> */}
+				<Modal
+					id={`delete_${character.id}`}
+					modalText="Are you sure you want to delete this character?"
+					callback={() => deleteThisCharacter(character.id)}
+					buttonText="DELETE"
+					buttonClassName="deleteCharacter"
+				/>
 			</section>
 		</div>
 	)

@@ -83,8 +83,15 @@ section.health {
 	padding: 4px;
 }
 
-#play, #delete {
+.playCharacter, .deleteCharacter {
 	margin: 2px;
-	background-color: var(--defense);
 	min-width: 1em;
+}
+
+.playCharacter {
+	background-color: var(--defense);
+}
+
+.deleteCharacter {
+	background-color: var(--strength);
 }

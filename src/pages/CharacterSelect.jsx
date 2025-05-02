@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import { Alert, Snackbar } from '@mui/material';
 import './css/CharacterSelect.css';
@@ -13,37 +13,40 @@ const CharacterSelectPage = (props) => {
 	const user = useSelector(state => state.user);
 	const character = useSelector(state => state.character);
 	const [characters, setCharacters] = useState([]);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState();
-	const [openSnackbar, setOpenSnackbar] = useState();
+	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarSeverity, setSnackbarSeverity] = useState('error')
 
 	const navigate = useNavigate();
-	useEffect(() => {
-		if (character?.id) {
-			navigate('/antreV2/combat');
-		}
-	}, [character, navigate]);
 
 	useEffect(() => {
-		getCharacters();
-	}, [])
+		if (character?.id) {
+			navigate('/antre/combat');
+		}
+	}, [character, navigate]);
 
 	window.onbeforeunload = function () {
 		return false;
 	}
 
-	const getCharacters = async () => {
+	const getCharacters = useCallback(async () => {
+		// on load, check if user_id exists, if not throw a warning then go back to homepage
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
 		.eq('user_id', user.id)
-		if (characters?.length > 0) {
-			setCharacters(characters);
-		} else if (error) {
+		console.log(characters);
+		if (error) {
 			setOpenSnackbar(true);
 			setSnackbarErrorMessage(error.message)
+			setSnackbarSeverity('error');
 		}
-		// otherwise, it's a new account
-	}
+		setCharacters(characters);
+	}, [supabase, user])
+	
+	useEffect(() => {
+		getCharacters();
+	}, [getCharacters])
 
 	const dispatch = useDispatch();
 
@@ -60,12 +63,25 @@ const CharacterSelectPage = (props) => {
 			pastLevels: char.pastLevels,
 			user_id: char.user_id
 		}));
+	}
 
+	const deleteThisCharacter = async (charId) => {
+		const { error } = await supabase
+			.from('characters')
+			.delete()
+			.eq('id', charId)
+		if (error) {
+			setOpenSnackbar(true);
+			setSnackbarErrorMessage(error.message)
+			setSnackbarSeverity('error');
+		} else {
+			getCharacters();
+		}
 	}
 
 	const renderCharacters = () => {
 		return characters.map(character => {
-			return <CharacterRow character={character} key={character.id} playThisCharacter={playThisCharacter}/>;
+			return <CharacterRow character={character} key={character.id} playThisCharacter={playThisCharacter} deleteThisCharacter={deleteThisCharacter}/>;
 		});
 	};
 
@@ -75,7 +91,9 @@ const CharacterSelectPage = (props) => {
 				{renderCharacters()}
 				<section id="buttonsSection">
 					{characters.length < 4 ? (
+					<Link to="/antre/create">
 						<Button id="createCharacterButton" text="Create a Character" />
+					</Link>
 					) : <></>}
 					<LogoutButton />
 				</section>
@@ -88,14 +106,14 @@ const CharacterSelectPage = (props) => {
 						horizontal: 'center'
 					}}
 				>
-					<Alert
-						severity="error"
-						variant="filled"
-						sx={{ width: '100%' }}
-					>
-						{snackbarErrorMessage}
-					</Alert>
-				</Snackbar>
+				<Alert
+					severity={snackbarSeverity}
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarErrorMessage}
+				</Alert>
+			</Snackbar>
 		</div>
 	)
 }
