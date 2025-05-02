@@ -14,7 +14,7 @@ const Start = (props) => {
 			<img id="mainLogo" src={antreLogo} />
 			<div id="selectionArea">
 				{pageType === 'home' ? (
-					<Home callback={setPageType} />
+					<Home callback={setPageType} supabase={supabase}/>
 				) : (
 					<LoginSignUp callback={setPageType} type={pageType} supabase={supabase}/>
 				)}

@@ -60,9 +60,6 @@ const CharacterCreatePage = ({ supabase }) => {
 	}), [])
 
 	const handleStats = useCallback(() => {
-		console.log(classInfo);
-		console.log(charClass);
-		console.log(classInfo[charClass]);
 		if (charClass === '') {
 			setStats({
 				health: 0,
@@ -201,7 +198,7 @@ const CharacterCreatePage = ({ supabase }) => {
 				<MenuItem value={'elf'} id="elf">Elf</MenuItem>
 				<MenuItem value={'dwarf'} id="dwarf">Dwarf</MenuItem>
 			</Select>
-			<div id="raceDescription" class={`${raceDescription === '' ? 'hidden' : 'show'}`}>
+			<div id="raceDescription" className={`${raceDescription === '' ? 'hidden' : 'show'}`}>
 				<div id="description">{raceDescription}</div>
 			</div>
 			<InputLabel id="classLabel">Class</InputLabel>

@@ -140,7 +140,6 @@ const LoginSignUp = (props) => {
 		}
 		type === 'signUp' && captcha.current.resetCaptcha()
 	}
-// '{"luck": 0, "wisdom": 0, "defense": 0, "strength": 0, "health": 80}'::jsonb
 	const captcha = useRef()
 
 	return (
