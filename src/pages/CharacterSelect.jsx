@@ -13,10 +13,12 @@ const CharacterSelectPage = (props) => {
 	const user = useSelector(state => state.user);
 	const character = useSelector(state => state.character);
 	const [characters, setCharacters] = useState([]);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState();
-	const [openSnackbar, setOpenSnackbar] = useState();
+	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarSeverity, setSnackbarSeverity] = useState('error')
 
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		if (character?.id) {
 			navigate('/antreV2/combat');
@@ -33,11 +35,13 @@ const CharacterSelectPage = (props) => {
 		.from('characters')
 		.select('*')
 		.eq('user_id', user.id)
+		console.log(characters);
 		if (characters?.length > 0) {
 			setCharacters(characters);
 		} else if (error) {
 			setOpenSnackbar(true);
 			setSnackbarErrorMessage(error.message)
+			setSnackbarSeverity('error');
 		}
 		// otherwise, it's a new account
 	}, [supabase, user])
@@ -92,7 +96,7 @@ const CharacterSelectPage = (props) => {
 					}}
 				>
 					<Alert
-						severity="error"
+						severity={snackbarSeverity}
 						variant="filled"
 						sx={{ width: '100%' }}
 					>

@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Alert, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
 import './css/CharacterSelect.css';
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CharacterCreatePage = ({ supabase }) => {
 	const [name, setName] = useState('');
@@ -10,67 +11,70 @@ const CharacterCreatePage = ({ supabase }) => {
 	const [nameHelperText, setNameHelperText] = useState('');
 	const [race, setRace] = useState('');
 	const [charClass, setCharClass] = useState('');
-	const [health, setHealth] = useState(0);
-	const [strength, setStrength] = useState(0);
-	const [defense, setDefense] = useState(0);
-	const [wisdom, setWisdom] = useState(0);
-	const [luck, setLuck] = useState(0);
+	const [stats, setStats] = useState({})
 	const [raceDescription, setRaceDescription] = useState('');
 	const [description, setDescription] = useState('');
 	const [skill, setSkill] = useState('');
 	const [weapon, setWeapon] = useState('rusty shortsword');
 	const [gold, setGold] = useState(0);
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const user = useSelector(state => state.user);
+	const navigate = useNavigate();
 
 	const classInfo = useMemo(() => ({
 		warrior: {
-			health: 80,
-			strength: 5,
-			defense: 4,
-			wisdom: 1,
-			luck: 2,
+			stats: {
+				health: 80,
+				strength: 5,
+				defense: 4,
+				wisdom: 1,
+				luck: 2
+			},
 			description: 'Strong and fierce, the warrior is a reliable combatant.',
 			skill: 'Bone Crush: Using their bare hands, the warrior bypasses an enemy\'s defense for massive damage.'
 		},
 		rogue: {
-			health: 60,
-			strength: 2,
-			defense: 2,
-			wisdom: 2,
-			luck: 4,
+			stats: {
+				health: 60,
+				strength: 2,
+				defense: 2,
+				wisdom: 2,
+				luck: 4
+			},
 			description: 'As deadly as they are cunning, the rogue utilizes their luck to end fights quickly.',
 			skill: 'Throw Knives: Get a free opportunity to deal damage with your trusty throwing knives.'
 		},
 		paladin: {
-			health: 70,
-			strength: 3,
-			defense: 3,
-			wisdom: 3,
-			luck: 3,
+			stats: {
+				health: 70,
+				strength: 3,
+				defense: 3,
+				wisdom: 3,
+				luck: 3
+			},
 			description: 'Using holy powers to surpass their foes, the paladin is the wisest of them all.',
 			skill: 'Holy Blade: Call upon the heavens to infuse your blade with light, allowing the paladin to strike with strength and wisdom combined.'
 		}
 	}), [])
 
-	const setStats = useCallback(() => {
+	const handleStats = useCallback(() => {
 		console.log(classInfo);
 		console.log(charClass);
 		console.log(classInfo[charClass]);
 		if (charClass === '') {
-			setHealth(0);
-			setStrength(0);
-			setDefense(0);
-			setWisdom(0);
-			setLuck(0);
+			setStats({
+				health: 0,
+				strength: 0,
+				defense: 0,
+				wisdom: 0,
+				luck: 0,
+			})
 			setDescription('');
 			setSkill('');
 		} else {
-			setHealth(classInfo[charClass].health);
-			setStrength(classInfo[charClass].strength);
-			setDefense(classInfo[charClass].defense);
-			setWisdom(classInfo[charClass].wisdom);
-			setLuck(classInfo[charClass].luck);
+			setStats(classInfo[charClass].stats)
 			setDescription(classInfo[charClass].description);
 			setSkill(classInfo[charClass].skill);
 		}
@@ -82,18 +86,27 @@ const CharacterCreatePage = ({ supabase }) => {
 		if (race === 'human') {
 			setWeapon('longsword');
 			setGold(0);
-			setWisdom(classInfo?.[charClass]?.wisdom);
+			setStats(prevState => ({
+				...prevState,
+				wisdom: classInfo?.[charClass]?.stats.wisdom
+			}));
 			setRaceDescription('Humans come equipped with a steel longsword.')
 		}
 		if (race === 'dwarf') {
 			setGold(20);
 			setWeapon('rusty shortsword')
-			setWisdom(classInfo?.[charClass]?.wisdom);
+			setStats(prevState => ({
+				...prevState,
+				wisdom: classInfo?.[charClass]?.stats.wisdom
+			}));
 			setRaceDescription('Dwarves come equipped with a small bag of gold.')
 		}
 		if (race === 'elf') {
-			const newWisdom = wisdom + 1;
-			setWisdom(newWisdom);
+			const newWisdom = stats.wisdom + 1;
+			setStats(prevState => ({
+				...prevState,
+				wisdom: newWisdom
+			}));
 			setWeapon('rusty shortsword');
 			setGold(0);
 			setRaceDescription('Elves start with a bonus to wisdom.')
@@ -103,9 +116,9 @@ const CharacterCreatePage = ({ supabase }) => {
 
 	
 	useEffect(() => {
-		setStats();
+		handleStats();
 		setRaceBuffs();
-	}, [charClass, setStats, race, setRaceBuffs]);
+	}, [charClass, handleStats, race, setRaceBuffs]);
 
 	const handleRaceChange = (event) => {
 		setRace(event.target.value);
@@ -144,19 +157,26 @@ const CharacterCreatePage = ({ supabase }) => {
 			torch: 0,
 			amulet: 0
 		}
+		// eslint-disable-next-line no-unused-vars
 		const { data, error } = await supabase
 			.from('characters')
 			.insert([
 				{ name,
 					race,
 					charClass,
+					stats,
 					items,
 					gold,
 					user_id: user.id
 				}
 			])
 			.select();
-			console.log(data, error);
+			if (error) {
+				setOpenSnackbar(true);
+				setSnackbarErrorMessage(error);
+			} else {
+				navigate('/antreV2/select');
+			}
 	}
 	
 	return (
@@ -197,11 +217,11 @@ const CharacterCreatePage = ({ supabase }) => {
 			</Select>
 			<div id="classDescription" class={`${description === '' ? 'hidden' : 'show'}`}>
 				<div id="stats">
-					<div className="health">HP: {health}</div>
-					<div className="strength">Strength: {strength}</div>
-					<div className="defense">Defense: {defense}</div>
-					<div className="wisdom">Wisdom: {wisdom}</div>
-					<div className="luck">Luck: {luck}</div>
+					<div className="health">HP: {stats.health}</div>
+					<div className="strength">Strength: {stats.strength}</div>
+					<div className="defense">Defense: {stats.defense}</div>
+					<div className="wisdom">Wisdom: {stats.wisdom}</div>
+					<div className="luck">Luck: {stats.luck}</div>
 				</div>
 				<div id="desAndSkill">
 					<div id="description">{description}</div>
@@ -218,6 +238,22 @@ const CharacterCreatePage = ({ supabase }) => {
 				text="Create"
 			/>
 			</form>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={5000}
+				anchorOrigin={{
+					vertical: 'top',
+					horizontal: 'center'
+				}}
+			>
+				<Alert
+					severity="error"
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarErrorMessage}
+				</Alert>
+			</Snackbar>
 		</div>
 	)
 }
