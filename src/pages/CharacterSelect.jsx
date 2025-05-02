@@ -65,12 +65,25 @@ const CharacterSelectPage = (props) => {
 			pastLevels: char.pastLevels,
 			user_id: char.user_id
 		}));
+	}
 
+	const deleteThisCharacter = async (charId) => {
+		const { error } = await supabase
+			.from('characters')
+			.delete()
+			.eq('id', charId)
+		if (error) {
+			setOpenSnackbar(true);
+			setSnackbarErrorMessage(error.message)
+			setSnackbarSeverity('error');
+		} else {
+			getCharacters();
+		}
 	}
 
 	const renderCharacters = () => {
 		return characters.map(character => {
-			return <CharacterRow character={character} key={character.id} playThisCharacter={playThisCharacter}/>;
+			return <CharacterRow character={character} key={character.id} playThisCharacter={playThisCharacter} deleteThisCharacter={deleteThisCharacter}/>;
 		});
 	};
 
@@ -95,14 +108,14 @@ const CharacterSelectPage = (props) => {
 						horizontal: 'center'
 					}}
 				>
-					<Alert
-						severity={snackbarSeverity}
-						variant="filled"
-						sx={{ width: '100%' }}
-					>
-						{snackbarErrorMessage}
-					</Alert>
-				</Snackbar>
+				<Alert
+					severity={snackbarSeverity}
+					variant="filled"
+					sx={{ width: '100%' }}
+				>
+					{snackbarErrorMessage}
+				</Alert>
+			</Snackbar>
 		</div>
 	)
 }

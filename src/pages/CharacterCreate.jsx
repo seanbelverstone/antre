@@ -170,7 +170,7 @@ const CharacterCreatePage = ({ supabase }) => {
 			.select();
 			if (error) {
 				setOpenSnackbar(true);
-				setSnackbarErrorMessage(error);
+				setSnackbarErrorMessage(error.message);
 			} else {
 				navigate('/antreV2/select');
 			}

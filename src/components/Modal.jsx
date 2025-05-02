@@ -6,11 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import './css/Modal.css'
 const captchaKey = import.meta.env.VITE_CAPTCHA_KEY;
 
 
 export default function Modal(props) {
-	const { type, title, text, buttonClassName, buttonText, callback } = props;
+	const { id, type, title, text, buttonClassName, buttonText, callback } = props;
 
   const [open, setOpen] = useState(false);
 	const [captchaToken, setCaptchaToken] = useState()
@@ -30,7 +31,7 @@ export default function Modal(props) {
 
   return (
     <>
-      <Button customClassName={buttonClassName} onClick={handleClickOpen} text={buttonText} />
+      <Button id={id} customClassName={buttonClassName} onClick={handleClickOpen} text={buttonText} />
       <Dialog
         open={open}
         onClose={handleClose}
@@ -38,19 +39,21 @@ export default function Modal(props) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {title}
+          {title ?? 'Warning!'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {text}
+            {text ?? 'Are you sure you want to proceed?'}
           </DialogContentText>
         </DialogContent>
 				{type === 'anonSignIn' && (
-					<HCaptcha
-						ref={captcha}
-						sitekey={captchaKey}
-						onVerify={(token) => { setCaptchaToken(token);} }
-					/>
+					<div id="captchaSection">
+						<HCaptcha
+							ref={captcha}
+							sitekey={captchaKey}
+							onVerify={(token) => { setCaptchaToken(token);} }
+						/>
+						</div>
 				)}
         <DialogActions>
           <Button onClick={() => handleClose('disagree')} text="Disagree" />
