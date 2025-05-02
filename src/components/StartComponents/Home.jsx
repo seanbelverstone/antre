@@ -23,7 +23,7 @@ const Home = (props) => {
 				expires_at: data.session.expires_at,
 				expires_in: data.session.expires_in
 			}));
-			navigate('/antreV2/create');
+			navigate('/antre/create');
 		}
 	}
 

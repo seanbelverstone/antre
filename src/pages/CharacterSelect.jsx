@@ -21,7 +21,7 @@ const CharacterSelectPage = (props) => {
 
 	useEffect(() => {
 		if (character?.id) {
-			navigate('/antreV2/combat');
+			navigate('/antre/combat');
 		}
 	}, [character, navigate]);
 
@@ -91,7 +91,7 @@ const CharacterSelectPage = (props) => {
 				{renderCharacters()}
 				<section id="buttonsSection">
 					{characters.length < 4 ? (
-					<Link to="/antreV2/create">
+					<Link to="/antre/create">
 						<Button id="createCharacterButton" text="Create a Character" />
 					</Link>
 					) : <></>}

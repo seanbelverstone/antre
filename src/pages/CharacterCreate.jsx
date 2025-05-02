@@ -172,7 +172,7 @@ const CharacterCreatePage = ({ supabase }) => {
 				setOpenSnackbar(true);
 				setSnackbarErrorMessage(error.message);
 			} else {
-				navigate('/antreV2/select');
+				navigate('/antre/select');
 			}
 	}
 	

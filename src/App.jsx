@@ -9,12 +9,12 @@ import CharacterCreatePage from './pages/CharacterCreate';
 function App({ supabase }) {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
-			<Route path="/antreV2">
+			<Route path="/antre">
 				<Route index element={<Start supabase={supabase} />} />
-				<Route path="/antreV2" element={<Start supabase={supabase} />} />
-				<Route path="/antreV2/combat" element={<Combat supabase={supabase} />} />
-				<Route path="/antreV2/select" element={<CharacterSelect supabase={supabase} />} />
-				<Route path="/antreV2/create" element={<CharacterCreatePage supabase={supabase} />} />
+				<Route path="/antre" element={<Start supabase={supabase} />} />
+				<Route path="/antre/combat" element={<Combat supabase={supabase} />} />
+				<Route path="/antre/select" element={<CharacterSelect supabase={supabase} />} />
+				<Route path="/antre/create" element={<CharacterCreatePage supabase={supabase} />} />
 			</Route>
 		)
 	)

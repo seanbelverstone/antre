@@ -84,7 +84,7 @@ const CombatPage = () => {
 				</div>
 			</div>	
 			<div style={{ marginTop: '50px' }}>
-				<Link to="/antreV2">
+				<Link to="/antre">
 					<Button text="Home" />
 				</Link>
 				<LogoutButton text="Back to Character Select" type="backToSelect"/>
