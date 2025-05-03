@@ -22,7 +22,7 @@ const CharacterSelectPage = (props) => {
 
 	useEffect(() => {
 		if (character?.id) {
-			navigate('/antre/combat');
+			navigate('/antre/play');
 		}
 	}, [character, navigate]);
 

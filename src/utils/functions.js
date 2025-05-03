@@ -18,4 +18,15 @@ export const camelToTitle = value => {
 	return result.charAt(0).toUpperCase() + result.slice(1);
 };
 
+export const flattenToSingleKeys = (obj, result = {}) => {
+  for (const [key, value] of Object.entries(obj)) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      flattenToSingleKeys(value, result);
+    } else {
+      result[key] = value;
+    }
+  }
+  return result;
+}
+
 export default debounce;
