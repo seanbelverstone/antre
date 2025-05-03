@@ -20,7 +20,7 @@
 }
 
 #loginSignUpButton  {
-	background-color: var(--defense);
+	background-color: var(--primary);
 }
 
 #loginSignUpButton.disabled {

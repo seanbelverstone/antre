@@ -4,9 +4,12 @@ import Start from './pages/Start';
 import Combat from './pages/Combat';
 import CharacterSelect from './pages/CharacterSelect';
 import CharacterCreatePage from './pages/CharacterCreate';
-
+import { useSelector } from 'react-redux';
+import Loader from './components/Loader';
 
 function App({ supabase }) {
+  const loading = useSelector(state => state.loader?.loading ?? false);
+
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<Route path="/antre">
@@ -24,6 +27,7 @@ function App({ supabase }) {
   return (
     <>
       <RouterProvider router={router} />
+			<Loader loading={loading} />
     </>
   );
 }

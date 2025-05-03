@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import { Alert, Snackbar } from '@mui/material';
 import './css/CharacterSelect.css';
+import { setLoading } from '../redux/reducers/loaderSlice.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -29,8 +30,11 @@ const CharacterSelectPage = (props) => {
 		return false;
 	}
 
+	const dispatch = useDispatch();
+
 	const getCharacters = useCallback(async () => {
-		// on load, check if user_id exists, if not throw a warning then go back to homepage
+		// TODO: on load, check if user_id exists, if not throw a warning then go back to homepage
+		dispatch(setLoading({ loading: true }));
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
@@ -42,13 +46,13 @@ const CharacterSelectPage = (props) => {
 			setSnackbarSeverity('error');
 		}
 		setCharacters(characters);
-	}, [supabase, user])
+		dispatch(setLoading({ loading: false }));
+	}, [supabase, user, dispatch])
 	
 	useEffect(() => {
 		getCharacters();
-	}, [getCharacters])
-
-	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	const playThisCharacter = (char) => {
 		dispatch(setCharacterData({
