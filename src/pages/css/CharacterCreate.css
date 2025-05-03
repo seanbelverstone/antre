@@ -1,0 +1,79 @@
+#createCharacterForm {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: start;
+	min-width: 30em;
+	max-width: 30em;
+	min-height: 30em;
+	text-wrap: wrap;
+}
+
+#createCharacterForm > .MuiFormLabel-root, .MuiInputLabel-root {
+	font-weight: 600 !important;
+}
+
+.name {
+	width: 100%;
+}
+
+#raceAndClass, #statsAndSkills {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+	width: 100%;
+	margin: 0.5em 0 1em 0.5em ;
+}
+
+#raceSection, #classSection {
+	min-width: 15em;
+}
+
+#raceSelect, #classSelect {
+	min-width: 10em;
+}
+
+#stats, .description, #skillName, #skill {
+	padding-left: 0.5em;
+}
+
+#desAndSkill {
+	padding-right: 0.5em;
+}
+
+#stats {
+	min-width: 7em;
+}
+
+.description {
+	max-width: 12em;
+	padding-left: 0.5em;
+	font-style: italic;
+}
+
+#skillName {
+	margin: 0;
+}
+
+#skill {
+	padding-left: 0.5em;
+	font-style: italic;
+}
+
+#buttons {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	margin-top: 2em;
+}
+
+.createButton {
+	background-color: var(--primary);
+}
+
+.backButton {
+	background-color: var(--strength);
+}
