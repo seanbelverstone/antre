@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
 import { flattenToSingleKeys } from '../utils/functions';
@@ -9,19 +9,19 @@ import './css/Play.css'
 import { FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
+import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
+import { classDefaultValues } from '../utils/damageCalculations.js';
 
 const Play = () => {
-	// const { supabase } = props;
 	const character = useSelector(state => state.character);
+	const dispatch = useDispatch();
 
 	const [storyText, setStoryText] = useState('');
 	const [typewriterDelay, setTypewriterDelay] = useState(20);
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
+	const [appliedModifiers, setAppliedModifiers] = useState([]); // ← NEW STATE
 
-	// Create save button that sends update to Supabase
-	// handle stat increases within here, and pass the data down to Combat
-	
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
 	}, [character.level])
@@ -34,8 +34,6 @@ const Play = () => {
 
 	useEffect(() => {
 		const characterFlattened = flattenToSingleKeys(character)
-		// Replaces words in storylines.json that are wrapped in double
-		// curly braces, like {{weapon}} for dynamic text
 		if (currentLevelObject?.text) {
 			const replacePlaceholders = (template, data) => {
 				return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
@@ -50,24 +48,79 @@ const Play = () => {
 	}, [character, currentLevelObject])
 
 	useEffect(() => {
-		if (currentLevelObject?.modifier && currentLevelObject.modifier.length > 0) {
-			//handle modifier
+		if (
+			currentLevelObject?.modifier &&
+			currentLevelObject?.name &&
+			!appliedModifiers.includes(currentLevelObject.name)
+		) {
+			const getModifierHandlers = () => {
+				const statNames = ['strength', 'defense', 'wisdom', 'luck'];
+				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
+				const handlers = {
+					gold: (value) =>
+						dispatch(
+							updateCharacterField({
+								field: 'gold',
+								value: character.gold + value
+							})
+						),
+					health: (value) => {
+						const overMaximum = character.stats.health + value > classDefaultValues[character.charClass];
+						dispatch(
+							updateCharacterField({
+								field: 'health',
+								value: overMaximum ? classDefaultValues[character.charClass] : character.stats.health + value
+							})
+						)
+					},
+					end: console.log('handle end'), // TODO: Handle end, probably do nothing
+					death: console.log('u died lol') // TODO: Handle death
+				};
+				// dynamically updates stats
+				statNames.forEach((stat) => {
+					handlers[stat] = (value) =>
+						dispatch(
+							updateStat({
+								statName: stat,
+								value: character.stats[stat] + value,
+							})
+						);
+				});
+				// dynamically updates items
+				itemNames.forEach((item) => {
+					console.log(item);
+					handlers[item] = (value) =>
+						dispatch(
+							updateItem({
+								itemName: item,
+								value: item === 'healthPotions' ? character.items[item] + value : value
+							})
+						);
+				});
+				return handlers;
+			};
+
+			const modifierHandlers = getModifierHandlers();
+
+			for (const [modType, modValue] of Object.entries(currentLevelObject.modifier)) {
+				const handler = modifierHandlers[modType];
+				if (handler) {
+					handler(modValue);
+				} else {
+					console.warn('Unknown modifier:', modType);
+				}
+			}
+			setAppliedModifiers((prev) => [...prev, currentLevelObject.name]);
 		}
-	})
+	}, [currentLevelObject, appliedModifiers, character, dispatch]);
 
 	const handleChoiceSelect = (target) => {
 		setCurrentLevelObject(storylines[target])
 	}
 
 	const handleTyperwriterSpeedChange = (event) => {
-    setTypewriterDelay(event.target.value);
-  };
-
-	// TODO: Implement modifier changes
-	// TODO: Implement chance rolls
-	// TODO: Implement death screen
-	// TODO: Inventory drawer
-	// TODO: Save game
+		setTypewriterDelay(event.target.value);
+	};
 
 	return (
 		<div id="playPage" className="page">
@@ -94,23 +147,23 @@ const Play = () => {
 						wrapperClassName: 'text'
 					}}
 				/>
-				{currentLevelObject.modifier && currentLevelObject.modifier.some(mod => mod.fight) ? (
+				{currentLevelObject.modifier && currentLevelObject?.modifier?.fight ? (
 					<Combat currentLevelObject={currentLevelObject} />
-					// Combat needs: character stats, modifiers, enemy name/weapon
-					// after combat or story, update redux store?
 				) : (
-					<Story currentLevelObject={currentLevelObject} choiceSelect={handleChoiceSelect} pastLevels={pastLevels}/>
+					<Story
+						currentLevelObject={currentLevelObject}
+						choiceSelect={handleChoiceSelect}
+						pastLevels={pastLevels}
+					/>
 				)}
 			</div>
 
 			<Button text="Inventory" id="inventoryButton" />
-			{/* Maybe put these 3 buttons in a modal or some kind of menu */}
-			<Button text="Save Game" id="saveGame" disabled/>
-			<LogoutButton type="backToSelect" text="Back to Character Select"/>
+			<Button text="Save Game" id="saveGame" disabled />
+			<LogoutButton type="backToSelect" text="Back to Character Select" />
 			<LogoutButton text="Sign Out" />
 		</div>
 	)
 }
-
 
 export default Play;

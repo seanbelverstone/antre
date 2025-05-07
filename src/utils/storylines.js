@@ -1533,7 +1533,7 @@ const storylines = {
 	  name: '15a-Dragon Victory',
 		text: "You strike the dragon down, and its flames are finally extinguished. Looking past its now corpse, you notice a glint hiding in the nest behind it. It appears that the dragon was guarding some kind of relic. You add it to your inventory for safe-keeping and you feel slightly luckier after that encounter.",
 		modifier: {
-			amulet: 1,
+			amulet: true,
 			luck: 2
 		},
 		options: [
@@ -2869,7 +2869,7 @@ const storylines = {
 	  name: '27a-Search',
 		text: "You dive head first into the water and swim to the bottom, in the hopes that there might be something of value at the bottom. \n\nYou swim deeper and blindly grab at anything that you can carry. Your hands grab something solid, so you swim back to the surface and over to the platform. You're holding what looks like a large, round, metal disc. It appears that this disc is some kind of talisman, and while you continue to stare at it in wonder it begins to glow. \n\nA brilliant light emits from it, and some form of energy rushes out and into your body. Convulsing, you are lifted into the air. Then, the light dims, and the flow of energy stops. You are gently lowered to the ground and something feels different. \nYou feel stronger. \nYou slip the talisman of strength in your pocket as a keepsake, and leave the room behind with courage coursing through you.",
 		modifier: {
-			amulet: 1,
+			amulet: true,
 			strength: 4
 		},
 		options: [
@@ -3298,14 +3298,13 @@ const storylines = {
 	'33-Beastmaster End': {
 	  name: '33-Beastmaster End',
 		text: "Striking hard and true, you land the final blow on the beastmaster. Its undead corpse falls to the ground, defeated. \n\nA small roll of parchment, previously hidden under its fur cloak, falls to the ground at your feet. You unroll it and see that it is an incantation for a portal out of here. You recite the words on the parchment, and a portal opens up behind you. Taking one look back at the beastmaster and its manticore, you can't help but feel a pang of sorrow for their cursed existences. Hopefully you brought their souls some peace. \n\nYou step through the portal.",
-			modifier: { end: true },
-			options: [
-					{
-							label: "Return to the main menu",
-							target: "Main Menu"
-					}
-
-			]
+		modifier: { end: true },
+		options: [
+				{
+						label: "Return to the main menu",
+						target: "Main Menu"
+				}
+		]
 	}
 	
 
