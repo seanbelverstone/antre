@@ -38,7 +38,7 @@ const weapons = [
 	{ name: 'bow', damage: 20, crit: 1.75 }
 ]
 
-const CombatPage = () => {
+const Combat = () => {
   const [state, send] = useMachine(combatMachine);
 	const [weapon, setWeapon] = useState({});
 	const [battleText, setBattleText] = useState([]);
@@ -94,4 +94,4 @@ const CombatPage = () => {
   );
 }
 
-export default CombatPage;
+export default Combat;
