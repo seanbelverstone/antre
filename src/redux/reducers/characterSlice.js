@@ -5,6 +5,7 @@ const characterData = createSlice({
   initialState: [],
   reducers: {
     setCharacterData(state, action) {
+			// sets the entire character object, should only be called once on initialization
       return {
 				id: action.payload.id,
 				charClass: action.payload.charClass,
@@ -18,11 +19,21 @@ const characterData = createSlice({
 				user_id: action.payload.user_id
       }
     },
+		updateCharacterField(state, action) {
+			// updates a non-nested field, like items/gold/level etc
+			const { field, value } = action.payload;
+			state[field] = value;
+		},
+		updateStat(state, action) {
+			// updates a single stat, like strength/wisdom
+			const { statName, value } = action.payload;
+			state.stats[statName] = value;
+		},
 		clearCharacter() {
 			return null;
 		}
   }
 })
 
-export const { setCharacterData, clearCharacter } = characterData.actions
+export const { setCharacterData, clearCharacter, updateCharacterField, updateStat } = characterData.actions
 export default characterData.reducer

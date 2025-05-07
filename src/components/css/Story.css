@@ -8,3 +8,7 @@
 #storyButtonArea > .button {
 	flex: 50%;
 }
+
+.storyChoiceButton {
+	background-color: var(--primary)
+}

@@ -4,6 +4,13 @@ import { clearCharacter } from "../redux/reducers/characterSlice";
 import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 
+/**
+ * Logout Button
+ *
+ * @param {string} type - backToSelect/logout
+ * @param {string} text
+ */
+
 export const LogoutButton = (props) => {
 	const { type = 'logout', text } = props;
 

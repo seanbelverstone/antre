@@ -7,6 +7,8 @@ import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import './css/Play.css'
 import { FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
+import Button from '../components/Button.jsx';
+import { LogoutButton } from '../components/LogoutButton.jsx';
 
 const Play = () => {
 	// const { supabase } = props;
@@ -47,6 +49,12 @@ const Play = () => {
 		}
 	}, [character, currentLevelObject])
 
+	useEffect(() => {
+		if (currentLevelObject?.modifier && currentLevelObject.modifier.length > 0) {
+			//handle modifier
+		}
+	})
+
 	const handleChoiceSelect = (target) => {
 		setCurrentLevelObject(storylines[target])
 	}
@@ -55,20 +63,26 @@ const Play = () => {
     setTypewriterDelay(event.target.value);
   };
 
+	// TODO: Implement modifier changes
+	// TODO: Implement chance rolls
+	// TODO: Implement death screen
+	// TODO: Inventory drawer
+	// TODO: Save game
+
 	return (
 		<div id="playPage" className="page">
 			<div id="speedDropdown">
-			<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
-			<Select
-				labelId="typewriterDropdownTextLabel"
-				id="typewriterDropdown"
-				value={typewriterDelay}
-				onChange={handleTyperwriterSpeedChange}
-			>
-				<MenuItem value={40}>Slow</MenuItem>
-				<MenuItem value={20}>Medium</MenuItem>
-				<MenuItem value={1}>Fast</MenuItem>
-			</Select>
+				<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
+				<Select
+					labelId="typewriterDropdownTextLabel"
+					id="typewriterDropdown"
+					value={typewriterDelay}
+					onChange={handleTyperwriterSpeedChange}
+				>
+					<MenuItem value={40}>Slow</MenuItem>
+					<MenuItem value={20}>Medium</MenuItem>
+					<MenuItem value={1}>Fast</MenuItem>
+				</Select>
 			</div>
 			<div id="storyTextArea">
 				<Typewriter
@@ -83,11 +97,17 @@ const Play = () => {
 				{currentLevelObject.modifier && currentLevelObject.modifier.some(mod => mod.fight) ? (
 					<Combat currentLevelObject={currentLevelObject} />
 					// Combat needs: character stats, modifiers, enemy name/weapon
-					// after combat or story, update redux state
+					// after combat or story, update redux store?
 				) : (
 					<Story currentLevelObject={currentLevelObject} choiceSelect={handleChoiceSelect} pastLevels={pastLevels}/>
 				)}
 			</div>
+
+			<Button text="Inventory" id="inventoryButton" />
+			{/* Maybe put these 3 buttons in a modal or some kind of menu */}
+			<Button text="Save Game" id="saveGame" disabled/>
+			<LogoutButton type="backToSelect" text="Back to Character Select"/>
+			<LogoutButton text="Sign Out" />
 		</div>
 	)
 }

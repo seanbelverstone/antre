@@ -2,6 +2,21 @@
 	width: 50em;
 }
 
+#speedDropdown {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: end;
+	margin-bottom: 2em;
+}
+
+#speedDropdown > .MuiSelect-root, #speedDropdown > .MuiInputLabel-root {
+	max-width: 10em;
+}
+
 .Typewriter {
 	margin-bottom: 2em;
+	border: inset 2px black;
+	border-radius: 1em;
+	padding: 1em;
 }

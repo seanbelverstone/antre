@@ -82,14 +82,7 @@ const Combat = () => {
 						<div ref={bottomRef}></div>
 						</div>
 				</div>
-			</div>	
-			<div style={{ marginTop: '50px' }}>
-				<Link to="/antre">
-					<Button text="Home" />
-				</Link>
-				<LogoutButton text="Back to Character Select" type="backToSelect"/>
-				<LogoutButton />
-			</div>			
+			</div>		
 		</>
   );
 }

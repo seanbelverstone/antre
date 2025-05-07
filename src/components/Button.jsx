@@ -1,7 +1,7 @@
 import "./css/Button.css";
 
 /**
- * My custom component
+ * General Use Button
  *
  * @param {string} text - The text to display in the button
  * @param {Function} onClick - What to execute when clicked
