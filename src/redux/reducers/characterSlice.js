@@ -53,7 +53,6 @@ const characterData = createSlice({
 		updateStat(state, action) {
 			// updates a single stat, like strength/wisdom
 			const { statName, value } = action.payload;
-			console.log('Stat name: ', statName, 'value: ', value)
 			state.stats[statName] = value;
 		},
 		updateItem(state, action) {

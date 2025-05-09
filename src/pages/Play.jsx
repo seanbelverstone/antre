@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
-import { flattenToSingleKeys } from '../utils/functions';
+import { flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import './css/Play.css'
@@ -27,7 +27,7 @@ const Play = ({ supabase }) => {
 	}, [character.level])
 
 	useEffect(() => {
-		if (currentLevelObject?.name && !(pastLevels.includes(currentLevelObject.name))) {
+		if (currentLevelObject?.name && !(pastLevels.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
 			setPastLevels(prev => [...prev, currentLevelObject.name])
 		}
 	}, [currentLevelObject, pastLevels]);
@@ -107,6 +107,8 @@ const Play = ({ supabase }) => {
 				const handler = modifierHandlers[modType];
 				if (handler) {
 					handler(modValue);
+					console.log(currentLevelObject.modifier);
+					handleModifierAlert(dispatch, currentLevelObject.modifier);
 				} else {
 					console.warn('Unknown modifier:', modType);
 				}
