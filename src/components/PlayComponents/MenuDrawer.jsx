@@ -4,14 +4,14 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import { LogoutButton } from '../LogoutButton';
 import Button from '../Button';
-import '../css/MenuDrawer.css'
+import { SaveButton } from '../SaveButton';
 import antreLogo from '../../assets/images/AntreCrop.png';
+import '../css/MenuDrawer.css'
 
-export const MenuDrawer = () => {
+export const MenuDrawer = (props) => {
+	const { characterData, supabase } = props;
   const [open, setOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
@@ -41,7 +41,7 @@ export const MenuDrawer = () => {
 							<Button text="Inventory" id="inventoryButton" customClassName="menuButton"/>
 						</ListItem>
 						<ListItem disablePadding>
-							<Button text="Save Game" id="saveGame" disabled customClassName="menuButton" />
+							<SaveButton text="Save Game" id="saveGame" disabled customClassName="menuButton" characterData={characterData} supabase={supabase} />
 						</ListItem>
 					</List>
 					<Divider />

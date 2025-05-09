@@ -31,7 +31,7 @@ const characterData = createSlice({
 	},
   reducers: {
     setCharacterData(state, action) {
-			// sets the entire character object, should only be called once on initialization
+			// sets the entire character object, should only be called when updating the entire object
       return {
 				id: action.payload.id,
 				charClass: action.payload.charClass,

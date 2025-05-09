@@ -6,14 +6,13 @@ import { flattenToSingleKeys } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import './css/Play.css'
-import { FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
-import Button from '../components/Button.jsx';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
 import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
 
-const Play = () => {
+const Play = ({ supabase }) => {
 	const character = useSelector(state => state.character);
 	const dispatch = useDispatch();
 
@@ -22,7 +21,11 @@ const Play = () => {
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
 	const [appliedModifiers, setAppliedModifiers] = useState([]);
+	const [characterData, setCharacterData] = useState({});
 
+	useEffect(() => {
+		setCharacterData(character);
+	}, [character]);
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
@@ -77,6 +80,7 @@ const Play = () => {
 					},
 					end: console.log('handle end'), // TODO: Handle end, probably do nothing
 					death: console.log('u died lol') // TODO: Handle death
+					// TODO: Set up a notification for modifier update
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
@@ -127,7 +131,7 @@ const Play = () => {
 	return (
 		<div id="playPage" className="page">
 			<div id="topRow">
-				<MenuDrawer />
+				<MenuDrawer characterData={{ ...characterData, level: currentLevelObject.name, pastLevels: pastLevels }} supabase={supabase} />
 				<div id="speedDropdown">
 					<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
 					<Select

@@ -5,18 +5,15 @@ import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { setCharacterData } from '../redux/reducers/characterSlice.js';
-import { Alert, Snackbar } from '@mui/material';
 import './css/CharacterSelect.css';
 import { setLoading } from '../redux/reducers/loaderSlice.js';
+import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
 	const user = useSelector(state => state.user);
 	const character = useSelector(state => state.character);
 	const [characters, setCharacters] = useState([]);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
-	const [openSnackbar, setOpenSnackbar] = useState(false);
-	const [snackbarSeverity, setSnackbarSeverity] = useState('error')
 
 	const navigate = useNavigate();
 
@@ -41,9 +38,11 @@ const CharacterSelectPage = (props) => {
 		.eq('user_id', user.id)
 		console.log(characters);
 		if (error) {
-			setOpenSnackbar(true);
-			setSnackbarErrorMessage(error.message)
-			setSnackbarSeverity('error');
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: error.message,
+				snackbarSeverity: 'error'
+			}))
 		}
 		setCharacters(characters);
 		dispatch(setLoading({ loading: false }));
@@ -75,9 +74,11 @@ const CharacterSelectPage = (props) => {
 			.delete()
 			.eq('id', charId)
 		if (error) {
-			setOpenSnackbar(true);
-			setSnackbarErrorMessage(error.message)
-			setSnackbarSeverity('error');
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: error.message,
+				snackbarSeverity: 'error'
+			}))
 		} else {
 			getCharacters();
 		}
@@ -102,22 +103,6 @@ const CharacterSelectPage = (props) => {
 					<LogoutButton />
 				</section>
 			</section>
-			<Snackbar
-					open={openSnackbar}
-					autoHideDuration={5000}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'center'
-					}}
-				>
-				<Alert
-					severity={snackbarSeverity}
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
 		</div>
 	)
 }

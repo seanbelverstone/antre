@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
-import { Alert, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
-import { useSelector } from "react-redux";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import './css/CharacterCreate.css';
 import { camelToTitle } from "../utils/functions";
+import { setSnackbar } from "../redux/reducers/snackbarSlice";
 
 const CharacterCreatePage = ({ supabase }) => {
 	const [name, setName] = useState('');
@@ -18,8 +19,6 @@ const CharacterCreatePage = ({ supabase }) => {
 	const [skill, setSkill] = useState('');
 	const [weapon, setWeapon] = useState('rusty shortsword');
 	const [gold, setGold] = useState(0);
-	const [openSnackbar, setOpenSnackbar] = useState(false);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const user = useSelector(state => state.user);
 	const navigate = useNavigate();
@@ -143,6 +142,8 @@ const CharacterCreatePage = ({ supabase }) => {
 		}
 	};
 
+	const dispatch = useDispatch();
+
 	const createNewCharacter = async () => {
 		const items = {
 			head: 'None',
@@ -170,8 +171,11 @@ const CharacterCreatePage = ({ supabase }) => {
 			])
 			.select();
 			if (error) {
-				setOpenSnackbar(true);
-				setSnackbarErrorMessage(error.message);
+				dispatch(setSnackbar({
+					openSnackbar: true,
+					snackbarErrorMessage: error.message,
+					snackbarSeverity: 'error'
+				}))
 			} else {
 				navigate('/antre/select');
 			}
@@ -245,22 +249,6 @@ const CharacterCreatePage = ({ supabase }) => {
 					/>
 				</div>
 			</form>
-			<Snackbar
-				open={openSnackbar}
-				autoHideDuration={5000}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-			>
-				<Alert
-					severity="error"
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
 		</div>
 	)
 }
