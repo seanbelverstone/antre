@@ -21,11 +21,6 @@ const Play = ({ supabase }) => {
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
 	const [appliedModifiers, setAppliedModifiers] = useState([]);
-	const [characterData, setCharacterData] = useState({});
-
-	useEffect(() => {
-		setCharacterData(character);
-	}, [character]);
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
@@ -131,7 +126,7 @@ const Play = ({ supabase }) => {
 	return (
 		<div id="playPage" className="page">
 			<div id="topRow">
-				<MenuDrawer characterData={{ ...characterData, level: currentLevelObject.name, pastLevels: pastLevels }} supabase={supabase} />
+				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels }} supabase={supabase} />
 				<div id="speedDropdown">
 					<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
 					<Select

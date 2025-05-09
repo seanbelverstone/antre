@@ -140,7 +140,7 @@ const LoginSignUp = (props) => {
 			}));
 			dispatch(setSnackbar({
 				openSnackbar: true,
-				snackbarErrorMessage: 'Sign up successful!',
+				snackbarErrorMessage: type === 'login' ? 'Login successful!' : 'Sign up successful!',
 				snackbarSeverity: 'success'
 			}))
 		}

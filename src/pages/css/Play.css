@@ -1,5 +1,6 @@
 #playPage {
 	width: 50em;
+	min-width: 50em;
 	justify-content: center;
 	align-items: center;
 }
@@ -25,6 +26,7 @@
 
 #storyTextArea {
 	margin-bottom: 2em;
+	min-width: 50em;
 }
 
 .Typewriter {

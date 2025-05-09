@@ -119,7 +119,7 @@ const storylines = {
 	'01bc-Bargain': {
 	  name: '01bc-Bargain',
 		text: "Holding the rusty sword loosely in your hand, you stand your ground as the goblins approach. As they enter the doorway, the stop in their tracks. \n\n\"Cor, look at this one. He looks ready for battle!\" \n\nKnowing that all goblins love a good deal, you hold up your hands and explain that you'd rather offer them your sword. \n\n\"That thing doesn't look like it's worth the dirt under my nails\", the goblin sneers. \"Tell ya what. We'll take your sword, in exchange for your life. Sound good? Good.\" \n\nAnd with that, the goblins snatch up your weapon and disappear from the way they came. Damn. That weapon could have been useful. At least you're still breathing.",
-		modifier: { weapon: { name: "No weapon", dmg: 1 } },
+		modifier: { weapon: "No weapon" },
 		options: [
 				{
 						label: "Return to the task at hand",
@@ -157,10 +157,7 @@ const storylines = {
 				defense: 2,
 				wisdom: 1,
 				luck: 1,
-				weapon: {
-						name: "dagger",
-						dmg: 3
-				}
+				weapon: "dagger"
 		},
 		options: [
 				{
@@ -188,10 +185,7 @@ const storylines = {
 	  name: '01bda-Goblin Victory',
 		text: "You strike the goblin down, and its lifeless body hits the floor with a thump. \n\nYou quickly rifle through its belongings, and find a few gold pieces. You also decide to take the weapon it was holding.",
 		modifier: {
-								weapon: {
-									name: "Dagger",
-									dmg: 3
-								},
+								weapon: "dagger",
 								gold: 3
 							},
 		options: [
@@ -265,10 +259,7 @@ const storylines = {
 				defense: 2,
 				wisdom: 1,
 				luck: 1,
-				weapon: {
-						name: "iron axe",
-						dmg: 4
-				}
+				weapon: "iron axe"
 		},
 		options: [
 				{
@@ -288,10 +279,7 @@ const storylines = {
 	  name: '02aaa-Skeleton Victory',
 		text: "Upon your last attack, the skeleton falls apart and its bones clatter to the ground. Noticing that the skeleton had a superior weapon, you pick up the axe that it was wielding and leave the room behind you.",
 		modifier: {
-							  weapon: {
-									name: "Iron Axe",
-									dmg: 4
-								},
+							  weapon: "Iron Axe",
 								wisdom: 1
 							},
 		options: [
@@ -668,10 +656,7 @@ const storylines = {
 					defense: 2,
 					wisdom: 1,
 					luck: 2,
-					weapon: {
-							name: "teeth",
-							dmg: 8
-					}
+					weapon: "teeth"
 			},
 			options: [
 					{
@@ -736,10 +721,7 @@ const storylines = {
 	  name: '06c-Long Search',
 		text: "Although the light is fading fast, you decide to take your time looting the room. \n\nYou uncover a number of great items, however, before long you hear another screech, followed by a thump. \n\nOh great. Another lizard has arrived.",
 		modifier: {
-			weapon: {
-				name: "Steel shortsword",
-				dmg: 7
-			},
+			weapon: "Steel shortsword",
 			chest: "Leather armor",
 			defense: 2,
 			gold: 20
@@ -762,10 +744,7 @@ const storylines = {
 				defense: 2,
 				wisdom: 1,
 				luck: 2,
-				weapon: {
-						name: "teeth",
-						dmg: 8
-				}
+				weapon: "teeth"
 		},
 		options: [
 				{
@@ -785,10 +764,7 @@ const storylines = {
 	  name: '06d-Quick Search',
 		text: "You do a quick scour of the room and manage to find a few gold pieces, and one of the weapons that lay close to the goblins. \n\nMaking sure not to stay for too long in the room, you dart out and continue down the well lit hallway.",
 		modifier: {
-			weapon: {
-				name: "Steel shortsword",
-				dmg: "7"
-			},
+			weapon: "Steel shortsword",
 			gold: 3
 		},
 		options: [
@@ -866,10 +842,7 @@ const storylines = {
 	  name: '08a-Axes',
 		text: "\"Anything else? We're running out of time!\" \n\nThe rumbling gets ever louder.",
 		modifier: {
-			weapon: {
-					name: "Obsidian Axes",
-					dmg: 12
-			},
+			weapon: "Obsidian Axes",
 			gold: -11
 		},
 		options: [
@@ -1040,10 +1013,7 @@ const storylines = {
 	  name: '08ba-Gauntlets and Axe',
 		text: "\"Hurry!!\" \n\nThe rumbling gets ever louder.",
 		modifier: {
-			weapon: {
-				name: "Obsidian Axes",
-				dmg: 12
-			},
+			weapon: "Obsidian Axes",
 			gold: -11
 		},
 		options: [
@@ -1146,10 +1116,7 @@ const storylines = {
 	  name: '08aa-Helmet and Axe',
 		text: "\"Hurry!!\" \n\nThe rumbling gets ever louder.",
 		modifier: {
-			weapon: {
-					name: "Obsidian Axes",
-					dmg: 12
-			},
+			weapon: "Obsidian Axes",
 			gold: -11
 		},
 		options: [
@@ -1308,10 +1275,7 @@ const storylines = {
 				defense: 5,
 				wisdom: 1,
 				luck: 2,
-				weapon: {
-						name: "teeth",
-						dmg: 14
-				}
+				weapon: "teeth"
 		},
 		options: [
 				{
@@ -1502,10 +1466,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 4,
 				luck: 2,
-				weapon: {
-						name: "claws",
-						dmg: 8
-				}
+				weapon: "claws"
 		},
 		options: [
 				{
@@ -1737,10 +1698,7 @@ const storylines = {
 	  name: '17b-Skull Chest',
 		text: "You approach the skull chest and crack it open, coughing as your lungs are assailed by dust. Inside is a full length halberd, complete with grip and 6 foot long handle. How this managed to fit inside this chest is anyone's guess, but you gladly pick it up and test its weight. There doesn't seem to be anything wrong with it, and breathe a sigh of relief as you were almost sure that this one would be cursed.",
 		modifier: {
-			weapon: {
-					name: "Halberd",
-					dmg: 8
-			}
+			weapon: "Halberd",
 		},
 		options: [
 				{
@@ -1874,10 +1832,7 @@ const storylines = {
 	  name: '18ba-Weapon',
 		text: "Raising your weapon over the top of your head, you smash it against the bars of the prison. The bars, clearly more durable than you expected, cause your weapon to shatter into a thousand fragments. Perhaps this wasn't the best idea.",
 		modifier: {
-			weapon: {
-					name: "No weapon",
-					dmg: 1
-			}
+			weapon: "No weapon",
 		},
 		options: [
 				{
@@ -1945,10 +1900,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 3,
 				luck: 3,
-				weapon: {
-						name: "longsword",
-						dmg: 7
-				}
+				weapon: "longsword"
 		},
 		options: [
 				{
@@ -2006,10 +1958,7 @@ const storylines = {
 				defense: 5,
 				wisdom: 1,
 				luck: 2,
-				weapon: {
-						name: "War Hammer",
-						dmg: 9
-				}
+				weapon: "War Hammer"
 		},
 		options: [
 				{
@@ -2044,10 +1993,7 @@ const storylines = {
 				defense: 2,
 				wisdom: 1,
 				luck: 4,
-				weapon: {
-						name: "Pike",
-						dmg: 7
-				}
+				weapon: "Pike"
 		},
 		options: [
 				{
@@ -2082,10 +2028,7 @@ const storylines = {
 				defense: 2,
 				wisdom: 2,
 				luck: 6,
-				weapon: {
-						name: "Axe",
-						dmg: 6
-				}
+				weapon: "Axe"
 		},
 		options: [
 				{
@@ -2120,10 +2063,7 @@ const storylines = {
 				defense: 1,
 				wisdom: 1,
 				luck: 1,
-				weapon: {
-						name: "sword",
-						dmg: 7
-				}
+				weapon: "sword"
 		},
 		options: [
 				{
@@ -2414,10 +2354,7 @@ const storylines = {
 	  name: '21c-Longsword and Helmet',
 		text: "\"Lovely stuff!\" cackles the goblin. \"Can I interest you in one last item?\"",
 		modifier: {
-			weapon: {
-					name: "Black Iron Longsword",
-					dmg: 12
-			},
+			weapon: "Black Iron Longsword",
 			gold: -12
 		},
 		options: [
@@ -2436,10 +2373,7 @@ const storylines = {
 	  name: '21aaa-Longsword, Health and Helmet',
 		text: "\"Beautiful!\" the goblin cheers. \"You've bought all me wares.\"",
 		modifier: {
-			weapon: {
-					name: "Black Iron Longsword",
-					dmg: 12
-			},
+			weapon: "Black Iron Longsword",
 			gold: -12
 		},
 		options: [
@@ -2511,10 +2445,7 @@ const storylines = {
 	  name: '21bb-Longsword and Health',
 		text: "\"Lovely stuff!\" cackles the goblin. \"Can I interest you in one last item?\"",
 		modifier: {
-			weapon: {
-					name: "Black Iron Longsword",
-					dmg: 12
-			},
+			weapon: "Black Iron Longsword",
 			gold: -12
 		},
 		options: [
@@ -2533,10 +2464,7 @@ const storylines = {
 	  name: '21baa-Longsword, Helmet and Health',
 		text: "\"Beautiful!\" the goblin cheers. \"You've bought all me wares.\"",
 		modifier: {
-			weapon: {
-					name: "Black Iron Longsword",
-					dmg: 12
-			},
+			weapon: "Black Iron Longsword",
 			gold: -12
 		},
 		options: [
@@ -2565,10 +2493,7 @@ const storylines = {
 	  name: '21c-Longsword',
 		text: "\"Anything else?\"",
 		modifier: {
-			weapon: {
-					name: "Black Iron Longsword",
-					dmg: 12
-			},
+			weapon: "Black Iron Longsword",
 			gold: -12
 		},
 		options: [
@@ -2739,10 +2664,7 @@ const storylines = {
 				defense: 5,
 				wisdom: 3,
 				luck: 3,
-				weapon: {
-						name: "War Spear",
-						dmg: 10
-				}
+				weapon: "War Spear"
 		},
 		options: [
 				{
@@ -2782,10 +2704,7 @@ const storylines = {
 				defense: 5,
 				wisdom: 3,
 				luck: 3,
-				weapon: {
-						name: "War Spear",
-						dmg: 10
-				}
+				weapon: "War Spear"
 		},
 		options: [
 				{
@@ -2890,10 +2809,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 1,
 				luck: 3,
-				weapon: {
-						name: "Teeth",
-						dmg: 6
-				}
+				weapon: "Teeth"
 		},
 		options: [
 				{
@@ -2924,10 +2840,7 @@ const storylines = {
 			head: "Lucky cap",
 			luck: 1,
 			gold: 7,
-			weapon: {
-					name: "Warhammer",
-					dmg: 14
-			}
+			weapon: "Warhammer",
 		},
 		options: [
 				{
@@ -3102,10 +3015,7 @@ const storylines = {
 				defense: 4,
 				wisdom: 5,
 				luck: 4,
-				weapon: {
-						name: "Rune Strike",
-						dmg: 11
-				}
+				weapon: "Rune Strike"
 		},
 		options: [
 				{
@@ -3176,10 +3086,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 1,
 				luck: 2,
-				weapon: {
-						name: "Rune Strike",
-						dmg: 11
-				}
+				weapon: "Rune Strike"
 		},
 		options: [
 				{
@@ -3214,10 +3121,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 6,
 				luck: 2,
-				weapon: {
-						name: "Bladed Whip",
-						dmg: 12
-				}
+				weapon: "Bladed Whip"
 		},
 		options: [
 				{
@@ -3268,10 +3172,7 @@ const storylines = {
 				defense: 3,
 				wisdom: 6,
 				luck: 2,
-				weapon: {
-						name: "Bladed Whip",
-						dmg: 12
-				}
+				weapon: "Bladed Whip"
 		},
 		options: [
 				{
