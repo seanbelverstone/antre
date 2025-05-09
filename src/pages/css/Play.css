@@ -4,11 +4,18 @@
 	align-items: center;
 }
 
+#topRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+
 #speedDropdown {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: end;
+	align-items: center;
 	margin-bottom: 2em;
 }
 
@@ -25,8 +32,9 @@
 	border: inset 2px black;
 	border-radius: 1em;
 	padding: 1em;
+	min-width: 95%;
 }
 
-.menuButtons {
+.deathButtons {
 	min-width: 14em;
 }

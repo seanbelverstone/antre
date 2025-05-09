@@ -11,6 +11,7 @@ import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
+import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
 
 const Play = () => {
 	const character = useSelector(state => state.character);
@@ -125,18 +126,21 @@ const Play = () => {
 
 	return (
 		<div id="playPage" className="page">
-			<div id="speedDropdown">
-				<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
-				<Select
-					labelId="typewriterDropdownTextLabel"
-					id="typewriterDropdown"
-					value={typewriterDelay}
-					onChange={handleTyperwriterSpeedChange}
-				>
-					<MenuItem value={40}>Slow</MenuItem>
-					<MenuItem value={20}>Medium</MenuItem>
-					<MenuItem value={1}>Fast</MenuItem>
-				</Select>
+			<div id="topRow">
+				<MenuDrawer />
+				<div id="speedDropdown">
+					<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
+					<Select
+						labelId="typewriterDropdownTextLabel"
+						id="typewriterDropdown"
+						value={typewriterDelay}
+						onChange={handleTyperwriterSpeedChange}
+					>
+						<MenuItem value={40}>Slow</MenuItem>
+						<MenuItem value={20}>Medium</MenuItem>
+						<MenuItem value={1}>Fast</MenuItem>
+					</Select>
+				</div>
 			</div>
 			<div id="storyTextArea">
 				<Typewriter
@@ -158,17 +162,14 @@ const Play = () => {
 					/>
 				)}
 			</div>
-			{currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end ? (
-				<h2 id="finalText">{currentLevelObject.modifier.death ? "You have died." : "Congratulations! You have won!"}</h2>
-			) : (
+			{(currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end) && (
 				<>
-					<Button text="Inventory" id="inventoryButton" customClassName="menuButtons"/>
-					<Button text="Save Game" id="saveGame" disabled customClassName="menuButtons" />
+					<h2 id="finalText">{currentLevelObject.modifier.death ? "You have died." : "Congratulations! You have won!"}</h2>
+						<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="deathButtons"/>
+						<LogoutButton text="Sign Out" customClassName="deathButtons"/>
 					{/* TODO: Set up saving */}
 				</>
 			)}
-			<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="menuButtons" />
-			<LogoutButton text="Sign Out" customClassName="menuButtons" />
 		</div>
 	)
 }
