@@ -20,7 +20,8 @@ const Play = () => {
 	const [typewriterDelay, setTypewriterDelay] = useState(20);
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
-	const [appliedModifiers, setAppliedModifiers] = useState([]); // ← NEW STATE
+	const [appliedModifiers, setAppliedModifiers] = useState([]);
+
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
@@ -157,11 +158,17 @@ const Play = () => {
 					/>
 				)}
 			</div>
-
-			<Button text="Inventory" id="inventoryButton" />
-			<Button text="Save Game" id="saveGame" disabled />
-			<LogoutButton type="backToSelect" text="Back to Character Select" />
-			<LogoutButton text="Sign Out" />
+			{currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end ? (
+				<h2 id="finalText">{currentLevelObject.modifier.death ? "You have died." : "Congratulations! You have won!"}</h2>
+			) : (
+				<>
+					<Button text="Inventory" id="inventoryButton" customClassName="menuButtons"/>
+					<Button text="Save Game" id="saveGame" disabled customClassName="menuButtons" />
+					{/* TODO: Set up saving */}
+				</>
+			)}
+			<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="menuButtons" />
+			<LogoutButton text="Sign Out" customClassName="menuButtons" />
 		</div>
 	)
 }

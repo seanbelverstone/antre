@@ -12,7 +12,7 @@ import Modal from "./Modal";
  */
 
 export const LogoutButton = (props) => {
-	const { type = 'logout', text } = props;
+	const { type = 'logout', text, customClassName } = props;
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -30,7 +30,7 @@ export const LogoutButton = (props) => {
 
 	return (
 		<Modal
-			buttonClassName="logoutButton"
+			buttonClassName={`logoutButton${customClassName ? ` ${customClassName}` : ''}`}
 			modalText={`Are you sure you want to ${type === 'backToSelect' ? 'go back to the character select screen?' :  'sign out?'} All unsaved progress will be lost.`}
 			buttonText={type === 'logout' ? 'Sign Out' : text}
 			callback={handleLogout}

@@ -7,7 +7,7 @@ const Story = (props) => {
 	// renders the number of buttons required for the choices
 	return (
 		<div id="storyButtonArea">
-			{currentLevelObject?.options && currentLevelObject?.options.map((choice) => (
+			{currentLevelObject?.options && (!currentLevelObject?.modifier?.death || !currentLevelObject.modifier?.end) && currentLevelObject?.options.map((choice) => (
 				<Button
 					text={choice.label}
 					onClick={() => choiceSelect(choice.target)}

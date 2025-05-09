@@ -1,5 +1,7 @@
 #playPage {
 	width: 50em;
+	justify-content: center;
+	align-items: center;
 }
 
 #speedDropdown {
@@ -14,9 +16,17 @@
 	max-width: 10em;
 }
 
+#storyTextArea {
+	margin-bottom: 2em;
+}
+
 .Typewriter {
 	margin-bottom: 2em;
 	border: inset 2px black;
 	border-radius: 1em;
 	padding: 1em;
+}
+
+.menuButtons {
+	min-width: 14em;
 }
