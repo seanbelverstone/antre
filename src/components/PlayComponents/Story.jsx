@@ -2,7 +2,7 @@ import Button from "../Button";
 import '../css/Story.css';
 
 const Story = (props) => {
-	const { currentLevelObject, choiceSelect, pastLevels } = props;
+	const { currentLevelObject, choiceSelect, pastLevels = [] } = props;
 	// takes in the options
 	// renders the number of buttons required for the choices
 	return (
@@ -11,7 +11,7 @@ const Story = (props) => {
 				<Button
 					text={choice.label}
 					onClick={() => choiceSelect(choice.target)}
-					disabled={pastLevels.includes(choice.target)}
+					disabled={pastLevels?.includes(choice.target)}
 					customClassName="storyChoiceButton"
 				/>
 			))}

@@ -432,13 +432,7 @@ const storylines = {
 	'04c-Torch Check': {
 	  name: '04c-Torch Check',
 		text: "Searching through inventory...",
-		modifier: { torchCheck: true },
-		options: [
-				{
-						label: "Continue",
-						target: "none"
-				}
-		]
+		modifier: { torchCheck: true }
 	},
 	'03-Three Paths Variant': {
 	  name: '03-Three Paths Variant',
@@ -526,15 +520,7 @@ const storylines = {
 	'04baa-Check Luck': {
 	  name: '04baa-Check Luck',
 		text: "Checking luck...",
-		modifier: { luckCheck: true, event: 1 },
-		options: [
-				{
-						label: "Continue",
-						target: [
-								"none"
-						]
-				}
-		]
+		modifier: { luckCheck: true, event: 1 }
 	},
 	'04bab-Death': {
 	  name: '04bab-Death',
@@ -1237,15 +1223,7 @@ const storylines = {
 		modifier: {
 			luckCheck: true,
 			event: 2
-		},
-		options: [
-				{
-						label: "Continue",
-						target: [
-								"none"
-						]
-				}
-		]
+		}
 	},
 	'09caa-Worm Death': {
 	  name: '09caa-Worm Death',
@@ -1495,7 +1473,7 @@ const storylines = {
 		text: "You strike the dragon down, and its flames are finally extinguished. Looking past its now corpse, you notice a glint hiding in the nest behind it. It appears that the dragon was guarding some kind of relic. You add it to your inventory for safe-keeping and you feel slightly luckier after that encounter.",
 		modifier: {
 			amulet: true,
-			luck: 2
+			luck: 1
 		},
 		options: [
 				{
@@ -2913,15 +2891,7 @@ const storylines = {
 		modifier: {
 			luckCheck: true,
 			event: 3
-		},
-		options: [
-				{
-						label: "Continue",
-						target: [
-								"none"
-						]
-				}
-		]
+		}
 	},
 	'28baa-Gap Slip': {
 	  name: '28baa-Gap Slip',
@@ -2940,15 +2910,7 @@ const storylines = {
 		modifier: {
 			luckCheck: true,
 			event: 4
-		},
-		options: [
-				{
-						label: "Continue",
-						target: [
-								"none"
-						]
-				}
-		]
+		}
 	},
 	'28baaa-Gap Death': {
 	  name: '28baaa-Gap Death',
@@ -2994,15 +2956,7 @@ const storylines = {
 		modifier: {
 			luckCheck: true,
 			event: 5
-		},
-		options: [
-				{
-						label: "Continue",
-						target: [
-								"none"
-						]
-				}
-		]
+		}
 	},
 	'29-Manticore': {
 	  name: '29-Manticore',

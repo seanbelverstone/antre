@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
-import { flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
+import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import './css/Play.css'
@@ -23,11 +23,11 @@ const Play = ({ supabase }) => {
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
-		setPastLevels(character.pastLevels);
+		setPastLevels(character.pastLevels || []);
 	}, [character.level, character.pastLevels])
 
 	useEffect(() => {
-		if (currentLevelObject?.name && !(pastLevels.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
+		if (currentLevelObject?.name && !(pastLevels?.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
 			setPastLevels(prev => [...prev, currentLevelObject.name])
 		}
 	}, [currentLevelObject, pastLevels]);
@@ -48,7 +48,7 @@ const Play = ({ supabase }) => {
 	}, [character, currentLevelObject])
 
 	useEffect(() => {
-		if (currentLevelObject?.modifier && currentLevelObject?.name && !pastLevels.includes(currentLevelObject.name)) {
+		if (currentLevelObject?.modifier && currentLevelObject?.name && !pastLevels?.includes(currentLevelObject.name)) {
 			const getModifierHandlers = () => {
 				const statNames = ['strength', 'defense', 'wisdom', 'luck'];
 				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
@@ -69,11 +69,34 @@ const Play = ({ supabase }) => {
 							})
 						)
 					},
+					luckCheck: () => {
+						setTimeout(() => {
+							const result = campaignLuckCheck(character.stats.luck, currentLevelObject?.modifier?.event);
+							console.log('Luck check result: ', result);
+							setCurrentLevelObject(storylines[result])
+						}, 3000)
+					},
+					torchCheck: () => {
+						setTimeout(() => {
+							if (character.items.torch) {
+								setCurrentLevelObject(storylines['04a-Torch Obtained']);
+							} else {
+								setCurrentLevelObject(storylines['04b-No Torch']);
+							}
+						}, 3000)
+					},
 					death: async () => {
+						console.log(pastLevels, pastLevels?.includes(currentLevelObject)); // trying to prevent multiple saving
+						// because the Death story name isnt being added to pastLevels
+						if (!pastLevels.includes(currentLevelObject.name)) {
+							const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
+							saveGame(dispatch, supabase, characterData)
+						}
+					},
+					end: async () => {
 						const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
 						saveGame(dispatch, supabase, characterData)
 					}
-					// TODO: save the game for end/death
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
@@ -85,9 +108,9 @@ const Play = ({ supabase }) => {
 							})
 						);
 				});
+				// TODO: Need a check for if a story event causes player to die, if so, call the handler.death
 				// dynamically updates items
 				itemNames.forEach((item) => {
-					console.log(item);
 					handlers[item] = (value) =>
 						dispatch(
 							updateItem({
@@ -105,15 +128,14 @@ const Play = ({ supabase }) => {
 				const handler = modifierHandlers[modType];
 				if (handler) {
 					handler(modValue);
-					console.log(currentLevelObject.modifier);
 					handleModifierAlert(dispatch, currentLevelObject.modifier);
 				} else {
 					console.warn('Unknown modifier:', modType);
 				}
 			}
-			// setAppliedModifiers((prev) => [...prev, currentLevelObject.name]);
 		}
-	}, [currentLevelObject, character, dispatch, pastLevels, supabase]);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentLevelObject]);
 
 	const handleChoiceSelect = (target) => {
 		setCurrentLevelObject(storylines[target])

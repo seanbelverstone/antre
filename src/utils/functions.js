@@ -15,6 +15,8 @@ function debounce(fn, delay) {
   };
 }
 
+export const diceRoll = () => (Math.floor(Math.random() * 6) + 1)
+
 export const camelToTitle = value => {
 	const result = value.replace(/([A-Z])/g, ' $1');
 	return result.charAt(0).toUpperCase() + result.slice(1);
@@ -47,9 +49,10 @@ export const isBlacklistedChoice = (choice) => {
 
 export const handleModifierAlert = (dispatch, modifierObj) => {
 	const modifierEntries = Object.entries(modifierObj);
+	console.log(modifierEntries);
 	const messages = [];
+	if (modifierEntries[0][0] === 'torchCheck' || modifierEntries[0][0] === 'luckCheck' || modifierEntries[0][0] === 'death') return;
 	modifierEntries.forEach((mod) => {
-		console.log(typeof mod[1]);
 		switch (typeof mod[1]) {
 			case 'string':
 				messages.push(`You gained a ${mod[1]}. `)
@@ -111,5 +114,57 @@ export const saveGame = async (dispatch, supabase, characterData) => {
 		}))
 	}
 }
+
+export const campaignLuckCheck = (luck, eventNumber) => {
+	console.log('Player luck: ', luck, 'Event Number: ', eventNumber)
+  let userLuckModifier = luck / 2;
+  let myRoll = diceRoll();
+  let totalLuck = Math.floor(myRoll + userLuckModifier);
+	console.log(userLuckModifier, myRoll, totalLuck)
+  const deathLevel = '04bab-Death';
+  const badLuckLevel = '04bac-Bad Luck';
+  const bestLuckLevel = '04bad-Best Luck';
+
+  const wormDeath = '09caa-Worm Death';
+  const wormSuccess = '09cab-Worm Success';
+
+  const slipToHang = '28baa-Gap Slip';
+  const pullUpSlip = '28baaa-Gap Death';
+  const hangPullUp = '28baab-Pull up';
+  const gapSuccess = '28bab-Gap Success';
+
+  // Story 1 is Dark path traps
+  if (eventNumber === 1) {
+    const targetNumber = 4;
+    if (totalLuck <= targetNumber - 1) return deathLevel;
+    else if (totalLuck <= targetNumber) return badLuckLevel;
+    else return bestLuckLevel;
+
+	// Story 2 is Worm Attack
+  } else if (eventNumber === 2) {
+    const targetNumber = 4;
+    if (totalLuck <= targetNumber) return wormDeath;
+    else return wormSuccess;
+
+	// Story 3 is Gap cross, with weapon
+  } else if (eventNumber === 3) {
+    const targetNumber = 4;
+    if (totalLuck <= targetNumber) return slipToHang;
+    else return gapSuccess;
+
+	// Story 4 is Gap cross, but after slipping first
+  } else if (eventNumber === 4) {
+    const targetNumber = 3;
+    if (totalLuck <= targetNumber - 1) return pullUpSlip;
+		else return hangPullUp;
+    
+	// Story 5 is Gap cross, but after throwing weapon over. Luck chances are increased
+  } else if (eventNumber === 5) {
+    const targetNumber = 5;
+    if (totalLuck <= targetNumber - 2) return slipToHang;
+    else return gapSuccess;
+  }
+}
+
 
 export default debounce;
