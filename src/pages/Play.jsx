@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
-import { flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice } from '../utils/functions';
+import { flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import './css/Play.css'
@@ -20,11 +20,11 @@ const Play = ({ supabase }) => {
 	const [typewriterDelay, setTypewriterDelay] = useState(20);
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
-	const [appliedModifiers, setAppliedModifiers] = useState([]);
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
-	}, [character.level])
+		setPastLevels(character.pastLevels);
+	}, [character.level, character.pastLevels])
 
 	useEffect(() => {
 		if (currentLevelObject?.name && !(pastLevels.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
@@ -48,7 +48,7 @@ const Play = ({ supabase }) => {
 	}, [character, currentLevelObject])
 
 	useEffect(() => {
-		if (currentLevelObject?.modifier && currentLevelObject?.name && !appliedModifiers.includes(currentLevelObject.name)) {
+		if (currentLevelObject?.modifier && currentLevelObject?.name && !pastLevels.includes(currentLevelObject.name)) {
 			const getModifierHandlers = () => {
 				const statNames = ['strength', 'defense', 'wisdom', 'luck'];
 				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
@@ -69,6 +69,10 @@ const Play = ({ supabase }) => {
 							})
 						)
 					},
+					death: async () => {
+						const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
+						saveGame(dispatch, supabase, characterData)
+					}
 					// TODO: save the game for end/death
 				};
 				// dynamically updates stats
@@ -107,9 +111,9 @@ const Play = ({ supabase }) => {
 					console.warn('Unknown modifier:', modType);
 				}
 			}
-			setAppliedModifiers((prev) => [...prev, currentLevelObject.name]);
+			// setAppliedModifiers((prev) => [...prev, currentLevelObject.name]);
 		}
-	}, [currentLevelObject, appliedModifiers, character, dispatch]);
+	}, [currentLevelObject, character, dispatch, pastLevels, supabase]);
 
 	const handleChoiceSelect = (target) => {
 		setCurrentLevelObject(storylines[target])
@@ -162,7 +166,6 @@ const Play = ({ supabase }) => {
 					<h2 id="finalText">{currentLevelObject.modifier.death ? "You have died." : "Congratulations! You have won!"}</h2>
 						<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="deathButtons"/>
 						<LogoutButton text="Sign Out" customClassName="deathButtons"/>
-					{/* TODO: Set up saving */}
 				</>
 			)}
 		</div>
