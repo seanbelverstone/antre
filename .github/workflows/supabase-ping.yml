@@ -12,40 +12,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
-      - name: Install dependencies
-        run: npm install node-fetch
-
-      - name: Ping Supabase
+      - name: Ping Supabase with curl
         env:
           SUPABASE_URL: https://tbwwbpochndpeltvsjxx.supabase.co
         run: |
-          const fetch = require('node-fetch');
-          const supabaseUrl = https://tbwwbpochndpeltvsjxx.supabase.co;
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "Error: SUPABASE_URL environment variable not set."
+            exit 1
+          fi
 
-          if (!supabaseUrl) {
-            console.error('Issue contacting SUPABASE_URL.');
-            process.exit(1);
-          }
+          response=$(curl -s -o /dev/null -w "%{http_code}" -I "$SUPABASE_URL/rest/v1/")
+          http_code=$(echo "$response" | awk '{print $1}')
 
-          async function pingSupabase() {
-            try {
-              const response = await fetch(`${supabaseUrl}/rest/v1/`, {
-                method: 'HEAD', // HEAD request is lightweight
-              });
+          if [[ "$http_code" -ge 200 && "$http_code" -lt 300 ]]; then
+            echo "Supabase ping successful! HTTP status: $http_code"
+          else
+            echo "Supabase ping failed with status: $http_code"
+          fi
 
-              if (response.ok) {
-                console.log('Supabase ping successful!');
-              } else {
-                console.error(`Supabase ping failed with status: ${response.status}`);
-              }
-            } catch (error) {
-              console.error('Error pinging Supabase:', error);
-            }
-          }
-
-          pingSupabase();
