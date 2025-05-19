@@ -1,0 +1,42 @@
+#playPage {
+	width: 50em;
+	min-width: 50em;
+	justify-content: center;
+	align-items: center;
+}
+
+#topRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+
+#speedDropdown {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 2em;
+}
+
+#speedDropdown > .MuiSelect-root, #speedDropdown > .MuiInputLabel-root {
+	max-width: 10em;
+}
+
+#storyTextArea {
+	margin-bottom: 2em;
+	min-width: 50em;
+}
+
+.Typewriter {
+	margin-bottom: 2em;
+	border: inset 2px black;
+	border-radius: 1em;
+	padding: 1em;
+	min-width: 95%;
+}
+
+.deathButtons {
+	min-width: 14em;
+}

@@ -1,3 +1,9 @@
+export const classDefaultValues = {
+	warrior: 80,
+	rogue: 60,
+	paladin: 70
+}
+
 const weapons = {
 	shortsword: { damage: 15, crit: 1.5 },
 	longsword: { damage: 20, crit: 1.5 },

@@ -13,12 +13,12 @@
 */
 
 import { useMachine } from '@xstate/react';
-import { combatMachine } from '../utils/combatMachine.js';
+import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
-import { handleMove } from '../utils/damageCalculations.js';
+import { handleMove } from '../../utils/damageCalculations.js';
 import { Link } from 'react-router-dom';
-import Button from '../components/Button.jsx';
-import { LogoutButton } from '../components/LogoutButton.jsx';
+import Button from '../Button.jsx';
+import { LogoutButton } from '../LogoutButton.jsx';
 
 // TODO: Turn stats into state object
 const playerStats = {
@@ -38,7 +38,7 @@ const weapons = [
 	{ name: 'bow', damage: 20, crit: 1.75 }
 ]
 
-const CombatPage = () => {
+const Combat = () => {
   const [state, send] = useMachine(combatMachine);
 	const [weapon, setWeapon] = useState({});
 	const [battleText, setBattleText] = useState([]);
@@ -82,16 +82,9 @@ const CombatPage = () => {
 						<div ref={bottomRef}></div>
 						</div>
 				</div>
-			</div>	
-			<div style={{ marginTop: '50px' }}>
-				<Link to="/antre">
-					<Button text="Home" />
-				</Link>
-				<LogoutButton text="Back to Character Select" type="backToSelect"/>
-				<LogoutButton />
-			</div>			
+			</div>		
 		</>
   );
 }
 
-export default CombatPage;
+export default Combat;

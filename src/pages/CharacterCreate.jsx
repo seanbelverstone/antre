@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
-import { Alert, InputLabel, MenuItem, Select, Snackbar, TextField } from "@mui/material";
-import './css/CharacterSelect.css';
-import { useSelector } from "react-redux";
+import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import './css/CharacterCreate.css';
+import { camelToTitle } from "../utils/functions";
+import { setSnackbar } from "../redux/reducers/snackbarSlice";
 
 const CharacterCreatePage = ({ supabase }) => {
 	const [name, setName] = useState('');
@@ -17,8 +19,6 @@ const CharacterCreatePage = ({ supabase }) => {
 	const [skill, setSkill] = useState('');
 	const [weapon, setWeapon] = useState('rusty shortsword');
 	const [gold, setGold] = useState(0);
-	const [openSnackbar, setOpenSnackbar] = useState(false);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const user = useSelector(state => state.user);
 	const navigate = useNavigate();
@@ -142,6 +142,8 @@ const CharacterCreatePage = ({ supabase }) => {
 		}
 	};
 
+	const dispatch = useDispatch();
+
 	const createNewCharacter = async () => {
 		const items = {
 			head: 'None',
@@ -169,8 +171,11 @@ const CharacterCreatePage = ({ supabase }) => {
 			])
 			.select();
 			if (error) {
-				setOpenSnackbar(true);
-				setSnackbarErrorMessage(error.message);
+				dispatch(setSnackbar({
+					openSnackbar: true,
+					snackbarErrorMessage: error.message,
+					snackbarSeverity: 'error'
+				}))
 			} else {
 				navigate('/antre/select');
 			}
@@ -178,79 +183,72 @@ const CharacterCreatePage = ({ supabase }) => {
 	
 	return (
 		<div className="page" id="characterCreatePage">
-			<form onSubmit={handleSubmit}>
-			<TextField
-				className="formInput"
-				label="Name"
-				variant="standard"
-				onChange={event => setName(event.target.value)}
-				error={nameError}
-				helperText={nameHelperText}
-			/>
-			<InputLabel id="raceLabel">Race</InputLabel>
-			<Select
-				labelId="raceLabel"
-				id="raceSelect"
-				value={race}
-				onChange={handleRaceChange}
-			>
-				<MenuItem value={'human'} id="human">Human</MenuItem>
-				<MenuItem value={'elf'} id="elf">Elf</MenuItem>
-				<MenuItem value={'dwarf'} id="dwarf">Dwarf</MenuItem>
-			</Select>
-			<div id="raceDescription" className={`${raceDescription === '' ? 'hidden' : 'show'}`}>
-				<div id="description">{raceDescription}</div>
-			</div>
-			<InputLabel id="classLabel">Class</InputLabel>
-			<Select
-				labelId="classLabel"
-				id="classSelect"
-				value={charClass}
-				onChange={handleClassChange}
-			>
-				<MenuItem value={'warrior'} id="warrior">Warrior</MenuItem>
-				<MenuItem value={'rogue'} id="rogue">Rogue</MenuItem>
-				<MenuItem value={'paladin'} id="paladin">Paladin</MenuItem>
-			</Select>
-			<div id="classDescription" className={`${description === '' ? 'hidden' : 'show'}`}>
-				<div id="stats">
-					<div className="health">HP: {stats.health}</div>
-					<div className="strength">Strength: {stats.strength}</div>
-					<div className="defense">Defense: {stats.defense}</div>
-					<div className="wisdom">Wisdom: {stats.wisdom}</div>
-					<div className="luck">Luck: {stats.luck}</div>
+			<form id="createCharacterForm" onSubmit={handleSubmit}>
+				<TextField
+					className="name"
+					label="Name"
+					variant="standard"
+					onChange={event => setName(event.target.value)}
+					error={nameError}
+					helperText={nameHelperText}
+				/>
+				<div id="raceAndClass">
+					<div id="raceSection">
+						<InputLabel id="raceLabel">Race</InputLabel>
+						<Select
+							labelId="raceLabel"
+							id="raceSelect"
+							value={race}
+							onChange={handleRaceChange}
+						>
+							<MenuItem value={'human'} id="human">Human</MenuItem>
+							<MenuItem value={'elf'} id="elf">Elf</MenuItem>
+							<MenuItem value={'dwarf'} id="dwarf">Dwarf</MenuItem>
+						</Select>
+						<div className="description">{raceDescription}</div>
+					</div>
+					<div id="classSection">
+						<InputLabel id="classLabel">Class</InputLabel>
+						<Select
+							labelId="classLabel"
+							id="classSelect"
+							value={charClass}
+							onChange={handleClassChange}
+						>
+							<MenuItem value={'warrior'} id="warrior">Warrior</MenuItem>
+							<MenuItem value={'rogue'} id="rogue">Rogue</MenuItem>
+							<MenuItem value={'paladin'} id="paladin">Paladin</MenuItem>
+						</Select>
+						<div className="description">{description}</div>
+					</div>
 				</div>
-				<div id="desAndSkill">
-					<div id="description">{description}</div>
-					<h3 id="skillName">Skill</h3>
-					<div id="skill">{skill}</div>
+				<div id="statsAndSkills">
+					<div id="stats">
+						<div className="health">HP: {stats.health}</div>
+						<div className="strength">Strength: {stats.strength}</div>
+						<div className="defense">Defense: {stats.defense}</div>
+						<div className="wisdom">Wisdom: {stats.wisdom}</div>
+						<div className="luck">Luck: {stats.luck}</div>
+					</div>
+					<div id="desAndSkill">
+						<h3 id="skillName">{camelToTitle(charClass)} Skill</h3>
+						<div id="skill">{skill === '' ? 'None selected' : skill}</div>
+					</div>
 				</div>
-			</div>
-			<Button
-				className="primaryButton"
-				variant="contained"
-				color="primary"
-				type="submit"
-				disabled={race === '' || charClass === ''}
-				text="Create"
-			/>
+				<div id="buttons">
+					<Button
+						customClassName="createButton"
+						type="submit"
+						disabled={race === '' || charClass === ''}
+						text="Create"
+					/>
+					<Button
+						customClassName="backButton"
+						text="Back"
+						onClick={() => navigate('/antre/select')}
+					/>
+				</div>
 			</form>
-			<Snackbar
-				open={openSnackbar}
-				autoHideDuration={5000}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-			>
-				<Alert
-					severity="error"
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
 		</div>
 	)
 }

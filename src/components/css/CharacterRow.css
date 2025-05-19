@@ -89,7 +89,7 @@ section.health {
 }
 
 .playCharacter {
-	background-color: var(--defense);
+	background-color: var(--primary);
 }
 
 .deleteCharacter {

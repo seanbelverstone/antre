@@ -4,10 +4,10 @@ import TextField from '@mui/material/TextField';
 import { useDebouncedValidator } from '../../utils/functions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData } from '../../redux/reducers/userSlice';
-import { Alert, Slide, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import '../css/LoginSignUp.css';
+import { setSnackbar } from '../../redux/reducers/snackbarSlice';
 
 const captchaKey = import.meta.env.VITE_CAPTCHA_KEY;
 
@@ -27,8 +27,6 @@ const LoginSignUp = (props) => {
 	const [confirmPasswordHelperText, setConfirmPasswordHelperText] = useState('');
 
 	const [isFormValid, setIsFormValid] = useState(false);
-	const [openSnackbar, setOpenSnackbar] = useState(false);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
 
 	const [captchaToken, setCaptchaToken] = useState()
 
@@ -127,8 +125,11 @@ const LoginSignUp = (props) => {
 				options: { captchaToken }
 			})
 		if (data.session === null) {
-			setOpenSnackbar(true);
-			setSnackbarErrorMessage(error.message)
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: error.message,
+				snackbarSeverity: 'error'
+			}))
 		} else {
 			dispatch(setUserData({
 				id: data.user.id,
@@ -137,13 +138,17 @@ const LoginSignUp = (props) => {
 				expires_at: data.session.expires_at,
 				expires_in: data.session.expires_in
 			}));
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: type === 'login' ? 'Login successful!' : 'Sign up successful!',
+				snackbarSeverity: 'success'
+			}))
 		}
 		type === 'signUp' && captcha.current.resetCaptcha()
 	}
 	const captcha = useRef()
 
 	return (
-		<>
 		<form id="loginSignUpForm" onSubmit={handleUser}>
 			<TextField
 				className="outlined-basic"
@@ -183,23 +188,6 @@ const LoginSignUp = (props) => {
 			<Button id="loginSignUpButton" text={`${type === 'login' ? 'Login' : 'Sign Up'}`} disabled={!isFormValid} onClick={e => handleUser(e)}/>
 			<Button id="goBackButton" text="Go Back" onClick={() => callback('home')} />
 		</form>
-		<Snackbar
-				open={openSnackbar}
-				autoHideDuration={5000}
-				anchorOrigin={{
-					vertical: 'top',
-					horizontal: 'center'
-				}}
-			>
-			  <Alert
-					severity="error"
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
-			</>
 	)
 }
 

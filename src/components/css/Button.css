@@ -10,6 +10,7 @@ button {
   transition: border-color 0.25s;
 	color: white;
 	min-width: 10em;
+	max-width: 20em;
 }
 
 button:hover {
@@ -19,10 +20,11 @@ button:hover {
 button:focus, button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 	opacity: 0.8;
+	border-color: var(--choice);
 }
 
 .disabled {
-	opacity: 0.6;
+	opacity: 0.4;
 	cursor: not-allowed;
 }
 

@@ -5,23 +5,21 @@ import Button from '../components/Button.jsx';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { setCharacterData } from '../redux/reducers/characterSlice.js';
-import { Alert, Snackbar } from '@mui/material';
 import './css/CharacterSelect.css';
+import { setLoading } from '../redux/reducers/loaderSlice.js';
+import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
 	const user = useSelector(state => state.user);
 	const character = useSelector(state => state.character);
 	const [characters, setCharacters] = useState([]);
-	const [snackbarErrorMessage, setSnackbarErrorMessage] = useState('');
-	const [openSnackbar, setOpenSnackbar] = useState(false);
-	const [snackbarSeverity, setSnackbarSeverity] = useState('error')
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (character?.id) {
-			navigate('/antre/combat');
+			navigate('/antre/play');
 		}
 	}, [character, navigate]);
 
@@ -29,26 +27,31 @@ const CharacterSelectPage = (props) => {
 		return false;
 	}
 
+	const dispatch = useDispatch();
+
 	const getCharacters = useCallback(async () => {
-		// on load, check if user_id exists, if not throw a warning then go back to homepage
+		// TODO: on load, check if user_id exists, if not throw a warning then go back to homepage
+		dispatch(setLoading({ loading: true }));
 		const { data: characters, error } = await supabase
 		.from('characters')
 		.select('*')
 		.eq('user_id', user.id)
 		console.log(characters);
 		if (error) {
-			setOpenSnackbar(true);
-			setSnackbarErrorMessage(error.message)
-			setSnackbarSeverity('error');
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: error.message,
+				snackbarSeverity: 'error'
+			}))
 		}
 		setCharacters(characters);
-	}, [supabase, user])
+		dispatch(setLoading({ loading: false }));
+	}, [supabase, user, dispatch])
 	
 	useEffect(() => {
 		getCharacters();
-	}, [getCharacters])
-
-	const dispatch = useDispatch();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	const playThisCharacter = (char) => {
 		dispatch(setCharacterData({
@@ -71,9 +74,11 @@ const CharacterSelectPage = (props) => {
 			.delete()
 			.eq('id', charId)
 		if (error) {
-			setOpenSnackbar(true);
-			setSnackbarErrorMessage(error.message)
-			setSnackbarSeverity('error');
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: error.message,
+				snackbarSeverity: 'error'
+			}))
 		} else {
 			getCharacters();
 		}
@@ -98,22 +103,6 @@ const CharacterSelectPage = (props) => {
 					<LogoutButton />
 				</section>
 			</section>
-			<Snackbar
-					open={openSnackbar}
-					autoHideDuration={5000}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'center'
-					}}
-				>
-				<Alert
-					severity={snackbarSeverity}
-					variant="filled"
-					sx={{ width: '100%' }}
-				>
-					{snackbarErrorMessage}
-				</Alert>
-			</Snackbar>
 		</div>
 	)
 }

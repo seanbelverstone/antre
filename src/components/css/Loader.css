@@ -1,0 +1,56 @@
+#loadingWrapper {
+	background-color: rgba(0, 0, 0, 0.24);
+	z-index: 49;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+#poppyLoader {
+	border: 2px outset black;
+	border-radius: 100%;
+	z-index: 50;
+	animation: spinSkew 3s ease infinite;
+	-webkit-animation: spinSkew 3s ease infinite;
+	width: 5em;
+	height: 5em;
+	padding: .5em;
+	background-color: var(--primaryFaded);
+	perspective: .5px;
+}
+
+#loadingText:after {
+	overflow: hidden;
+	display: inline-block;
+	vertical-align: bottom;
+	-webkit-animation: ellipsis steps(8,end) 900ms infinite;      
+	animation: ellipsis steps(8,end) 900ms infinite;
+	content: "\2026"; /* ascii code for the ellipsis character */
+	width: 0px;
+}
+
+@keyframes spinSkew {
+	0% {
+		transform: rotate(0deg);
+	}
+	49% {
+		transform: rotate(-360deg)
+	}
+	50% {
+		transform: scaleX(1)
+	}
+	75% {
+		transform: scaleX(-1)
+	}
+	100% {
+		transform: scaleX(1)
+	}
+}
