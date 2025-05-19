@@ -1,0 +1,32 @@
+name: Supabase Ping
+
+on:
+  schedule:
+    - cron: '0 0 */6 * *' # Runs every 6 days at midnight UTC
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ping Supabase with curl
+        env:
+          SUPABASE_URL: https://tbwwbpochndpeltvsjxx.supabase.co
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "Error: SUPABASE_URL environment variable not set."
+            exit 1
+          fi
+
+          response=$(curl -s -o /dev/null -w "%{http_code}" -I "$SUPABASE_URL/rest/v1/")
+          http_code=$(echo "$response" | awk '{print $1}')
+
+          if [[ "$http_code" -ge 200 && "$http_code" -lt 300 ]]; then
+            echo "Supabase ping successful! HTTP status: $http_code"
+          else
+            echo "Supabase ping failed with status: $http_code"
+          fi
+
