@@ -1,0 +1,51 @@
+name: Supabase Ping
+
+on:
+  schedule:
+    - cron: '0 0 */6 * *' # Runs every 6 days at midnight UTC
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: npm install node-fetch
+
+      - name: Ping Supabase
+        env:
+          SUPABASE_URL: https://tbwwbpochndpeltvsjxx.supabase.co
+        run: |
+          const fetch = require('node-fetch');
+          const supabaseUrl = https://tbwwbpochndpeltvsjxx.supabase.co;
+
+          if (!supabaseUrl) {
+            console.error('Issue contacting SUPABASE_URL.');
+            process.exit(1);
+          }
+
+          async function pingSupabase() {
+            try {
+              const response = await fetch(`${supabaseUrl}/rest/v1/`, {
+                method: 'HEAD', // HEAD request is lightweight
+              });
+
+              if (response.ok) {
+                console.log('Supabase ping successful!');
+              } else {
+                console.error(`Supabase ping failed with status: ${response.status}`);
+              }
+            } catch (error) {
+              console.error('Error pinging Supabase:', error);
+            }
+          }
+
+          pingSupabase();
