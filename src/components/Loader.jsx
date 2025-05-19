@@ -1,4 +1,4 @@
-import loadingImage from '../assets/images/antreCrop.png';
+import loadingImage from '../assets/images/AntreCrop.png';
 import './css/Loader.css';
 
 const Loader = (props) => {
