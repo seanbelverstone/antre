@@ -48,11 +48,7 @@ const Play = ({ supabase }) => {
 	}, [character, currentLevelObject])
 
 	useEffect(() => {
-		if (
-			currentLevelObject?.modifier &&
-			currentLevelObject?.name &&
-			!appliedModifiers.includes(currentLevelObject.name)
-		) {
+		if (currentLevelObject?.modifier && currentLevelObject?.name && !appliedModifiers.includes(currentLevelObject.name)) {
 			const getModifierHandlers = () => {
 				const statNames = ['strength', 'defense', 'wisdom', 'luck'];
 				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
@@ -73,9 +69,7 @@ const Play = ({ supabase }) => {
 							})
 						)
 					},
-					end: console.log('handle end'), // TODO: Handle end, probably do nothing
-					death: console.log('u died lol') // TODO: Handle death
-					// TODO: Set up a notification for modifier update
+					// TODO: save the game for end/death
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
