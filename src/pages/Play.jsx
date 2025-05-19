@@ -79,7 +79,7 @@ const Play = ({ supabase }) => {
 					torchCheck: () => {
 						setTimeout(() => {
 							if (character.items.torch) {
-								setCurrentLevelObject(storylines['04a-Torch Obtained']);
+								setCurrentLevelObject(storylines['04a-Torch Used']);
 							} else {
 								setCurrentLevelObject(storylines['04b-No Torch']);
 							}

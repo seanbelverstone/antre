@@ -457,8 +457,8 @@ const storylines = {
 				}
 		]
 	},
-	'04a-Torch Obtained': {
-	  name: '04a-Torch Obtained',
+	'04a-Torch Used': {
+	  name: '04a-Torch Used',
 		text: "Igniting the torch you grabbed earlier and raising it above your head, you see that this path looks similar to the one you'd followed previously. The only difference is that some of the cobbled stone floor is raised in parts. \n\nFrom a short distance, you lightly press a toe against one raised stone and a flurry of arrows shoot out of the wall beside you, narrowly missing your nose. Recognizing a trap when you see one and blessing your good fortune for taking the torch, you step through the corridor being careful to avoid the raised stones. \n\nYou make it through the traps unscathed, but unfortunately your torch uses all of its fuel and sputters out of life.",
 		modifier: { torch: false },
 		options: [
@@ -627,7 +627,7 @@ const storylines = {
 				},
 				{
 						label: "Keep Hiding",
-						target: "05bab-Lizard Death"
+						target: "05bab-Lizard Death" // TODO: Add a luck check here, if successful maybe get a stab on the lizard reducing its strength
 				}
 		]
 	},

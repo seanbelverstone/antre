@@ -66,7 +66,7 @@ export const handleModifierAlert = (dispatch, modifierObj) => {
 				}
 				break;
 			default:
-				messages.push(`You gained the ${mod[0]}. `)
+				mod[0] === 'torch' && mod[1] === false ? messages.push(`Your torch ran out.`) : messages.push(`You gained the ${mod[0]}. `)
 		}
 	})
 	dispatch(setSnackbar({
