@@ -4,6 +4,13 @@ export const classDefaultValues = {
 	paladin: 70
 }
 
+export const classSkills = {
+	warrior: { name: 'Bone Crush', effect: 'Bypass enemy defenses on the next attack' },
+	rogue: { name: 'Throw Knives', effect: 'Throw your trusty knives at the enemy for a free hit'},
+	paladin: { name: 'Holy Blade', effect: 'Your next attack combines your strength and wisdom to calculate damage'}
+
+}
+
 export const playerWeapons = {
 	fists: { damage: 5, crit: 1.25 },
 	rustyShortsword: { damage: 10, crit: 1.5 },
@@ -32,34 +39,9 @@ export const enemyWeapons = {
 	bladedWhip: { damage: 20, crit: 3 }
 }
 
-const enemies = {
-	goblin: {
-		stats: {
-			strength: 2, defense: 2, wisdom: 1, luck: 1
-		},
-		weapon: {
-			name: 'shiv', damage: 8, crit: 2
-		}
-	},
-	skeleton: {
-		stats: {
-			strength: 3, defense: 1, wisdom: 2, luck: 2
-		},
-		weapon: {
-			name: 'sword', damage: 12, crit: 1.5
-		}
-	}
-}
-
-// const enemyWeapons = [
-// 	{ name: 'rusty sword', damage: 14, crit: 1.5 },
-// 	{ name: 'mace', damage: 16, crit: 1.5 },
-// 	{ name: 'axe', damage: 20, crit: 2 }
-// ]
-
-
 export const damageCalculator = (selectedWeapon, stats, defense) => {
 	console.log('selectedWeapon: ', selectedWeapon, stats, defense);
+	// if warrior class and skill used, do not include enemy defense
 	const baseMissChance = 0.1;
 	const baseCritChance = 0.15;
 	const missChance = Math.random() <= Math.max(0, baseMissChance - (stats.luck * 0.01)); // luck reduces the chance of a miss
@@ -78,11 +60,11 @@ export const damageCalculator = (selectedWeapon, stats, defense) => {
 }
 
 
-export const handleMove = (phase, textFunc, playerStats, weaponName, enemyName, send) => {
+export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send) => {
 	// --- PLAYER MOVES ---
 	if (phase === 'attacking') {
 		textFunc(prev => [...prev, 'You are attacking'])
-		const result = damageCalculator(playerWeapons[weaponName], playerStats, enemies[enemyName].stats.defense)
+		const result = damageCalculator(playerWeapons[weaponName], playerStats, enemyData.stats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {
@@ -108,7 +90,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyName, 
 	// --- ENEMY MOVES ---
 	if (phase === 'enemyAttack' || phase === 'enemyWeakAttack') {
 		textFunc(prev => [...prev, 'enemy attacking!'])
-		const result = damageCalculator(enemies[enemyName].weapon, enemies[enemyName].stats, playerStats.defense)
+		const result = damageCalculator(enemyWeapons[enemyData.weapon], enemyData.stats, playerStats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {

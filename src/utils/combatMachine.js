@@ -11,8 +11,13 @@ export const combatMachine = createMachine({
   states: {
     idle: {
       on: {
+				startBattle: {
+					target: 'idle',
+					actions: 'initializeContext'
+				},
         attack: 'attacking',
         defend: 'enemyWeakAttack',
+				throwDaggers: 'throwingDaggers',
         heal: 'healing'
       },
     },
@@ -71,6 +76,16 @@ export const combatMachine = createMachine({
 				]
       },
     },
+    throwingDaggers: {
+      on: {
+        daggersThrown: [
+          {
+            target: 'idle',
+            actions: 'enemyTakeDamage'
+          }
+				]
+      },
+    },
     dead: {
       type: 'final',
     },
@@ -80,6 +95,16 @@ export const combatMachine = createMachine({
   }
 }, {
   actions: {
+		initializeContext: assign((res) => {
+		console.log(res);
+		const { character, enemyData } = res.event.data;
+		return {
+				playerHealth: character.stats.health,
+				enemyHealth: enemyData.stats.health,
+				healthPotions: character.items.healthPotions,
+				// Initialize other context values from Redux data
+				};
+		}),
     takeDamage: assign({
       playerHealth: (res) => {
 				console.log(res.event);
@@ -105,6 +130,9 @@ export const combatMachine = createMachine({
 				const remainingPotions = res.context.healthPotions - 1
 				return remainingPotions;
 			}
+		}),
+		useSkill: assign({
+			
 		}),
 		enemyTakeDamage: assign({
 			enemyHealth: (res) => {

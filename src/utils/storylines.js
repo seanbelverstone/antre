@@ -154,11 +154,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "GOBLIN",
-				health: 40,
-				strength: 2,
-				defense: 2,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 40,
+					strength: 2,
+					defense: 2,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "dagger"
 		},
 		victory: {
@@ -238,11 +240,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SKELETON",
-				health: 40,
-				strength: 1,
-				defense: 2,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 40,
+					strength: 1,
+					defense: 2,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "iron axe"
 		},
 		victory: {
@@ -611,11 +615,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "BLIND LIZARD",
-				health: 90,
-				strength: 4,
-				defense: 2,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 90,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "teeth"
 			},
 			victory: {
@@ -689,11 +695,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "BLIND LIZARD",
-				health: 90,
-				strength: 4,
-				defense: 2,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 90,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "teeth"
 		},
 		victory: {
@@ -1202,11 +1210,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "COLOSSAL WORM",
-				health: 180,
-				strength: 8,
-				defense: 5,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 180,
+					strength: 8,
+					defense: 5,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "teeth"
 		},
 		victory: {
@@ -1383,11 +1393,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "JUVENILE DRAGON",
-				health: 70,
-				strength: 3,
-				defense: 3,
-				wisdom: 4,
-				luck: 2,
+				stats: {
+					health: 70,
+					strength: 3,
+					defense: 3,
+					wisdom: 4,
+					luck: 2,
+				},
 				weapon: "claws"
 		},
 		victory: {
@@ -1799,11 +1811,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "KNIGHT",
-				health: 50,
-				strength: 3,
-				defense: 3,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 50,
+					strength: 3,
+					defense: 3,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "longsword"
 		},
 		victory: {
@@ -1839,11 +1853,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SCARLET KNIGHT",
-				health: 50,
-				strength: 4,
-				defense: 5,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 50,
+					strength: 4,
+					defense: 5,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "War Hammer"
 		},
 		victory: {
@@ -1856,11 +1872,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "PIKEMAN",
-				health: 50,
-				strength: 4,
-				defense: 2,
-				wisdom: 1,
-				luck: 4,
+				stats: {
+					health: 50,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 4,
+				},
 				weapon: "Pike"
 		},
 		victory: {
@@ -1873,11 +1891,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "INFANTRY",
-				health: 50,
-				strength: 2,
-				defense: 2,
-				wisdom: 2,
-				luck: 6,
+				stats: {
+					health: 50,
+					strength: 2,
+					defense: 2,
+					wisdom: 2,
+					luck: 6,
+				},
 				weapon: "Axe"
 		},
 		victory: {
@@ -1890,11 +1910,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SWORDSMAN",
-				health: 50,
-				strength: 10,
-				defense: 1,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 50,
+					strength: 10,
+					defense: 1,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "sword"
 		},
 		victory: {
@@ -2473,11 +2495,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "Skeletal Knight",
-				health: 140,
-				strength: 6,
-				defense: 5,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 140,
+					strength: 6,
+					defense: 5,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "War Spear"
 		},
 		victory: {
@@ -2495,11 +2519,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SKELETAL KNIGHT",
-				health: 140,
-				strength: 6,
-				defense: 5,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 140,
+					strength: 6,
+					defense: 5,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "War Spear"
 		},
 		victory: {
@@ -2582,11 +2608,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "Giant Rat",
-				health: 60,
-				strength: 4,
-				defense: 3,
-				wisdom: 1,
-				luck: 3,
+				stats: {
+					health: 60,
+					strength: 4,
+					defense: 3,
+					wisdom: 1,
+					luck: 3,
+				},
 				weapon: "Teeth"
 		},
 		victory: {
@@ -2746,11 +2774,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "RUNED MANTICORE",
-				health: 120,
-				strength: 6,
-				defense: 4,
-				wisdom: 5,
-				luck: 1,
+				stats: {
+					health: 120,
+					strength: 6,
+					defense: 4,
+					wisdom: 5,
+					luck: 1,
+				},
 				weapon: "Rune Strike"
 		},
 		victory: {
@@ -2799,11 +2829,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "UNDEAD MANTICORE",
-				health: 80,
-				strength: 4,
-				defense: 3,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 80,
+					strength: 4,
+					defense: 3,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "Plague Rune Strike"
 		},
 		victory: {
@@ -2816,11 +2848,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "NECRO BEASTMASTER",
-				health: 110,
-				strength: 5,
-				defense: 3,
-				wisdom: 6,
-				luck: 2,
+				stats: {
+					health: 110,
+					strength: 5,
+					defense: 3,
+					wisdom: 6,
+					luck: 2,
+				},
 				weapon: "Bladed Whip"
 		},
 		victory: {
@@ -2849,11 +2883,13 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "NECRO BEASTMASTER",
-				health: 160,
-				strength: 5,
-				defense: 3,
-				wisdom: 6,
-				luck: 2,
+				stats: {
+					health: 160,
+					strength: 5,
+					defense: 3,
+					wisdom: 6,
+					luck: 2,
+				},
 				weapon: "Bladed Whip"
 		},
 		victory: {
