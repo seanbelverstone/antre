@@ -17,11 +17,6 @@ function debounce(fn, delay) {
 
 export const diceRoll = () => (Math.floor(Math.random() * 6) + 1)
 
-export const camelToTitle = value => {
-	const result = value.replace(/([A-Z])/g, ' $1');
-	return result.charAt(0).toUpperCase() + result.slice(1);
-};
-
 export const flattenToSingleKeys = (obj, result = {}) => {
   for (const [key, value] of Object.entries(obj)) {
     if (value && typeof value === 'object' && !Array.isArray(value)) {
@@ -165,6 +160,22 @@ export const campaignLuckCheck = (luck, eventNumber) => {
     else return gapSuccess;
   }
 }
+
+export const titleToCamel = (title) => {
+  if (typeof title !== 'string' || !title) {
+    return ''; // Handle empty or invalid input
+  }
+  const words = title.split(/[\s-]+/); // Split by spaces and dashes
+  const firstWord = words.shift().toLowerCase(); // Remove and lowercase the first word
+  const camelCaseTitle = words.map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join('');
+  return firstWord + camelCaseTitle;
+}
+
+export const camelToTitle = value => {
+	const result = value.replace(/([A-Z])/g, ' $1');
+	return result.charAt(0).toUpperCase() + result.slice(1);
+};
+
 
 
 export default debounce;

@@ -4,13 +4,32 @@ export const classDefaultValues = {
 	paladin: 70
 }
 
-const weapons = {
-	shortsword: { damage: 15, crit: 1.5 },
-	longsword: { damage: 20, crit: 1.5 },
-	battleaxe: { damage: 25, crit: 2 },
-	dagger: { damage: 10, crit: 4 },
-	staff: { damage: 18, crit: 2.5 },
-	bow: { damage: 20, crit: 1.75 }
+export const playerWeapons = {
+	fists: { damage: 5, crit: 1.25 },
+	rustyShortsword: { damage: 10, crit: 1.5 },
+	steelShortsword: { damage: 18, crit: 2 },
+	obsidianAxes: { damage: 25, crit: 2.5 },
+	dagger: { damage: 8, crit: 4 },
+	ironAxe: { damage: 15, crit: 2 },
+	halberd: { damage: 30, crit: 1.5 },
+	blackIronLongsword: { damage: 22, crit: 2.5 },
+	warHammer: { damage: 20, crit: 2 }
+}
+
+export const enemyWeapons = {
+	dagger: { damage: 8, crit: 1.5 },
+	ironAxe: { damage: 15, crit: 1.5 },
+	teeth: { damage: 10, crit: 2 },
+	claws: { damage: 12, crit: 1.5 },
+	longsword: { damage: 14, crit: 2.5 },
+	warHammer: { damage: 15, crit: 2 },
+	pike: { damage: 20, crit: 1.5 },
+	axe: { damage: 15, crit: 2 },
+	sword: { damage: 12, crit: 2.5 },
+	warSpear: { damage: 18, crit: 3 },
+	runeStrike: { damage: 15, crit: 3 },
+	plagueRuneStrike: { damage: 18, crit: 2.5 },
+	bladedWhip: { damage: 20, crit: 3 }
 }
 
 const enemies = {
@@ -63,7 +82,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyName, 
 	// --- PLAYER MOVES ---
 	if (phase === 'attacking') {
 		textFunc(prev => [...prev, 'You are attacking'])
-		const result = damageCalculator(weapons[weaponName], playerStats, enemies[enemyName].stats.defense)
+		const result = damageCalculator(playerWeapons[weaponName], playerStats, enemies[enemyName].stats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {

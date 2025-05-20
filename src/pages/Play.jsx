@@ -36,6 +36,7 @@ const Play = ({ supabase }) => {
 		const characterFlattened = flattenToSingleKeys(character)
 		if (currentLevelObject?.text) {
 			const replacePlaceholders = (template, data) => {
+				// Replaces words surrounded by {{}} with their respective items
 				return template.replace(/\{\{(.*?)\}\}/g, (_, key) => {
 					const trimmedKey = key.trim();
 					return Object.prototype.hasOwnProperty.call(data, trimmedKey)
@@ -108,7 +109,6 @@ const Play = ({ supabase }) => {
 							})
 						);
 				});
-				// TODO: Need a check for if a story event causes player to die, if so, call the handler.death
 				// dynamically updates items
 				itemNames.forEach((item) => {
 					handlers[item] = (value) =>
