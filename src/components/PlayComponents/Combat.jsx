@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { classSkills, handleMove, playerWeapons } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useSelector } from 'react-redux';
-import { toTitleCase } from '../../utils/functions.js';
+import { titleToCamel, toTitleCase } from '../../utils/functions.js';
 
 const Combat = (props) => {
 	const { currentLevelObject } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
-	const playerWeaponName = character.items.weapon;
+	const playerWeaponName = titleToCamel(character.items.weapon);
 
   const [state, send] = useMachine(combatMachine);
 	const [battleText, setBattleText] = useState([]);
@@ -44,8 +44,9 @@ const Combat = (props) => {
 					</ul>
 					<h2>Enemy Health: {state.context.enemyHealth}</h2>
 
-						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={state.value !== 'idle'} text="Attack" />
-						<Button onClick={() => send({ type: 'defend', damage: 30 })} disabled={state.value !== 'idle'} text="Defend" />
+{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
+						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={state.value !== 'idle'} text="Balanced Attack" />
+						<Button onClick={() => send({ type: 'riskyStrike', damage: 30 })} disabled={state.value !== 'idle'} text="Risky Strike" />
 						<Button onClick={() => send({ type: 'skill' })} disabled={cooldown > 0 || state.value !== 'idle'} text={`Skill: ${classSkills[character.charClass].name}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`} />
 						<Button onClick={() => send({ type: 'heal' })} disabled={state.context.healthPotions === 0 || state.value !== 'idle'} text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`} />
 				</div>

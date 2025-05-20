@@ -16,7 +16,7 @@ export const combatMachine = createMachine({
 					actions: 'initializeContext'
 				},
         attack: 'attacking',
-        defend: 'enemyWeakAttack',
+        riskyStrike: 'riskingStrike',
 				throwDaggers: 'throwingDaggers',
         heal: 'healing'
       },
@@ -36,6 +36,26 @@ export const combatMachine = createMachine({
 				]
 			}
 		},
+		riskingStrike : {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				],
+				miss: [
+					{
+						target: 'enemyStrongAttack'
+					}
+				]
+			}
+		},
     enemyAttack: {
       on: {
         hit: [
@@ -51,17 +71,17 @@ export const combatMachine = createMachine({
         ],
       },
     },
-    enemyWeakAttack: {
+    enemyStrongAttack: {
       on: {
         hit: [
           {
             guard: 'isPlayerDead',
             target: 'dead',
-            actions: 'takeReducedDamage'
+            actions: 'takeDoubleDamage'
           },
           {
             target: 'idle',
-            actions: 'takeReducedDamage'
+            actions: 'takeDoubleDamage'
           }
         ],
       },
@@ -96,7 +116,6 @@ export const combatMachine = createMachine({
 }, {
   actions: {
 		initializeContext: assign((res) => {
-		console.log(res);
 		const { character, enemyData } = res.event.data;
 		return {
 				playerHealth: character.stats.health,
@@ -113,10 +132,10 @@ export const combatMachine = createMachine({
         return newHealth <= 0 ? 0 : newHealth;
       }
     }),
-    takeReducedDamage: assign({
+    takeDoubleDamage: assign({
       playerHealth: (res) => {
 				const damage = res.event.damage ?? 20
-        const newHealth = res.context.playerHealth - (Math.floor(damage / 2));
+        const newHealth = res.context.playerHealth - Math.floor(damage * 1.5);
         return newHealth <= 0 ? 0 : newHealth;
       }
     }),
