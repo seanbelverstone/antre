@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { handleMove, playerWeapons } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useSelector } from 'react-redux';
+import { toTitleCase } from '../../utils/functions.js';
 
 const Combat = (props) => {
 	const { currentLevelObject } = props;
@@ -32,7 +33,7 @@ const Combat = (props) => {
 					<h2>Health: {state.context.playerHealth}</h2>
 					<h3>Stats</h3>
 					<ul>
-						<li>Weapon: {character.items.weapon}</li>
+						<li>Weapon: {toTitleCase(character.items.weapon)}</li>
 						<li>Damage: {playerWeapons[playerWeaponName].damage ?? 0}</li>
 						<li>Crit Multiplier: {playerWeapons[playerWeaponName].crit ?? 0}</li>
 					</ul>

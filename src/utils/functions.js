@@ -176,6 +176,15 @@ export const camelToTitle = value => {
 	return result.charAt(0).toUpperCase() + result.slice(1);
 };
 
+export const toTitleCase = (str) => {
+  if (typeof str !== 'string' || !str) {
+    return '';
+  }
+  return str.split(/[\s-]+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 
 
 export default debounce;
