@@ -1,13 +1,16 @@
 import { useMachine } from '@xstate/react';
 import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
-import { classSkills, handleMove, playerWeapons } from '../../utils/damageCalculations.js';
+import { classDefaultValues, classSkills, handleMove } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useSelector } from 'react-redux';
-import { titleToCamel, toTitleCase } from '../../utils/functions.js';
+import { titleToCamel } from '../../utils/functions.js';
+import '../css/Combat.css';
+import storylines from '../../utils/storylines.js';
+import Enemy from './Enemy.jsx';
 
 const Combat = (props) => {
-	const { currentLevelObject } = props;
+	const { currentLevelObject, callback } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
 	const playerWeaponName = titleToCamel(character.items.weapon);
@@ -15,11 +18,16 @@ const Combat = (props) => {
   const [state, send] = useMachine(combatMachine);
 	const [battleText, setBattleText] = useState([]);
 	const [cooldown, setCooldown] = useState(0)
-
+	const [combatStarted, setCombatStarted] = useState(false)
+	const [combatFinished, setCombatFinished] = useState(false);
+	const [playerHealthWidth, setPlayerHealthWidth] = useState('0%');
+ 
+	const coverRef = useRef(null);
 	const bottomRef = useRef(null);
 
 	useEffect(() => {
 		send({ type: 'startBattle', data: { character, enemyData } });
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
   useEffect(() => {
@@ -30,34 +38,61 @@ const Combat = (props) => {
 		handleMove(state.value, setBattleText, character.stats, playerWeaponName, enemyData, send)
 	}, [state.value, send, character, playerWeaponName, enemyData])
 
+	useEffect(() => {
+		console.log(state);
+		if (state.value === 'enemyDead') {
+			setCombatFinished(true)
+		}
+	}, [state])
+
+	useEffect(() => {
+		setPlayerHealthWidth(`${(100 * state.context.playerHealth) / classDefaultValues[character.charClass]}%`)
+	}, [state.context.playerHealth, character.charClass])
+
   return (
-		<>
-			<div style={{ display: 'flex', justifyItems: 'center', alignContent: 'space-evenly' }}>
-				<div className="p-4">
-					<h1 className="text-xl mb-4">State: {state.value.toString()}</h1>
-					<h2>Health: {state.context.playerHealth}</h2>
-					<h3>Stats</h3>
-					<ul>
+		<div id="combatArea">
+			<div className="combatCover" ref={coverRef} style={{ display: `${combatStarted ? 'none' : 'flex'}`}}>
+				<Button text="Begin Combat" id="beginCombatButton" onClick={() => setCombatStarted(true)} />
+			</div>
+			<div className="combatCover" id="combatVictory" ref={coverRef} style={{ display: `${combatFinished ? 'flex' : 'none'}`}}>
+				<p id="victoryText">The enemy has been defeated!</p>
+				<Button text="Continue" id="continueButton" onClick={() => callback(storylines[currentLevelObject.victory.target])} />
+			</div>
+			<div id="combatSection" style={{ pointerEvents: combatStarted ? 'all' : 'none' }}>
+				<div id="enemyAndTextArea">
+					<Enemy enemyData={enemyData} currentHealth={state.context.enemyHealth} />
+
+					<div className="healthArea">
+						<div className="healthText">
+							{state.context.playerHealth}/{classDefaultValues[character.charClass]}
+						</div>
+						<div id="playerBar" style={{ width: playerHealthWidth }}></div>
+					</div>
+
+					<div style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto', color: 'white' }}>
+						{battleText?.map((text, i) => <p key={`${i}_${text[0]}`}>{text}</p>)}
+						<div ref={bottomRef}></div>
+					</div>
+					
+					{/* <h3>Stats</h3> */}
+					{/* Maybe move this to a tooltip or something */}
+					{/* <ul>
 						<li>Weapon: {toTitleCase(character.items.weapon)}</li>
 						<li>Damage: {playerWeapons[playerWeaponName].damage ?? 0}</li>
 						<li>Crit Multiplier: {playerWeapons[playerWeaponName].crit ?? 0}</li>
-					</ul>
-					<h2>Enemy Health: {state.context.enemyHealth}</h2>
+					</ul> */}
+					</div>
 
-{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
+
+					{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
+					<div id="attacks">
 						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={state.value !== 'idle'} text="Balanced Attack" />
 						<Button onClick={() => send({ type: 'riskyStrike', damage: 30 })} disabled={state.value !== 'idle'} text="Risky Strike" />
 						<Button onClick={() => send({ type: 'skill' })} disabled={cooldown > 0 || state.value !== 'idle'} text={`Skill: ${classSkills[character.charClass].name}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`} />
 						<Button onClick={() => send({ type: 'heal' })} disabled={state.context.healthPotions === 0 || state.value !== 'idle'} text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`} />
-				</div>
-				<div>
-					<div style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto', color: 'white' }}>
-						{battleText?.map((text, i) => <p key={`${i}_${text[0]}`}>{text}</p>)}
-						<div ref={bottomRef}></div>
-						</div>
-				</div>
+					</div>
 			</div>		
-		</>
+		</div>
   );
 }
 

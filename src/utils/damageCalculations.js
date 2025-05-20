@@ -1,3 +1,5 @@
+import { titleToCamel } from "./functions"
+
 export const classDefaultValues = {
 	warrior: 80,
 	rogue: 60,
@@ -110,7 +112,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 	// --- ENEMY MOVES ---
 	if (phase === 'enemyAttack') {
 		textFunc(prev => [...prev, 'The enemy attacks!'])
-		const result = damageCalculator(enemyWeapons[enemyData.weapon], enemyData.stats, playerStats.defense)
+		const result = damageCalculator(enemyWeapons[titleToCamel(enemyData.weapon)], enemyData.stats, playerStats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {

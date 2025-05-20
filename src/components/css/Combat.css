@@ -1,0 +1,51 @@
+#combatArea {
+	position: relative;
+}
+
+.combatCover {
+	height: 116%;
+	width: 105%;
+	background-color: rgba(0, 0, 0, 0.8);
+	position: absolute;
+	justify-content: center;
+	align-items: center;
+	z-index: 99;
+	margin: -20px;
+	border-radius: 1em;
+}
+
+#beginCombatButton, #continueButton {
+	background-color: var(--primary);
+	font-size: 1.5em;
+	z-index: 100 !important;
+}
+
+#combatVictory {
+	flex-direction: column;
+}
+
+#victoryText {
+	background-color: var(--foreground);
+	padding: 2em;
+	font-size: 1.5em;
+	border-radius: 1em;
+}
+
+#combatSection {
+	display: flex;
+	flex-direction: column;
+	justify-items: center;
+	align-content: space-evenly;
+}
+
+#playerBar {
+	background-color: var(--defense);
+}
+
+#attacks {
+	/* width: 100%; */
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+}
