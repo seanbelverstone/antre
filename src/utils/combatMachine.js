@@ -1,4 +1,5 @@
 import { assign, createMachine } from 'xstate';
+import { classDefaultValues } from './damageCalculations';
 
 export const combatMachine = createMachine({
   id: 'combat',
@@ -17,7 +18,9 @@ export const combatMachine = createMachine({
 				},
         attack: 'attacking',
         riskyStrike: 'riskingStrike',
-				throwDaggers: 'throwingDaggers',
+				boneCrush: 'crushingBone',
+				holyBlade: 'holyingBlade',
+				throwKnives: 'throwingKnives',
         heal: 'healing'
       },
     },
@@ -56,56 +59,86 @@ export const combatMachine = createMachine({
 				]
 			}
 		},
-    enemyAttack: {
-      on: {
-        hit: [
-          {
-            guard: 'isPlayerDead',
-            target: 'dead',
-            actions: 'takeDamage'
-          },
-          {
-            target: 'idle',
-            actions: 'takeDamage'
-          }
-        ],
-      },
-    },
-    enemyStrongAttack: {
-      on: {
-        hit: [
-          {
-            guard: 'isPlayerDead',
-            target: 'dead',
-            actions: 'takeDamage'
-          },
-          {
-            target: 'idle',
-            actions: 'takeDamage'
-          }
-        ],
-      },
-    },
     healing: {
-      on: {
-        healed: [
-          {
-            target: 'idle',
+			on: {
+				healed: [
+					{
+						target: 'idle',
             actions: 'healPlayer'
           }
 				]
       },
     },
-    throwingDaggers: {
-      on: {
-        daggersThrown: [
-          {
-            target: 'idle',
+    crushingBone: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				]
+      },
+    },
+		holyingBlade: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				]
+			}
+		},
+    throwingKnives: {
+			on: {
+				hit: [
+					{
+						target: 'idle',
             actions: 'enemyTakeDamage'
           }
 				]
       },
     },
+		enemyAttack: {
+			on: {
+				hit: [
+					{
+						guard: 'isPlayerDead',
+						target: 'dead',
+						actions: 'takeDamage'
+					},
+					{
+						target: 'idle',
+						actions: 'takeDamage'
+					}
+				],
+			},
+		},
+		enemyStrongAttack: {
+			on: {
+				hit: [
+					{
+						guard: 'isPlayerDead',
+						target: 'dead',
+						actions: 'takeDamage'
+					},
+					{
+						target: 'idle',
+						actions: 'takeDamage'
+					}
+				],
+			},
+		},
     dead: {
       type: 'final',
     },
@@ -135,7 +168,7 @@ export const combatMachine = createMachine({
 			playerHealth: (res) => {
 				const healValue = res.event.healValue ?? 15
 				const newHealth = res.context.playerHealth + healValue;
-				return newHealth >= 100 ? 100 : newHealth;
+				return newHealth >= res.event.maxHealth ? res.event.maxHealth : newHealth;
 			},
 			healthPotions: (res) => {
 				const remainingPotions = res.context.healthPotions - 1

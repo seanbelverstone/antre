@@ -1,10 +1,10 @@
 import { useMachine } from '@xstate/react';
 import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
-import { classSkills, handleMove } from '../../utils/damageCalculations.js';
+import { classDefaultValues, classSkills, handleMove } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveGame, titleToCamel } from '../../utils/functions.js';
+import { camelToTitle, saveGame } from '../../utils/functions.js';
 import '../css/Combat.css';
 import storylines from '../../utils/storylines.js';
 import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
@@ -35,7 +35,7 @@ const Combat = (props) => {
   }, [battleText, bottomRef]);
 
 	useEffect(() => {
-		handleMove(state.value, setBattleText, character.stats, playerWeaponName, enemyData, send)
+		handleMove(state.value, setBattleText, character.stats, playerWeaponName, enemyData, send, character.charClass)
 	}, [state.value, send, character, playerWeaponName, enemyData])
 
 	useEffect(() => {
@@ -43,7 +43,6 @@ const Combat = (props) => {
 			setCombatFinished(true)
 		}
 		if (state.value === 'dead') {
-			console.log(currentLevelObject);
 			const characterData = {...character, stats: { ...character.stats, health: state.context.playerHealth }, level: '00-Death' };
 			callback(storylines['00-Death'])
 			saveGame(dispatch, supabase, characterData)
@@ -51,11 +50,22 @@ const Combat = (props) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.value])
 
+	const handleAttack = (type) => {
+		send({ type });
+		if (type === classSkills[character.charClass].name) {
+			setCooldown(2);
+		} else {
+			cooldown > 0 && setCooldown(cooldown - 1);
+		}
+	}
+
   return (
 		<div id="combatArea">
+			{/* COVER FOR STARTING COMBAT */}
 			<div className="combatCover" ref={coverRef} style={{ display: `${combatStarted ? 'none' : 'flex'}`}}>
 				<Button text="Begin Combat" id="beginCombatButton" onClick={() => setCombatStarted(true)} />
 			</div>
+			{/* COVER FOR VICTORY */}
 			<div className="combatCover" id="combatVictory" ref={coverRef} style={{ display: `${combatFinished ? 'flex' : 'none'}`}}>
 				<p id="victoryText">The enemy has been defeated!</p>
 				<Button text="Continue" id="continueButton" onClick={() => callback(storylines[currentLevelObject.victory.target])} />
@@ -83,10 +93,10 @@ const Combat = (props) => {
 					</ul> */}
 					{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
 					<div id="attacks">
-						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={state.value !== 'idle'} text="Balanced Attack" />
-						<Button onClick={() => send({ type: 'riskyStrike', damage: 30 })} disabled={state.value !== 'idle'} text="Risky Strike" />
-						<Button onClick={() => send({ type: 'skill' })} disabled={cooldown > 0 || state.value !== 'idle'} text={`Skill: ${classSkills[character.charClass].name}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`} />
-						<Button onClick={() => send({ type: 'heal' })} disabled={state.context.healthPotions === 0 || state.value !== 'idle'} text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`} />
+						<Button onClick={() => handleAttack('attack')} disabled={state.value !== 'idle'} text="Balanced Attack" />
+						<Button onClick={() => handleAttack('riskyStrike')} disabled={state.value !== 'idle'} text="Risky Strike" />
+						<Button onClick={() => handleAttack(classSkills[character.charClass].name)} disabled={cooldown > 0 || state.value !== 'idle'} text={`Skill: ${camelToTitle(classSkills[character.charClass].name)}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`} />
+						<Button onClick={() => send({ type: 'heal' })} disabled={state.context.healthPotions === 0 || state.value !== 'idle' || state.context.playerHealth === classDefaultValues[character.charClass]} text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`} />
 					</div>
 			</div>		
 		</div>

@@ -7,9 +7,9 @@ export const classDefaultValues = {
 }
 
 export const classSkills = {
-	warrior: { name: 'Bone Crush', effect: 'Bypass enemy defenses on the next attack' },
-	rogue: { name: 'Throw Knives', effect: 'Throw your trusty knives at the enemy for a free hit'},
-	paladin: { name: 'Holy Blade', effect: 'Your next attack combines your strength and wisdom to calculate damage'}
+	warrior: { name: 'boneCrush', effect: 'Bypass enemy defenses on the next attack' },
+	rogue: { name: 'throwKnives', effect: 'Throw your trusty knives at the enemy for a free hit'},
+	paladin: { name: 'holyBlade', effect: 'Your next attack combines your strength and wisdom to calculate damage'}
 
 }
 
@@ -42,7 +42,7 @@ export const enemyWeapons = {
 	bladedWhip: { damage: 20, crit: 3 }
 }
 
-export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMultiplier = 0, extraChanceToMiss = 0) => {
+export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMultiplier = 0, extraChanceToMiss = 0, holyBlade = false) => {
 	// if warrior class and skill used, do not include enemy defense
 	const baseMissChance = 0.1 + extraChanceToMiss;
 	const baseCritChance = 0.15;
@@ -50,7 +50,7 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 	const critChance = Math.random() <= (baseCritChance + (stats.wisdom * 0.005)); // wisdom increase the chance of a crit
 	const diceRoll = Math.ceil(Math.random() * 20);  // Roll between 1 and 20
 	const rollModifier = 1.0 + (diceRoll - 10) / 50; // Modifier between 0.91x and 1.10x
-	const damage = Math.ceil((selectedWeapon.damage + stats.strength) * rollModifier) - defense;
+	const damage = Math.ceil((selectedWeapon.damage + (holyBlade ? (stats.strength * stats.wisdom) : stats.strength) * rollModifier) - defense);
 	if (missChance) {
 		return { type: 'miss', value: 0 };
 	} else if (critChance) {
@@ -61,7 +61,8 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 }
 
 
-export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send) => {
+export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send, charClass) => {
+	console.log(phase);
 	const playerWeapon = playerWeapons[titleToCamel(weaponName)];
 	const enemyWeapon = enemyWeapons[titleToCamel(enemyData.weapon)];
 	// --- PLAYER MOVES ---
@@ -106,8 +107,50 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		const randomPotionValue = Math.ceil(Math.random() * 15) + 15;
 		textFunc(prev => [...prev, `You drink a potion and recover ${randomPotionValue}HP`])
 		setTimeout(() => {
-			send({ type: 'healed', healValue: randomPotionValue });			
+			send({ type: 'healed', healValue: randomPotionValue, maxHealth: classDefaultValues[charClass] });			
 		}, 1000)
+	}
+	if (phase === 'crushingBone') {
+		textFunc(prev => [...prev, 'You unleash a devastating bone crush attack!'])
+		// Always hits, bypasses defense (hence 0, 0, -0.1)
+		const result = damageCalculator(playerWeapon, playerStats, 0, 0, -0.1)
+		const {type, value: damage} = result;
+		if (type === 'crit') {
+			textFunc(prev => [...prev, `With a sickening crunch, you shatter the enemy's vital bones for ${damage} damage!`])
+			send({ type: 'hit', damage });			
+		} else {
+			textFunc(prev => [...prev, `You hear a painful crack as you crush the enemy's bones for ${damage} damage!`])
+			send({ type: 'hit', damage });			
+		}
+	}
+	if (phase === 'holyingBlade') {
+		textFunc(prev => [...prev, 'You channel divine energy, imbuing your blade with holy light!'])
+		// Always hits, adds wisdom to calculation (hence true at the end)
+		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, 0, -0.1, true)
+		const {type, value: damage} = result;
+		if (type === 'crit') {
+			textFunc(prev => [...prev, `A blinding flash erupts as your holy blade smites the enemy for a massive ${damage} damage!`])
+			send({ type: 'hit', damage });			
+		} else {
+			textFunc(prev => [...prev, `Your blessed blade strikes true, dealing ${damage} holy damage.`])
+			send({ type: 'hit', damage });			
+		}
+	}
+	if (phase === 'throwingKnives') {
+		textFunc(prev => [...prev, 'You swiftly unleash a volley of throwing knives!'])
+		// Always hits, adds wisdom to calculation (hence true at the end)
+		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, 0, 0, true)
+		const {type, value: damage} = result;
+		if (type === 'miss') {
+			textFunc(prev => [...prev, 'Your knives whizz past their target, missing narrowly!'])
+			send({ type: 'miss', damage });
+		} else if (type === 'crit') {
+			textFunc(prev => [...prev, `A flurry of knives find their mark in vital areas, dealing ${damage} critical damage!`])
+			send({ type: 'hit', damage });			
+		} else {
+			textFunc(prev => [...prev, `Your thrown knives strike the enemy for ${damage} damage.`])
+			send({ type: 'hit', damage });			
+		}
 	}
 
 	// --- ENEMY MOVES ---
