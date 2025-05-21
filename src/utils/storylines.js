@@ -2906,6 +2906,11 @@ const storylines = {
 						target: "Main Menu"
 				}
 		]
+	},
+	'00-Death': {
+	  name: '00-Death',
+		text: "Despite your best efforts, you have fallen at the hands of your foe.",
+		modifier: { death: true }
 	}
 }
 

@@ -13,8 +13,8 @@ const EnemyImageAndPlayerHealth = (props) => {
 	}, [currentEnemyHealth, enemyData.stats.health])
 
 	useEffect(() => {
-		setPlayerHealthWidth(`${(100 * currentPlayerHealth) / character.stats.health}%`)
-	}, [currentPlayerHealth, character.stats.health])
+		setPlayerHealthWidth(`${(100 * currentPlayerHealth) / classDefaultValues[character.charClass]}%`)
+	}, [currentPlayerHealth, character.stats.health, character.charClass])
 
 	return (
 		<div id="enemyArea">

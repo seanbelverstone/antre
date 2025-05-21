@@ -1,3 +1,4 @@
+import { classDefaultValues } from "../utils/damageCalculations";
 import Button from "./Button";
 import Modal from "./Modal";
 import './css/CharacterRow.css';
@@ -20,7 +21,7 @@ const CharacterRow = (props) => {
 				<section className="stats">
 					<section className="health">
 						<div className="subHeadings">HP</div>
-						<div>{stats.health}</div>
+						<div>{stats.health}/{classDefaultValues[character.charClass]}</div>
 					</section>
 					<section className="strength">
 						<div className="subHeadings">Str</div>

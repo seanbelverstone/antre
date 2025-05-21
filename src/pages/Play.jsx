@@ -174,7 +174,12 @@ const Play = ({ supabase }) => {
 					}}
 				/>
 				{currentLevelObject.modifier && currentLevelObject?.modifier?.fight ? (
-					<Combat currentLevelObject={currentLevelObject} callback={setCurrentLevelObject}/>
+					<Combat
+						currentLevelObject={currentLevelObject}
+						callback={setCurrentLevelObject}
+						supabase={supabase}
+						pastLevels={pastLevels}
+					/>
 				) : (
 					<Story
 						currentLevelObject={currentLevelObject}

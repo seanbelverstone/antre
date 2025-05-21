@@ -3,14 +3,14 @@ import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
 import { classSkills, handleMove } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
-import { useSelector } from 'react-redux';
-import { titleToCamel } from '../../utils/functions.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveGame, titleToCamel } from '../../utils/functions.js';
 import '../css/Combat.css';
 import storylines from '../../utils/storylines.js';
 import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
 
 const Combat = (props) => {
-	const { currentLevelObject, callback } = props;
+	const { currentLevelObject, callback, supabase, pastLevels } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
 	const playerWeaponName = titleToCamel(character.items.weapon);
@@ -23,6 +23,7 @@ const Combat = (props) => {
  
 	const coverRef = useRef(null);
 	const bottomRef = useRef(null);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		send({ type: 'startBattle', data: { character, enemyData } });
@@ -39,10 +40,14 @@ const Combat = (props) => {
 
 	useEffect(() => {
 		console.log(state);
-		if (state.value === 'enemyDead') {
-			setCombatFinished(true)
+		if (state.value === 'enemyDead' || state.value === 'dead') {
+			state.value === 'enemyDead' ? setCombatFinished(true) : callback(storylines['00-Death'])
+			const characterData = {...character, stats: { ...character.stats, health: state.context.playerHealth } };
+			console.log(characterData);
+			saveGame(dispatch, supabase, characterData)
 		}
-	}, [state])
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.value])
 
   return (
 		<div id="combatArea">
