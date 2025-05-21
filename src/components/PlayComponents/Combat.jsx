@@ -1,13 +1,13 @@
 import { useMachine } from '@xstate/react';
 import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
-import { classDefaultValues, classSkills, handleMove } from '../../utils/damageCalculations.js';
+import { classSkills, handleMove } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useSelector } from 'react-redux';
 import { titleToCamel } from '../../utils/functions.js';
 import '../css/Combat.css';
 import storylines from '../../utils/storylines.js';
-import Enemy from './Enemy.jsx';
+import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
 
 const Combat = (props) => {
 	const { currentLevelObject, callback } = props;
@@ -20,7 +20,6 @@ const Combat = (props) => {
 	const [cooldown, setCooldown] = useState(0)
 	const [combatStarted, setCombatStarted] = useState(false)
 	const [combatFinished, setCombatFinished] = useState(false);
-	const [playerHealthWidth, setPlayerHealthWidth] = useState('0%');
  
 	const coverRef = useRef(null);
 	const bottomRef = useRef(null);
@@ -45,10 +44,6 @@ const Combat = (props) => {
 		}
 	}, [state])
 
-	useEffect(() => {
-		setPlayerHealthWidth(`${(100 * state.context.playerHealth) / classDefaultValues[character.charClass]}%`)
-	}, [state.context.playerHealth, character.charClass])
-
   return (
 		<div id="combatArea">
 			<div className="combatCover" ref={coverRef} style={{ display: `${combatStarted ? 'none' : 'flex'}`}}>
@@ -60,20 +55,18 @@ const Combat = (props) => {
 			</div>
 			<div id="combatSection" style={{ pointerEvents: combatStarted ? 'all' : 'none' }}>
 				<div id="enemyAndTextArea">
-					<Enemy enemyData={enemyData} currentHealth={state.context.enemyHealth} />
-
-					<div className="healthArea">
-						<div className="healthText">
-							{state.context.playerHealth}/{classDefaultValues[character.charClass]}
-						</div>
-						<div id="playerBar" style={{ width: playerHealthWidth }}></div>
-					</div>
-
-					<div style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto', color: 'white' }}>
+					<EnemyImageAndPlayerHealth
+						enemyData={enemyData}
+						currentEnemyHealth={state.context.enemyHealth}
+						character={character}
+						currentPlayerHealth={state.context.playerHealth}
+					/>
+					<div id="battleTextArea" style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto', color: 'white' }}>
 						{battleText?.map((text, i) => <p key={`${i}_${text[0]}`}>{text}</p>)}
 						<div ref={bottomRef}></div>
 					</div>
-					
+				</div>
+
 					{/* <h3>Stats</h3> */}
 					{/* Maybe move this to a tooltip or something */}
 					{/* <ul>
@@ -81,9 +74,6 @@ const Combat = (props) => {
 						<li>Damage: {playerWeapons[playerWeaponName].damage ?? 0}</li>
 						<li>Crit Multiplier: {playerWeapons[playerWeaponName].crit ?? 0}</li>
 					</ul> */}
-					</div>
-
-
 					{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
 					<div id="attacks">
 						<Button onClick={() => send({ type: 'attack', damage: 30 })} disabled={state.value !== 'idle'} text="Balanced Attack" />
