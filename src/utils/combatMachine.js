@@ -1,5 +1,4 @@
 import { assign, createMachine } from 'xstate';
-import { classDefaultValues } from './damageCalculations';
 
 export const combatMachine = createMachine({
   id: 'combat',
@@ -102,6 +101,11 @@ export const combatMachine = createMachine({
     throwingKnives: {
 			on: {
 				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
 					{
 						target: 'idle',
             actions: 'enemyTakeDamage'

@@ -1,13 +1,14 @@
 import { useMachine } from '@xstate/react';
 import { combatMachine } from '../../utils/combatMachine.js';
 import { useEffect, useRef, useState } from 'react';
-import { classDefaultValues, classSkills, handleMove } from '../../utils/damageCalculations.js';
+import { classDefaultValues, classSkills, damageRange, handleMove, missAndCritChance } from '../../utils/damageCalculations.js';
 import Button from '../Button.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { camelToTitle, saveGame } from '../../utils/functions.js';
 import '../css/Combat.css';
 import storylines from '../../utils/storylines.js';
 import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
+import CustomTooltip from '../Tooltip.jsx';
 
 const Combat = (props) => {
 	const { currentLevelObject, callback, supabase } = props;
@@ -40,10 +41,25 @@ const Combat = (props) => {
 
 	useEffect(() => {
 		if (state.value === 'enemyDead') {
+			const characterData = {
+				...character,
+				stats: { ...character.stats, health: state.context.playerHealth },
+				items: { ...character.items, healthPotions: state.context.healthPotions },
+				level: currentLevelObject.name
+				// NOTE: If it saves with the victory name, it immediately transitions to the next
+				// level, making it kinda jarring. Without it though, it saves at the current battle
+				// with post-battle stats also saving...
+			};
+			saveGame(dispatch, supabase, characterData)
 			setCombatFinished(true)
 		}
 		if (state.value === 'dead') {
-			const characterData = {...character, stats: { ...character.stats, health: state.context.playerHealth }, level: '00-Death' };
+			const characterData = {
+				...character,
+				stats: { ...character.stats, health: state.context.playerHealth },
+				items: { ...character.items, healthPotions: state.context.healthPotions },
+				level: '00-Death'
+			};
 			callback(storylines['00-Death'])
 			saveGame(dispatch, supabase, characterData)
 		}
@@ -58,6 +74,12 @@ const Combat = (props) => {
 			cooldown > 0 && setCooldown(cooldown - 1);
 		}
 	}
+
+
+	const damageTotals = damageRange(character, enemyData);
+	const regularMissChance = missAndCritChance(character.stats.luck, character.stats.wisdom);
+	const riskyDamageTotals = damageRange(character, enemyData, true);
+	const riskyMissAndCrit = missAndCritChance(character.stats.luck, character.stats.wisdom, 0.4)
 
   return (
 		<div id="combatArea">
@@ -93,10 +115,42 @@ const Combat = (props) => {
 					</ul> */}
 					{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
 					<div id="attacks">
-						<Button onClick={() => handleAttack('attack')} disabled={state.value !== 'idle'} text="Balanced Attack" />
-						<Button onClick={() => handleAttack('riskyStrike')} disabled={state.value !== 'idle'} text="Risky Strike" />
-						<Button onClick={() => handleAttack(classSkills[character.charClass].name)} disabled={cooldown > 0 || state.value !== 'idle'} text={`Skill: ${camelToTitle(classSkills[character.charClass].name)}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`} />
-						<Button onClick={() => send({ type: 'heal' })} disabled={state.context.healthPotions === 0 || state.value !== 'idle' || state.context.playerHealth === classDefaultValues[character.charClass]} text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`} />
+						<Button
+							onClick={() => handleAttack('attack')}
+							disabled={state.value !== 'idle'}
+							text="Balanced Attack"
+							tooltipContent={
+								<>
+									<div>Normal: <b>{damageTotals.minDamage}-{damageTotals.maxDamage}</b> damage</div>
+									<div>Critical: <b>{damageTotals.critMinDamage}-{damageTotals.critMaxDamage}</b> damage</div>
+									<div>Miss Chance: <b>{regularMissChance.missChance}</b></div>
+									<div>Crit Chance: <b>{regularMissChance.critChance}</b></div>
+								</>
+							}
+						/>
+						<Button
+							onClick={() => handleAttack('riskyStrike')}
+							disabled={state.value !== 'idle'}
+							text="Risky Strike"
+							tooltipContent={
+								<>
+									<div>Normal: <b>{riskyDamageTotals.minDamage}-{riskyDamageTotals.maxDamage}</b> damage</div>
+									<div>Critical: <b>{riskyDamageTotals.critMinDamage}-{riskyDamageTotals.critMaxDamage}</b> damage</div>
+									<div>Miss Chance: <b>{riskyMissAndCrit.missChance}</b></div>
+									<div>Crit Chance: <b>{riskyMissAndCrit.critChance}</b></div>
+								</>
+							}
+						/>
+						<Button
+							onClick={() => handleAttack(classSkills[character.charClass].name)}
+							disabled={cooldown > 0 || state.value !== 'idle'}
+							text={`Skill: ${camelToTitle(classSkills[character.charClass].name)}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`}
+						/>
+						<Button
+							onClick={() => send({ type: 'heal' })}
+							disabled={state.context.healthPotions === 0 || state.value !== 'idle' || state.context.playerHealth === classDefaultValues[character.charClass]}
+							text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`}
+						/>
 					</div>
 			</div>		
 		</div>

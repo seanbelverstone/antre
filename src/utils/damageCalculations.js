@@ -23,7 +23,8 @@ export const playerWeapons = {
 	ironAxe: { damage: 15, crit: 2 },
 	halberd: { damage: 30, crit: 1.5 },
 	blackIronLongsword: { damage: 22, crit: 2.5 },
-	warHammer: { damage: 20, crit: 2 }
+	warHammer: { damage: 20, crit: 2 },
+	throwingKnives: { damage: 7, crit: 2.5 }
 }
 
 export const enemyWeapons = {
@@ -50,7 +51,7 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 	const critChance = Math.random() <= (baseCritChance + (stats.wisdom * 0.005)); // wisdom increase the chance of a crit
 	const diceRoll = Math.ceil(Math.random() * 20);  // Roll between 1 and 20
 	const rollModifier = 1.0 + (diceRoll - 10) / 50; // Modifier between 0.91x and 1.10x
-	const damage = Math.ceil((selectedWeapon.damage + (holyBlade ? (stats.strength * stats.wisdom) : stats.strength) * rollModifier) - defense);
+	const damage = Math.ceil(((selectedWeapon.damage + (holyBlade ? (stats.strength * stats.wisdom) : stats.strength)) * rollModifier) - defense);
 	if (missChance) {
 		return { type: 'miss', value: 0 };
 	} else if (critChance) {
@@ -139,7 +140,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 	if (phase === 'throwingKnives') {
 		textFunc(prev => [...prev, 'You swiftly unleash a volley of throwing knives!'])
 		// Always hits, adds wisdom to calculation (hence true at the end)
-		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, 0, 0, true)
+		const result = damageCalculator(playerWeapons.throwingKnives, playerStats, enemyData.stats.defense, 0, 0, true)
 		const {type, value: damage} = result;
 		if (type === 'miss') {
 			textFunc(prev => [...prev, 'Your knives whizz past their target, missing narrowly!'])
@@ -198,3 +199,32 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		textFunc(prev => [...prev, 'You were slain at the hands of your foe.'])
 	}
 }
+
+export const damageRange = (character, enemyData, risky = false) => {
+	const playerWeapon = playerWeapons[character.items.weapon];
+	console.log(playerWeapon)
+	const minDamage = Math.ceil((((playerWeapon.damage + character.stats.strength) * 0.91) - enemyData.stats.defense) * (risky ? 1.8 : 1));
+	const maxDamage = Math.ceil((((playerWeapon.damage + character.stats.strength) * 1.10) - enemyData.stats.defense) * (risky ? 1.8 : 1));
+	const critMinDamage = Math.ceil(minDamage * playerWeapon.crit * (risky ? 1.8 : 1));
+	const critMaxDamage = Math.ceil(maxDamage * playerWeapon.crit * (risky ? 1.8 : 1));
+	return {
+		minDamage,
+		maxDamage,
+		critMinDamage,
+		critMaxDamage
+	}
+}
+
+export const missAndCritChance = (playerLuck, playerWisdom, extraChanceToMiss = 0) => {
+  const baseMissChance = 0.1 + extraChanceToMiss;
+  const luckReduction = playerLuck * 0.01;
+  const calculatedMissChance = Math.max(0, baseMissChance - luckReduction);
+
+	const baseCritChance = 0.15;
+  const wisdomBonus = playerWisdom * 0.005;
+  const calculatedCritChance = baseCritChance + wisdomBonus;
+  return {
+		missChance: `${calculatedMissChance * 100}%`,
+		critChance: `${calculatedCritChance * 100}%`
+	}
+};
