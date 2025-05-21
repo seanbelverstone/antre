@@ -10,10 +10,10 @@ import storylines from '../../utils/storylines.js';
 import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
 
 const Combat = (props) => {
-	const { currentLevelObject, callback, supabase, pastLevels } = props;
+	const { currentLevelObject, callback, supabase } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
-	const playerWeaponName = titleToCamel(character.items.weapon);
+	const playerWeaponName = character.items.weapon;
 
   const [state, send] = useMachine(combatMachine);
 	const [battleText, setBattleText] = useState([]);
@@ -39,11 +39,13 @@ const Combat = (props) => {
 	}, [state.value, send, character, playerWeaponName, enemyData])
 
 	useEffect(() => {
-		console.log(state);
-		if (state.value === 'enemyDead' || state.value === 'dead') {
-			state.value === 'enemyDead' ? setCombatFinished(true) : callback(storylines['00-Death'])
-			const characterData = {...character, stats: { ...character.stats, health: state.context.playerHealth } };
-			console.log(characterData);
+		if (state.value === 'enemyDead') {
+			setCombatFinished(true)
+		}
+		if (state.value === 'dead') {
+			console.log(currentLevelObject);
+			const characterData = {...character, stats: { ...character.stats, health: state.context.playerHealth }, level: '00-Death' };
+			callback(storylines['00-Death'])
 			saveGame(dispatch, supabase, characterData)
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps

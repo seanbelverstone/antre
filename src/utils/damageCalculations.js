@@ -16,6 +16,7 @@ export const classSkills = {
 export const playerWeapons = {
 	fists: { damage: 5, crit: 1.25 },
 	rustyShortsword: { damage: 10, crit: 1.5 },
+	longsword: { damage: 14, crit: 1.75 },
 	steelShortsword: { damage: 18, crit: 2 },
 	obsidianAxes: { damage: 25, crit: 2.5 },
 	dagger: { damage: 8, crit: 4 },
@@ -50,7 +51,6 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 	const diceRoll = Math.ceil(Math.random() * 20);  // Roll between 1 and 20
 	const rollModifier = 1.0 + (diceRoll - 10) / 50; // Modifier between 0.91x and 1.10x
 	const damage = Math.ceil((selectedWeapon.damage + stats.strength) * rollModifier) - defense;
-	console.log(`DAMAGE: ${damage}, BONUS DAMAGE: ${ Math.ceil(damage * (bonusDamageMultiplier * 10))}, CRITICAL BONUS: ${Math.ceil(damage * selectedWeapon.crit * (bonusDamageMultiplier * 10))} `)
 	if (missChance) {
 		return { type: 'miss', value: 0 };
 	} else if (critChance) {
@@ -62,10 +62,12 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 
 
 export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send) => {
+	const playerWeapon = playerWeapons[titleToCamel(weaponName)];
+	const enemyWeapon = enemyWeapons[titleToCamel(enemyData.weapon)];
 	// --- PLAYER MOVES ---
 	if (phase === 'attacking') {
 		textFunc(prev => [...prev, 'You strike with a Balanced Attack!'])
-		const result = damageCalculator(playerWeapons[weaponName], playerStats, enemyData.stats.defense)
+		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {
@@ -80,12 +82,11 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 			}
 		}, 1000)
 	}
-	console.log(phase);
 	if (phase === 'riskingStrike') {
 		textFunc(prev => [...prev, `You are attempting a Risky Strike, leaving yourself vulnerable!`])
 		const bonusDamageMultiplier = 0.18;
 		const extraChanceToMiss = 0.4;
-		const result = damageCalculator(playerWeapons[weaponName], playerStats, enemyData.stats.defense, bonusDamageMultiplier, extraChanceToMiss)
+		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, bonusDamageMultiplier, extraChanceToMiss)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {
@@ -112,7 +113,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 	// --- ENEMY MOVES ---
 	if (phase === 'enemyAttack') {
 		textFunc(prev => [...prev, 'The enemy attacks!'])
-		const result = damageCalculator(enemyWeapons[titleToCamel(enemyData.weapon)], enemyData.stats, playerStats.defense)
+		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {
@@ -130,7 +131,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 	if (phase === 'enemyStrongAttack') {
 		textFunc(prev => [...prev, 'The enemy is taking advantage of your failure!'])
 		const bonusDamageMultiplier = 0.13;
-		const result = damageCalculator(enemyWeapons[enemyData.weapon], enemyData.stats, playerStats.defense, bonusDamageMultiplier)
+		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense, bonusDamageMultiplier)
 		const {type, value: damage} = result;
 		setTimeout(() => {
 			if (type === 'miss') {

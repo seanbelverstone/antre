@@ -77,11 +77,11 @@ export const combatMachine = createMachine({
           {
             guard: 'isPlayerDead',
             target: 'dead',
-            actions: 'takeDoubleDamage'
+            actions: 'takeDamage'
           },
           {
             target: 'idle',
-            actions: 'takeDoubleDamage'
+            actions: 'takeDamage'
           }
         ],
       },
@@ -126,16 +126,8 @@ export const combatMachine = createMachine({
 		}),
     takeDamage: assign({
       playerHealth: (res) => {
-				console.log(res.event);
 				const damage = res.event.damage ?? 20;
         const newHealth = res.context.playerHealth - damage;
-        return newHealth <= 0 ? 0 : newHealth;
-      }
-    }),
-    takeDoubleDamage: assign({
-      playerHealth: (res) => {
-				const damage = res.event.damage ?? 20
-        const newHealth = res.context.playerHealth - Math.floor(damage * 1.5);
         return newHealth <= 0 ? 0 : newHealth;
       }
     }),

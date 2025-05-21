@@ -152,7 +152,7 @@ const CharacterCreatePage = ({ supabase }) => {
 			hands: 'None',
 			feet: 'Old boots',
 			weapon,
-			healthPotions: 0,
+			healthPotions: 1,
 			torch: 0,
 			amulet: 0
 		}
