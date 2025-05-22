@@ -153,8 +153,8 @@ const CharacterCreatePage = ({ supabase }) => {
 			feet: 'Old boots',
 			weapon,
 			healthPotions: 1,
-			torch: 0,
-			amulet: 0
+			torch: false,
+			amulet: false
 		}
 		// eslint-disable-next-line no-unused-vars
 		const { data, error } = await supabase

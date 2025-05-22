@@ -51,14 +51,14 @@ const Play = ({ supabase }) => {
 	useEffect(() => {
 		if (currentLevelObject?.modifier && currentLevelObject?.name && !pastLevels?.includes(currentLevelObject.name)) {
 			const getModifierHandlers = () => {
-				const statNames = ['strength', 'defense', 'wisdom', 'luck'];
+				const statNames = ['health', 'strength', 'defense', 'wisdom', 'luck'];
 				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
 				const handlers = {
 					gold: (value) =>
 						dispatch(
 							updateCharacterField({
 								field: 'gold',
-								value: character.gold + value
+								value: character.gold + value < 0 ? 0 : character.gold + value
 							})
 						),
 					health: (value) => {
@@ -105,7 +105,7 @@ const Play = ({ supabase }) => {
 						dispatch(
 							updateStat({
 								statName: stat,
-								value: character.stats[stat] + value,
+								value: stat === 'health' && character.stats[stat] + value > classDefaultValues[character.charClass] ? classDefaultValues[character.charClass] : character.stats[stat] + value,
 							})
 						);
 				});
@@ -185,6 +185,7 @@ const Play = ({ supabase }) => {
 						currentLevelObject={currentLevelObject}
 						choiceSelect={handleChoiceSelect}
 						pastLevels={pastLevels}
+						character={character}
 					/>
 				)}
 			</div>

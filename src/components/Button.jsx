@@ -28,7 +28,7 @@ const MyTooltip = styled(({ className, ...props }) => (
  */
 
 const Button = React.forwardRef((props, ref) => {
-	const { text, onClick, disabled, customClassName = '', id, type, tooltipContent } = props;
+	const { text = '', onClick, disabled, customClassName = '', id, type, tooltipContent, icon } = props;
 	const fullClassName = `button${customClassName ? ` ${customClassName}` : ''}${disabled ? ` disabled ` : ''}`
 
 	const containsNewline = text.includes('\n');
@@ -54,6 +54,7 @@ const Button = React.forwardRef((props, ref) => {
 				// Otherwise, render the text as a single string (backward compatibility)
 				text
 			)}
+			{icon}
 		</button>
 	)
   // Conditionally wrap the buttonContent with MyTooltip if tooltipContent is provided

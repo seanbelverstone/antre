@@ -16,14 +16,13 @@ const MyTooltip = styled(({ className, ...props }) => (
 }));
 
 export const CustomTooltip = (props) => {
-	const { children } = props;
+	const { children, tooltipTitle, tooltipContent } = props;
   return (
 		<MyTooltip
 			title={
 				<React.Fragment>
-					<Typography color="inherit">Tooltip with HTML</Typography>
-					<em>{"And here's"}</em> <b>{'some'}</b> <u>{'amazing content'}</u>.{' '}
-					{"It's very engaging. Right?"}
+					<Typography color="inherit">{tooltipTitle}</Typography>
+					{tooltipContent}
 				</React.Fragment>
 			}
 		>
