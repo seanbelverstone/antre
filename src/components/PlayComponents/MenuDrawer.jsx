@@ -9,6 +9,7 @@ import Button from '../Button';
 import { SaveButton } from '../SaveButton';
 import antreLogo from '../../assets/images/AntreCrop.png';
 import '../css/MenuDrawer.css'
+import InventoryModal from '../InventoryModal';
 
 export const MenuDrawer = (props) => {
 	const { characterData, supabase } = props;
@@ -38,7 +39,7 @@ export const MenuDrawer = (props) => {
 				>
 					<List>
 						<ListItem disablePadding>
-							<Button text="Inventory" id="inventoryButton" customClassName="menuButton"/>
+							<InventoryModal id="inventoryButton" customClassName="menuButton" character={characterData} />
 						</ListItem>
 						<ListItem disablePadding>
 							<SaveButton text="Save Game" id="saveGame" disabled customClassName="menuButton" characterData={characterData} supabase={supabase} />
