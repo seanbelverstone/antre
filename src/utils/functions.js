@@ -44,7 +44,6 @@ export const isBlacklistedChoice = (choice) => {
 
 export const handleModifierAlert = (dispatch, modifierObj) => {
 	const modifierEntries = Object.entries(modifierObj);
-	console.log(modifierEntries);
 	const messages = [];
 	if (modifierEntries[0][0] === 'torchCheck' || modifierEntries[0][0] === 'luckCheck' || modifierEntries[0][0] === 'death') return;
 	modifierEntries.forEach((mod) => {

@@ -9,6 +9,7 @@ import '../css/Combat.css';
 import storylines from '../../utils/storylines.js';
 import EnemyImageAndPlayerHealth from './EnemyImageAndPlayerHealth.jsx';
 import CustomTooltip from '../Tooltip.jsx';
+import { Checkbox, FormControlLabel, ToggleButton } from '@mui/material';
 
 const Combat = (props) => {
 	const { currentLevelObject, callback, supabase } = props;
@@ -21,6 +22,7 @@ const Combat = (props) => {
 	const [cooldown, setCooldown] = useState(0)
 	const [combatStarted, setCombatStarted] = useState(false)
 	const [combatFinished, setCombatFinished] = useState(false);
+	const [toggleTips, setToggleTips] = useState(false);
  
 	const coverRef = useRef(null);
 	const bottomRef = useRef(null);
@@ -51,7 +53,9 @@ const Combat = (props) => {
 				// with post-battle stats also saving...
 			};
 			saveGame(dispatch, supabase, characterData)
-			setCombatFinished(true)
+			setTimeout(() => {
+				setCombatFinished(true)
+			}, 2000)
 		}
 		if (state.value === 'dead') {
 			const characterData = {
@@ -111,58 +115,65 @@ const Combat = (props) => {
 						<div ref={bottomRef}></div>
 					</div>
 				</div>
-				{/* TODO: Disable tooltip slider */}
 					<div id="attacks">
 						<Button
 							onClick={() => handleAttack('attack')}
 							disabled={state.value !== 'idle'}
 							text="Balanced Attack"
-							tooltipContent={
+							tooltipContent={!toggleTips ?
 								<>
 									<div>Normal: <b>{damageTotals.minDamage}-{damageTotals.maxDamage}</b> damage</div>
 									<div>Critical: <b>{damageTotals.critMinDamage}-{damageTotals.critMaxDamage}</b> damage</div>
 									<div>Miss Chance: <b>{regularMissChance.missChance}</b></div>
 									<div>Crit Chance: <b>{regularMissChance.critChance}</b></div>
 								</>
-							}
+							: null}
 						/>
 						<Button
 							onClick={() => handleAttack('riskyStrike')}
 							disabled={state.value !== 'idle'}
 							text="Risky Strike"
-							tooltipContent={
+							tooltipContent={!toggleTips ?
 								<>
 									<div>Normal: <b>{riskyDamageTotals.minDamage}-{riskyDamageTotals.maxDamage}</b> damage</div>
 									<div>Critical: <b>{riskyDamageTotals.critMinDamage}-{riskyDamageTotals.critMaxDamage}</b> damage</div>
 									<div>Miss Chance: <b>{riskyMissAndCrit.missChance}</b></div>
 									<div>Crit Chance: <b>{riskyMissAndCrit.critChance}</b></div>
 								</>
-							}
+							: null}
 						/>
 						<Button
 							onClick={() => handleAttack(classSkills[character.charClass].name)}
 							disabled={cooldown > 0 || state.value !== 'idle'}
 							text={`Skill: ${camelToTitle(classSkills[character.charClass].name)}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`}
-							tooltipContent={
+							tooltipContent={!toggleTips ?
 								<>
 									<div>{classSkills[character.charClass].effect}</div>
 									<div>Normal: <b>{skillDamageRanges[character.charClass].minDamage}-{skillDamageRanges[character.charClass].maxDamage}</b> damage</div>
 									<div>Critical: <b>{skillDamageRanges[character.charClass].critMinDamage}-{skillDamageRanges[character.charClass].critMaxDamage}</b> damage</div>
 									{character.charClass === 'rogue' && <div>Miss Chance: <b>{regularMissChance.missChance}</b></div>}
 								</>
-							}
+							: null}
 						/>
 						<Button
 							onClick={() => send({ type: 'heal' })}
 							disabled={state.context.healthPotions === 0 || state.value !== 'idle' || state.context.playerHealth === classDefaultValues[character.charClass]}
 							text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`}
-							tooltipContent={
+							tooltipContent={!toggleTips ?
 								<>
 									<div>Healing range: <b>15-30HP</b></div>
 								</>
-							}
+							: null}
 						/>
 					</div>
+					<FormControlLabel
+						control={
+						<Checkbox
+							checked={toggleTips}
+							onChange={() => setToggleTips(!toggleTips)}
+						/>}
+						label="Disable combat tips"
+					/>
 			</div>		
 		</div>
   );
