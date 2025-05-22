@@ -1,0 +1,216 @@
+.MuiDialog-paper {
+	width: 100%;
+	border-radius: 1em !important;
+}
+
+#closeModalRow {
+	display: flex;
+	justify-content: flex-end;
+	padding-right: 1em;
+}
+
+.closeModalButton {
+	background-color: unset;
+	color: black;
+	max-width: min-content;
+	min-width: min-content;
+	border-radius: 10em;
+	padding: 0.25em 0.5em;
+	display: flex;
+	justify-content: center;
+}
+
+.fullTitle {
+  margin: 0 0 2em 0;
+	text-align: center;
+}
+
+#left,
+#right {
+  align-self: center;
+  /* margin-top: 80px; */
+}
+
+#healthArea {
+	position: relative;
+}
+
+#userBar {
+	background-color: var(--defense);
+	height: 20px;
+	position: absolute;
+	bottom: 0%;
+}
+
+/* Stats */
+#strength {
+  color: var(--strength);
+}
+
+#defense {
+  color: var(--defense);
+}
+
+#wisdom {
+  color: var(--wisdom);
+}
+
+#luck {
+  color: var(--luck);
+}
+
+#strength,
+#defense,
+#wisdom,
+#luck,
+.topStat,
+.center,
+.bottomStat,
+#topMisc,
+#bottomMisc,
+#inventoryModal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#topMisc,
+.topStat,
+.bottomStat {
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.center {
+  height: 5px;
+  align-items: center;
+}
+
+#topMisc {
+  margin-bottom: 20px;
+}
+
+#statsBlock #dialog {
+  height: min-content;
+  border: 2px black solid;
+}
+
+/* Misc items */
+#top,
+#bottom {
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.icon {
+  max-width: 6em;
+  text-align: center;
+  width: 100%;
+  margin: 5px;
+}
+
+#torch .icon {
+  margin-left: 35px;
+  width: 3em;
+}
+
+#torch .iconText {
+  margin-left: 20px;
+}
+
+.iconText {
+  width: auto;
+  text-align: center;
+}
+
+.equipmentIcon {
+  max-width: 2em;
+	margin-right: 2px;
+}
+
+.key {
+  /* text-decoration: underline; */
+	font-weight: 600;
+}
+
+#weapon,
+#head,
+#chest,
+#hands,
+#legs,
+#feet {
+  display: flex;
+  flex-direction: row;
+}
+
+.weapon-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.95em;
+  color: #555;
+	margin: -10px 0;
+}
+
+.value {
+	font-size: 0.95em;
+  color: #555;
+}
+
+.invText {
+  margin: 0 0 15px 5px;
+}
+
+/* @media screen and (max-width: 1382px) {
+  #statsBlock #dialog {
+    top: 24% !important;
+	width: 25vw;
+	height: 50vh;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  #inventoryModal {
+    width: 60vw;
+  }
+  #statsBlock #dialog {
+    top: 24% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #inventoryModal {
+    width: 70vw;
+  }
+  #statsBlock #dialog {
+    top: 27% !important;
+    right: 14% !important;
+	width: 35vw;
+    height: 45vh;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #inventoryModal {
+    width: 90vw;
+  }
+  #statsBlock #dialog {
+    top: 14% !important;
+    right: 19% !important;
+	width: 38vw;
+    height: 50vh;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #statsBlock #dialog {
+    width: 80vw;
+    right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  #statsBlock #dialog {
+    min-width: 30vw;
+    right: 0 !important;
+  }
+} */

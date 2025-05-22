@@ -202,7 +202,6 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 
 export const damageRange = (character, enemyData, risky = false, holyBlade = false) => {
 	const playerWeapon = playerWeapons[titleToCamel(character.items.weapon)];
-	console.log(enemyData.stats.defense);
 	const minDamage = Math.ceil((((playerWeapon.damage + (holyBlade ? (character.stats.strength * character.stats.wisdom) : character.stats.strength)) * 0.91) - enemyData.stats.defense) * (risky ? 1.8 : 1));
 	const maxDamage = Math.ceil((((playerWeapon.damage + (holyBlade ? (character.stats.strength * character.stats.wisdom) : character.stats.strength)) * 1.10) - enemyData.stats.defense) * (risky ? 1.8 : 1));
 	const critMinDamage = Math.ceil(minDamage * playerWeapon.crit * (risky ? 1.8 : 1));

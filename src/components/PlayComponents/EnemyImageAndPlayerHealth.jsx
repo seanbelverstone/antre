@@ -18,7 +18,7 @@ const EnemyImageAndPlayerHealth = (props) => {
 
 	return (
 		<div id="enemyArea">
-			<div id="enemyName">{enemyData.name}</div>
+			<div id="enemyName">{enemyData.name.replace('_', ' ')}</div>
 			<div className="healthArea">
 				<div className="healthText">
 					{currentEnemyHealth ?? enemyData.stats.health}/{enemyData.stats.health}

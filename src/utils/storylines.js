@@ -614,7 +614,7 @@ const storylines = {
 		text: "Wheeling around, you see a giant cave lizard now blocking the way you came in. \n\nIts big claws and sharp fangs are menacing enough, although its milky-white eyes let you know that this creature has been down here for so long that it has been rendered blind. It looks like it now relies on smell and sound to find its prey, which explains the snuffling sound. These goblins never knew what was coming. \n\nSmelling your tasty skin, it lunges to attack you.",
 		modifier: { fight: true },
 		enemy: {
-				name: "BLIND LIZARD",
+				name: "BLIND_LIZARD",
 				stats: {
 					health: 90,
 					strength: 4,
@@ -694,7 +694,7 @@ const storylines = {
 		text: "Gritting your teeth and wishing you'd left sooner, you ready to attack your new foe.",
 		modifier: { fight: true },
 		enemy: {
-				name: "BLIND LIZARD",
+				name: "BLIND_LIZARD",
 				stats: {
 					health: 90,
 					strength: 4,
@@ -1209,7 +1209,7 @@ const storylines = {
 		text: "Coughing, spluttering, and burning from the colossal worm's intense stomach acid, you stand up. \n\nYou are in a vast chasm, created by the creature that looms in front of you. Most of it is obscured by the darkness, although the ceiling is so high up that some sunlight breaks through, illuminating its face. An eyeless monstrosity faces you, with a massive circular mouth. The teeth were so sharp and strong, that it must have burrowed for miles. \n\nHolding your weapon at the ready, you stand and face this impossibly large beast, trying not to think about your chances of survival.",
 		modifier: { fight: true },
 		enemy: {
-				name: "COLOSSAL WORM",
+				name: "COLOSSAL_WORM",
 				stats: {
 					health: 180,
 					strength: 8,
@@ -1392,7 +1392,7 @@ const storylines = {
 		text: "During your journey down this path, you notice a pulsating light emanating from the end of the room. The closer you get, the warmer it becomes. It's a nice change from the chilly caves, however you are now producing a considerable amount of sweat. Finally, you reach the end of the path and enter into a swelteringly hot room. There, you see it. \n\nA juvenile dragon (arguably more dangerous than an adult, as it has no control of its flames), sits across from you waiting for its next prey to arrive. One eye flicks open, and the dragon lets out an almighty roar. The path behind you shudders, and collapses. No way out now. \n\nYou ready for attack.",
 		modifier: { fight: true },
 		enemy: {
-				name: "JUVENILE DRAGON",
+				name: "JUVENILE_DRAGON",
 				stats: {
 					health: 70,
 					strength: 3,
@@ -1852,7 +1852,7 @@ const storylines = {
 		text: "Noticing that the soldiers defending the gates are being beaten back, you quickly move over to assist them. You deflect a few blows from nearby spearmen, and just manage to dodge out of the way as a huge war hammmer slams into the ground beside you. It's lifted from the crater it created by its wielder, a monstrous looking knight encased in a thick scarlet armor. The knight grunts, and readies for another swing.",
 		modifier: { fight: true },
 		enemy: {
-				name: "SCARLET KNIGHT",
+				name: "SCARLET_KNIGHT",
 				stats: {
 					health: 50,
 					strength: 4,
@@ -2494,7 +2494,7 @@ const storylines = {
 		text: "\"I do not have time to answer your foolish questions, mortal,\" the skeleton croaks. \"Prepare to die.\" The knight locks its spear to its side with both bony hands, and charges.",
 		modifier: { fight: true },
 		enemy: {
-				name: "Skeletal Knight",
+				name: "SKELETAL_KNIGHT",
 				stats: {
 					health: 140,
 					strength: 6,
@@ -2518,7 +2518,7 @@ const storylines = {
 		text: "Gripping your weapon tightly, you stare at the knight with determination in your eyes. You've made it this far, and this is just one last hurdle in your way. \n\n\"It appears that you understand the gravity of your situation. Very well.\" The skeleton steps forward. \"You will die here, and no-one will remember you.\" \n\nThe knight charges.",
 		modifier: { fight: true },
 		enemy: {
-				name: "SKELETAL KNIGHT",
+				name: "SKELETAL_KNIGHT",
 				stats: {
 					health: 140,
 					strength: 6,
@@ -2607,7 +2607,7 @@ const storylines = {
 		text: "Holding your nose, you decide to inspect the room that you find yourself in. The water and waste has long since stopped running, and the ground is heavily soiled. You swallow, and decide to dig through a pile of unidentified material that has piled up in front of a sewage gate. \n\nYour fingers brush against something hard, and you grab at it, thinking it may be some gold or other loot. \n\nYou're wrong. \nThe teeth of a giant rat embed themselves in your forearm, and you recoil back in horror as it leaps out of its hiding place. As you regain your balance, it lunges at you with gnashing teeth.",
 		modifier: { fight: true },
 		enemy: {
-				name: "Giant Rat",
+				name: "GIANT_RAT",
 				stats: {
 					health: 60,
 					strength: 4,
@@ -2773,7 +2773,7 @@ const storylines = {
 		text: "You resume your journey through the tunnel and it finally reaches a large circular room. Luckily, the bars that would have normally blocked your exit look like they had been torn from their hinges, and now lay to the side. This room is much warmer than the rest of the sewer. \n\nLooking around, you see mounds of something, obscured by the low light, tucked towards the edges of the room. In the gloomy distance, you hear an all too familiar growl. Suddenly, the sconces on the walls ignite with a magical flame, illuminating the beast before you. \n\nA manticore glares at you with its fierce yellow eyes. You had only heard about these in stories told to children, and wonder if you are dreaming. With a hideously human-looking face, it almost looks like it is grinning at you. It steps forward, putting one paw in front of the other, and flexes its bat-like wings. You also catch a glimpse of a scaly tail, tipped with an enormous barb. The manticore shakes its mane and stops a few feet from you, bearing its large fangs. White hot runes glow underneath the fur of the manticore's body, and you realize that it must have used magic to illuminate the room. \n\nA magic manticore. \n\nSurely you must be dreaming.",
 		modifier: { fight: true },
 		enemy: {
-				name: "RUNED MANTICORE",
+				name: "RUNED_MANTICORE",
 				stats: {
 					health: 120,
 					strength: 6,
@@ -2828,7 +2828,7 @@ const storylines = {
 		text: "\"So, you're finally awake,\" laughs the voice. \"I could have killed you while you slept, but where's the honor in that?\" \n\nLooking up you see that the voice belongs to a skeletal figure, who has some kind of animal fur draped over its shoulders. It wields a jagged whip at its waist, and standing next to it is... the manticore you killed. \n\nYou can clearly see the wounds that you inflicted upon its human face and its fur is soaked in its own blood, however, its eyes are now glowing with a blue fire. \"I don't appreciate people murdering my children,\" the necro-beastmaster barks, its face now stern. \"It is always such a pain to bring them back.\" The skeleton raises its whip, gives it an almighty crack, and raises a long bony finger in your direction. \n\n\"Attack\". \n\nThe undead manticore leaps towards you.",
 		modifier: { fight: true },
 		enemy: {
-				name: "UNDEAD MANTICORE",
+				name: "UNDEAD_MANTICORE",
 				stats: {
 					health: 80,
 					strength: 4,
@@ -2847,7 +2847,7 @@ const storylines = {
 		text: "You strike the manticore down once more, but this time you make sure to obliterate its head with a firm stomp of your boot. Hopefully that should stop it from coming back again. \n\n\"MY CHILD!\" screeches the beastmaster. \"I am going to make you suffer, adventurer. Your journey ends here!\"",
 		modifier: { fight: true },
 		enemy: {
-				name: "NECRO BEASTMASTER",
+				name: "NECRO_BEASTMASTER",
 				stats: {
 					health: 110,
 					strength: 5,
@@ -2882,7 +2882,7 @@ const storylines = {
 		text: "Looking around, it doesn't seem like there is an exit in this room. Surely it couldn't be a dead end? A bright white light, much like the ones that covered the now deceased manticore, emits from the end of the room. A skeletal figure steps through, a beast's fur draped over its shoulders and a jagged whip hanging by its side. \n\n\"You foul beast!\" cries the skeleton as it steps through the portal. \"You have killed one of my most favorite children. Once I have taken your life, I will make sure that its resurrected form will feast on your corpse!\" The necro-beastmaster uncoils its whip, and unleashes an almighty crack. \"You will suffer before the end.\" \n\nThe skeleton attacks.",
 		modifier: { fight: true },
 		enemy: {
-				name: "NECRO BEASTMASTER",
+				name: "NECRO_BEASTMASTER",
 				stats: {
 					health: 160,
 					strength: 5,
