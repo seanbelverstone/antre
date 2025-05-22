@@ -127,6 +127,9 @@ export const campaignLuckCheck = (luck, eventNumber) => {
   const hangPullUp = '28baab-Pull up';
   const gapSuccess = '28bab-Gap Success';
 
+	const blindLizardDeath = '05bac-Lizard Death';
+	const blindLizardSuccess = '05bad-Lizard Success';
+
   // Story 1 is Dark path traps
   if (eventNumber === 1) {
     const targetNumber = 4;
@@ -157,7 +160,13 @@ export const campaignLuckCheck = (luck, eventNumber) => {
     const targetNumber = 5;
     if (totalLuck <= targetNumber - 2) return slipToHang;
     else return gapSuccess;
-  }
+
+	// Story 6 is the Blind Lizard hiding luck check
+  } else if (eventNumber === 6) {
+		const targetNumber = 3;
+		if (totalLuck <= targetNumber) return blindLizardDeath;
+    else return blindLizardSuccess;
+	}
 }
 
 export const titleToCamel = (title) => {
