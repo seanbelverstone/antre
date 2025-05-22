@@ -111,6 +111,7 @@ const Combat = (props) => {
 						<div ref={bottomRef}></div>
 					</div>
 				</div>
+				{/* TODO: Disable tooltip slider */}
 					<div id="attacks">
 						<Button
 							onClick={() => handleAttack('attack')}
