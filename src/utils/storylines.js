@@ -605,7 +605,7 @@ const storylines = {
 				},
 				{
 						label: "Keep Hiding",
-						target: "05bab-Lizard Death" // TODO: Add a luck check here, if successful maybe get a stab on the lizard reducing its strength
+						target: "09bab-Check Luck" // TODO: Add a luck check here, if successful maybe get a stab on the lizard reducing its strength
 				}
 		]
 	},
@@ -628,8 +628,38 @@ const storylines = {
 					target: "06-Lizard Victory"
 			}
 	},
-	'05bab-Lizard Death': {
-	  name: '05bab-Lizard Death',
+	'09bab-Check Luck': {
+	  name: '09bab-Check Luck',
+		text: "Checking luck...",
+		modifier: {
+			luckCheck: true,
+			event: 6
+		}
+	},
+	'05bad-Lizard Success': {
+		name: '05bad-Lizard Success',
+		text: 'You deftly slide your body behind a corner to hide from the blind creature. As its snuffling gets closer, you hold your breath and try to stay as still as possible.\n\nAfter what feels like an eternity, the lizard eventually loses interest and wanders away, presumably into its den. While you wait for the sound of its heavy footsteps to fade, you consider your options.',
+		options: [
+				{
+						label: "Relight fire",
+						target: "06a-Relight Fire"
+				},
+				{
+						label: "Continue down corridor",
+						target: "06b-Corridor"
+				},
+				{
+						label: "Long Room Search",
+						target: "06c-Long Search"
+				},
+				{
+						label: "Quick room search",
+						target: "06d-Quick Search"
+				}
+		]
+	},
+	'05bac-Lizard Death': {
+	  name: '05bac-Lizard Death',
 		text: "You quickly whip your body around the corner, in an attempt to hide from the lizard, but you have no such luck. It easily tracks you down by your scent and speeds round the corner, pouncing on you and clamping its jaws on your throat. \n\nKnocking you down, the giant lizard bites down with crushing jaws. The last thing you hear before you die is your own gurgling screams.",
 		modifier: { death: true }
 	},
@@ -664,7 +694,7 @@ const storylines = {
 	},
 	'06b-Corridor': {
 	  name: '06b-Corridor',
-		text: "You continue to walk down the well lit corridor, hoping that any more of those vile lizards will be dissuaded by the light. You press on.",
+		text: "You continue to walk down the well lit corridor, hoping that any more of those vile lizards will be dissuaded by what remains of the light. You press on.",
 		modifier: {},
 		options: [
 				{
@@ -679,7 +709,8 @@ const storylines = {
 		modifier: {
 			weapon: "Steel shortsword",
 			chest: "Leather armor",
-			defense: 2,
+			feet: "Iron boots",
+			defense: 4,
 			gold: 20
 		},
 		options: [
@@ -710,9 +741,10 @@ const storylines = {
 	},
 	'06d-Quick Search': {
 	  name: '06d-Quick Search',
-		text: "You do a quick scour of the room and manage to find a few gold pieces, and one of the weapons that lay close to the goblins. \n\nMaking sure not to stay for too long in the room, you dart out and continue down the well lit hallway.",
+		text: "You do a quick scour of the room and manage to find a few gold pieces, and oddly, a pair of boots that fit you perfectly. \n\nMaking sure not to stay for too long in the room, you dart out and continue down the well lit hallway.",
 		modifier: {
-			weapon: "Steel shortsword",
+			feet: "Iron boots",
+			defense: 2,
 			gold: 3
 		},
 		options: [
