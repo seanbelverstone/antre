@@ -12,7 +12,7 @@ import CustomTooltip from '../Tooltip.jsx';
 import { Checkbox, FormControlLabel, ToggleButton } from '@mui/material';
 
 const Combat = (props) => {
-	const { currentLevelObject, callback, supabase } = props;
+	const { currentLevelObject, callback, supabase, pastLevels } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
 	const playerWeaponName = character.items.weapon;
@@ -47,7 +47,8 @@ const Combat = (props) => {
 				...character,
 				stats: { ...character.stats, health: state.context.playerHealth },
 				items: { ...character.items, healthPotions: state.context.healthPotions },
-				level: currentLevelObject.name
+				level: currentLevelObject.name,
+				pastLevels: pastLevels
 				// NOTE: If it saves with the victory name, it immediately transitions to the next
 				// level, making it kinda jarring. Without it though, it saves at the current battle
 				// with post-battle stats also saving...
@@ -62,7 +63,8 @@ const Combat = (props) => {
 				...character,
 				stats: { ...character.stats, health: state.context.playerHealth },
 				items: { ...character.items, healthPotions: state.context.healthPotions },
-				level: '00-Death'
+				level: '00-Death',
+				pastLevels: pastLevels
 			};
 			callback(storylines['00-Death'])
 			saveGame(dispatch, supabase, characterData)

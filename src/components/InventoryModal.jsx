@@ -103,26 +103,26 @@ export default function InventoryModal(props) {
 								<section id="topMisc">
 									<div id="torch">
 										<img className="icon" src={invImages.torch} />
-										<div className="iconValue" id="torchValue">{torch ? <CheckIcon /> : "X"}</div>
+										<div className="iconValue" id="torchValue" style={{ backgroundColor: torch ? 'var(--defense)' : 'var(--strength)'}}>{torch ? <CheckIcon id="checkIcon"/> : "X"}</div>
 										<div className="iconText">Torch</div>
 									</div>
 
 									<div id="amulet">
 										<img className="icon" src={invImages.amulet} />
-										<div className="iconValue" id="amuletValue">{amulet ? <CheckIcon /> : "X"}</div>
+										<div className="iconValue" id="amuletValue" style={{ backgroundColor: amulet ? 'var(--defense)' : 'var(--strength)'}}>{amulet ? <CheckIcon /> : "X"}</div>
 										<div className="iconText">Amulet</div>
 									</div>
 								</section>
 								<section id="bottomMisc">
 									<div id="healthPotion">
 										<img className="icon" src={invImages.healthPotion} />
-										<div className="iconValue" id="healthPotionValue">{healthPotions}</div>
+										<div className="iconValue" id="healthPotionValue" style={{ backgroundColor: healthPotions === 0 ? 'var(--strength)' : 'var(--defense)'}}>{healthPotions}</div>
 										<div className="iconText">Health Potions</div>
 									</div>
 
 									<div id="gold">
 										<img className="icon" src={invImages.gold} />
-										<div className="iconValue" id="goldValue">{gold}</div>
+										<div className="iconValue" id="goldValue" style={{ backgroundColor: gold === 0 ? 'var(--strength)' : 'var(--defense)'}}>{gold}</div>
 										<div className="iconText">Gold</div>
 									</div>
 								</section>
@@ -134,14 +134,10 @@ export default function InventoryModal(props) {
 								<img className="equipmentIcon" src={invImages.sword} />
 								<div className="invText">
 									<div className="key">Weapon</div>
-									<div>{camelToTitle(weapon)}</div>
-									<div className="weapon-stats">
-										<p>
-											<span className="stat-label">Damage:</span> {playerWeapons[weaponName].damage}
-										</p>
-										<p>
-											<span className="stat-label">Crit:</span> {playerWeapons[weaponName].crit}x
-										</p>
+									<div className="value">{camelToTitle(weapon)}</div>
+									<div className="weaponStats">
+										<span className="stat-label">Damage: {playerWeapons[weaponName].damage}</span> 
+										<span className="stat-label">Crit: {playerWeapons[weaponName].crit}x</span>
 									</div>
 								</div>
 							</div>

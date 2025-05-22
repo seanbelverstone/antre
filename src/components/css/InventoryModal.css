@@ -20,6 +20,10 @@
 	justify-content: center;
 }
 
+.MuiDialogContent-root {
+	padding: 0 0 20px 0;
+}
+
 .fullTitle {
   margin: 0 0 2em 0;
 	text-align: center;
@@ -114,6 +118,10 @@
   width: 3em;
 }
 
+#checkIcon {
+	margin: -5px;
+}
+
 #torch .iconText {
   margin-left: 20px;
 }
@@ -124,7 +132,6 @@
 }
 
 .iconValue {
-	background-color: var(--primary);
 	color: white;
 	padding: 4px 10px;
 	border-radius: 10em;
@@ -158,17 +165,14 @@
 	border: solid black 5px;
   color: white;
   font-weight: bold;
-  border-radius: 50%; /* Makes it a circle */
-  padding: 0.2em; /* Adjust padding to make it look good */
-  min-width: 1.5em; /* Ensures it's a circle even for single digits */
+  border-radius: 50%;
+  padding: 0.2em;
+  min-width: 1.5em;
   text-align: center;
-  line-height: 1.5em; /* Centers text vertically in the circle */
+  line-height: 1.5em;
 
-  /* z-index ensures it's on top of the icon */
   z-index: 1;
-  /* Optional: Adjust margin to fine-tune position relative to the icon */
-  margin-top: -5px; /* Pull it up slightly */
-  /* margin-right: -5px; Pull it right slightly */
+  margin-top: -5px;
 }
 
 .iconText {
@@ -185,7 +189,7 @@
 
 .key {
   /* text-decoration: underline; */
-	font-weight: 600;
+	font-weight: 700;
 }
 
 #weapon,
@@ -198,12 +202,11 @@
   flex-direction: row;
 }
 
-.weapon-stats {
+.weaponStats {
   display: flex;
-  gap: 15px;
-  font-size: 0.95em;
+	flex-direction: column;
+  font-size: 0.8em;
   color: #555;
-	margin: -10px 0;
 }
 
 .value {
