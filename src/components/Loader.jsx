@@ -13,9 +13,9 @@ const Loader = (props) => {
 		}}>
 			<div>
 				<img
-					id="poppyLoader"
+					id="loader"
 					src={loadingImage}
-					alt="Poppy's loading head"
+					alt="A rotating image of the game's icon to indicate loading"
 				/>
 			</div>
 		</div>

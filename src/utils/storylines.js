@@ -1,3 +1,5 @@
+// {{weapon}} allows you to dynamically insert values here
+
 const storylines = {
 	'01-Start': {
 		name: '01-Start',
@@ -119,7 +121,7 @@ const storylines = {
 	'01bc-Bargain': {
 	  name: '01bc-Bargain',
 		text: "Holding the rusty sword loosely in your hand, you stand your ground as the goblins approach. As they enter the doorway, the stop in their tracks. \n\n\"Cor, look at this one. He looks ready for battle!\" \n\nKnowing that all goblins love a good deal, you hold up your hands and explain that you'd rather offer them your sword. \n\n\"That thing doesn't look like it's worth the dirt under my nails\", the goblin sneers. \"Tell ya what. We'll take your sword, in exchange for your life. Sound good? Good.\" \n\nAnd with that, the goblins snatch up your weapon and disappear from the way they came. Damn. That weapon could have been useful. At least you're still breathing.",
-		modifier: { weapon: "No weapon" },
+		modifier: { weapon: "fists" },
 		options: [
 				{
 						label: "Return to the task at hand",
@@ -148,35 +150,19 @@ const storylines = {
 	},
 	'01bd-Goblin Battle': {
 	  name: '01bd-Goblin Battle',
-		text: "Gripping your sword confidently, you stand your ground. Two goblins enter the cave and stop in their tracks. \n\n\"This one looks feisty!\", the uglier one cackles. The goblin murmurs something to its partner, who runs off down the tunnel from which they entered. \n\n\"Don't worry sunshine, I'll deal with you myself.\" The goblin unsheathes a sharp looking dagger, and steps forward to attack.",
+		text: "You shift to a battle stance as two goblins enter the cave. They stop in their tracks. \n\n\"This one looks feisty!\", the uglier one cackles. The goblin murmurs something to its partner, who runs off down the tunnel from which they entered. \n\n\"Don't worry sunshine, I'll deal with you myself.\" The goblin unsheathes a sharp looking dagger, and steps forward to attack.",
 		modifier: { fight: true },
 		enemy: {
 				name: "GOBLIN",
-				health: 40,
-				strength: 2,
-				defense: 2,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 40,
+					strength: 2,
+					defense: 2,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "dagger"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "01bda-Goblin Victory"
 		}
@@ -254,23 +240,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SKELETON",
-				health: 40,
-				strength: 1,
-				defense: 2,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 40,
+					strength: 1,
+					defense: 2,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "iron axe"
 		},
-		options: [
-				{
-						label: "Normal Attack"
-			},					{
-						label: "Special Attack"
-			},					{
-						label: "Use health potion"
-			},					{
-						label: "Use skill"
-			}			],
 		victory: {
 				target: "02aaa-Skeleton Victory"
 		}
@@ -279,9 +257,9 @@ const storylines = {
 	  name: '02aaa-Skeleton Victory',
 		text: "Upon your last attack, the skeleton falls apart and its bones clatter to the ground. Noticing that the skeleton had a superior weapon, you pick up the axe that it was wielding and leave the room behind you.",
 		modifier: {
-							  weapon: "Iron Axe",
-								wisdom: 1
-							},
+			weapon: "Iron Axe",
+			wisdom: 1
+		},
 		options: [
 				{
 						label: "Return to the room",
@@ -634,26 +612,18 @@ const storylines = {
 	'05baa-Lizard Fight': {
 	  name: '05baa-Lizard Fight',
 		text: "Wheeling around, you see a giant cave lizard now blocking the way you came in. \n\nIts big claws and sharp fangs are menacing enough, although its milky-white eyes let you know that this creature has been down here for so long that it has been rendered blind. It looks like it now relies on smell and sound to find its prey, which explains the snuffling sound. These goblins never knew what was coming. \n\nSmelling your tasty skin, it lunges to attack you.",
-			modifier: { fight: true },
-			enemy: {
-					name: "BLIND LIZARD",
+		modifier: { fight: true },
+		enemy: {
+				name: "BLIND LIZARD",
+				stats: {
 					health: 90,
 					strength: 4,
 					defense: 2,
 					wisdom: 1,
 					luck: 2,
-					weapon: "teeth"
+				},
+				weapon: "teeth"
 			},
-			options: [
-					{
-							label: "Normal Attack"
-				},					{
-							label: "Special Attack"
-				},					{
-							label: "Use health potion"
-				},					{
-							label: "Use skill"
-				}			],
 			victory: {
 					target: "06-Lizard Victory"
 			}
@@ -725,23 +695,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "BLIND LIZARD",
-				health: 90,
-				strength: 4,
-				defense: 2,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 90,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "teeth"
 		},
-		options: [
-				{
-						label: "Normal Attack"
-			},					{
-						label: "Special Attack"
-			},					{
-						label: "Use health potion"
-			},					{
-						label: "Use skill"
-			}			],
 		victory: {
 				target: "06ca-Second Lizard Victory"
 		}
@@ -1248,23 +1210,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "COLOSSAL WORM",
-				health: 180,
-				strength: 8,
-				defense: 5,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 180,
+					strength: 8,
+					defense: 5,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "teeth"
 		},
-		options: [
-				{
-						label: "Normal Attack"
-			},					{
-						label: "Special Attack"
-			},					{
-						label: "Use health potion"
-			},					{
-						label: "Use skill"
-			}			],
 		victory: {
 				target: "11-Worm Victory"
 		}
@@ -1439,31 +1393,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "JUVENILE DRAGON",
-				health: 70,
-				strength: 3,
-				defense: 3,
-				wisdom: 4,
-				luck: 2,
+				stats: {
+					health: 70,
+					strength: 3,
+					defense: 3,
+					wisdom: 4,
+					luck: 2,
+				},
 				weapon: "claws"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "15a-Dragon Victory"
 		}
@@ -1810,7 +1748,7 @@ const storylines = {
 	  name: '18ba-Weapon',
 		text: "Raising your weapon over the top of your head, you smash it against the bars of the prison. The bars, clearly more durable than you expected, cause your weapon to shatter into a thousand fragments. Perhaps this wasn't the best idea.",
 		modifier: {
-			weapon: "No weapon",
+			weapon: "fists",
 		},
 		options: [
 				{
@@ -1873,31 +1811,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "KNIGHT",
-				health: 50,
-				strength: 3,
-				defense: 3,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 50,
+					strength: 3,
+					defense: 3,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "longsword"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "20aa-Knight Interim"
 		}
@@ -1931,31 +1853,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SCARLET KNIGHT",
-				health: 50,
-				strength: 4,
-				defense: 5,
-				wisdom: 1,
-				luck: 2,
+				stats: {
+					health: 50,
+					strength: 4,
+					defense: 5,
+					wisdom: 1,
+					luck: 2,
+				},
 				weapon: "War Hammer"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "20aaaa-War Victory"
 		}
@@ -1966,31 +1872,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "PIKEMAN",
-				health: 50,
-				strength: 4,
-				defense: 2,
-				wisdom: 1,
-				luck: 4,
+				stats: {
+					health: 50,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 4,
+				},
 				weapon: "Pike"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "20aaaa-War Victory"
 		}
@@ -2001,31 +1891,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "INFANTRY",
-				health: 50,
-				strength: 2,
-				defense: 2,
-				wisdom: 2,
-				luck: 6,
+				stats: {
+					health: 50,
+					strength: 2,
+					defense: 2,
+					wisdom: 2,
+					luck: 6,
+				},
 				weapon: "Axe"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "20aaaa-War Victory"
 		}
@@ -2036,31 +1910,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SWORDSMAN",
-				health: 50,
-				strength: 10,
-				defense: 1,
-				wisdom: 1,
-				luck: 1,
+				stats: {
+					health: 50,
+					strength: 10,
+					defense: 1,
+					wisdom: 1,
+					luck: 1,
+				},
 				weapon: "sword"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "20aaaa-War Victory"
 		}
@@ -2637,31 +2495,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "Skeletal Knight",
-				health: 140,
-				strength: 6,
-				defense: 5,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 140,
+					strength: 6,
+					defense: 5,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "War Spear"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "25-Skeletal Knight End"
 		}
@@ -2677,31 +2519,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "SKELETAL KNIGHT",
-				health: 140,
-				strength: 6,
-				defense: 5,
-				wisdom: 3,
-				luck: 3,
+				stats: {
+					health: 140,
+					strength: 6,
+					defense: 5,
+					wisdom: 3,
+					luck: 3,
+				},
 				weapon: "War Spear"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "25-Skeletal Knight End"
 		}
@@ -2782,31 +2608,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "Giant Rat",
-				health: 60,
-				strength: 4,
-				defense: 3,
-				wisdom: 1,
-				luck: 3,
+				stats: {
+					health: 60,
+					strength: 4,
+					defense: 3,
+					wisdom: 1,
+					luck: 3,
+				},
 				weapon: "Teeth"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "27ba-Giant Rat Victory"
 		}
@@ -2964,31 +2774,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "RUNED MANTICORE",
-				health: 120,
-				strength: 6,
-				defense: 4,
-				wisdom: 5,
-				luck: 4,
+				stats: {
+					health: 120,
+					strength: 6,
+					defense: 4,
+					wisdom: 5,
+					luck: 1,
+				},
 				weapon: "Rune Strike"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "30-Manticore Victory"
 		}
@@ -3035,31 +2829,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "UNDEAD MANTICORE",
-				health: 80,
-				strength: 4,
-				defense: 3,
-				wisdom: 1,
-				luck: 2,
-				weapon: "Rune Strike"
+				stats: {
+					health: 80,
+					strength: 4,
+					defense: 3,
+					wisdom: 1,
+					luck: 2,
+				},
+				weapon: "Plague Rune Strike"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "32a-Undead Manticore Victory"
 		}
@@ -3070,31 +2848,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "NECRO BEASTMASTER",
-				health: 110,
-				strength: 5,
-				defense: 3,
-				wisdom: 6,
-				luck: 2,
+				stats: {
+					health: 110,
+					strength: 5,
+					defense: 3,
+					wisdom: 6,
+					luck: 2,
+				},
 				weapon: "Bladed Whip"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "33-Beastmaster End"
 		}
@@ -3121,31 +2883,15 @@ const storylines = {
 		modifier: { fight: true },
 		enemy: {
 				name: "NECRO BEASTMASTER",
-				health: 160,
-				strength: 5,
-				defense: 3,
-				wisdom: 6,
-				luck: 2,
+				stats: {
+					health: 160,
+					strength: 5,
+					defense: 3,
+					wisdom: 6,
+					luck: 2,
+				},
 				weapon: "Bladed Whip"
 		},
-		options: [
-				{
-						label: "Normal Attack",
-						target: "normal"
-				},
-				{
-						label: "Special Attack",
-						target: "special"
-				},
-				{
-						label: "Use health potion",
-						target: "potion"
-				},
-				{
-						label: "Use skill",
-						target: "skill"
-				}
-		],
 		victory: {
 				target: "33-Beastmaster End"
 		}
@@ -3160,6 +2906,11 @@ const storylines = {
 						target: "Main Menu"
 				}
 		]
+	},
+	'00-Death': {
+	  name: '00-Death',
+		text: "Despite your best efforts, you have fallen at the hands of your foe.",
+		modifier: { death: true }
 	}
 }
 

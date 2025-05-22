@@ -11,8 +11,15 @@ export const combatMachine = createMachine({
   states: {
     idle: {
       on: {
+				startBattle: {
+					target: 'idle',
+					actions: 'initializeContext'
+				},
         attack: 'attacking',
-        defend: 'enemyWeakAttack',
+        riskyStrike: 'riskingStrike',
+				boneCrush: 'crushingBone',
+				holyBlade: 'holyingBlade',
+				throwKnives: 'throwingKnives',
         heal: 'healing'
       },
     },
@@ -31,46 +38,111 @@ export const combatMachine = createMachine({
 				]
 			}
 		},
-    enemyAttack: {
-      on: {
-        hit: [
-          {
-            guard: 'isPlayerDead',
-            target: 'dead',
-            actions: 'takeDamage'
-          },
-          {
-            target: 'idle',
-            actions: 'takeDamage'
-          }
-        ],
-      },
-    },
-    enemyWeakAttack: {
-      on: {
-        hit: [
-          {
-            guard: 'isPlayerDead',
-            target: 'dead',
-            actions: 'takeReducedDamage'
-          },
-          {
-            target: 'idle',
-            actions: 'takeReducedDamage'
-          }
-        ],
-      },
-    },
+		riskingStrike : {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				],
+				miss: [
+					{
+						target: 'enemyStrongAttack'
+					}
+				]
+			}
+		},
     healing: {
-      on: {
-        healed: [
-          {
-            target: 'idle',
+			on: {
+				healed: [
+					{
+						target: 'idle',
             actions: 'healPlayer'
           }
 				]
       },
     },
+    crushingBone: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				]
+      },
+    },
+		holyingBlade: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'enemyAttack',
+						actions: 'enemyTakeDamage'
+					}
+				]
+			}
+		},
+    throwingKnives: {
+			on: {
+				hit: [
+					{
+						guard: 'isEnemyDead',
+						target: 'enemyDead',
+						actions: 'enemyTakeDamage'
+					},
+					{
+						target: 'idle',
+            actions: 'enemyTakeDamage'
+          }
+				]
+      },
+    },
+		enemyAttack: {
+			on: {
+				hit: [
+					{
+						guard: 'isPlayerDead',
+						target: 'dead',
+						actions: 'takeDamage'
+					},
+					{
+						target: 'idle',
+						actions: 'takeDamage'
+					}
+				],
+			},
+		},
+		enemyStrongAttack: {
+			on: {
+				hit: [
+					{
+						guard: 'isPlayerDead',
+						target: 'dead',
+						actions: 'takeDamage'
+					},
+					{
+						target: 'idle',
+						actions: 'takeDamage'
+					}
+				],
+			},
+		},
     dead: {
       type: 'final',
     },
@@ -80,18 +152,19 @@ export const combatMachine = createMachine({
   }
 }, {
   actions: {
+		initializeContext: assign((res) => {
+		const { character, enemyData } = res.event.data;
+		return {
+				playerHealth: character.stats.health,
+				enemyHealth: enemyData.stats.health,
+				healthPotions: character.items.healthPotions,
+				// Initialize other context values from Redux data
+				};
+		}),
     takeDamage: assign({
       playerHealth: (res) => {
-				console.log(res.event);
 				const damage = res.event.damage ?? 20;
         const newHealth = res.context.playerHealth - damage;
-        return newHealth <= 0 ? 0 : newHealth;
-      }
-    }),
-    takeReducedDamage: assign({
-      playerHealth: (res) => {
-				const damage = res.event.damage ?? 20
-        const newHealth = res.context.playerHealth - (Math.floor(damage / 2));
         return newHealth <= 0 ? 0 : newHealth;
       }
     }),
@@ -99,12 +172,15 @@ export const combatMachine = createMachine({
 			playerHealth: (res) => {
 				const healValue = res.event.healValue ?? 15
 				const newHealth = res.context.playerHealth + healValue;
-				return newHealth >= 100 ? 100 : newHealth;
+				return newHealth >= res.event.maxHealth ? res.event.maxHealth : newHealth;
 			},
 			healthPotions: (res) => {
 				const remainingPotions = res.context.healthPotions - 1
 				return remainingPotions;
 			}
+		}),
+		useSkill: assign({
+			
 		}),
 		enemyTakeDamage: assign({
 			enemyHealth: (res) => {

@@ -23,10 +23,6 @@ const CharacterSelectPage = (props) => {
 		}
 	}, [character, navigate]);
 
-	window.onbeforeunload = function () {
-		return false;
-	}
-
 	const dispatch = useDispatch();
 
 	const getCharacters = useCallback(async () => {
