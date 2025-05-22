@@ -58,7 +58,7 @@ const Play = ({ supabase }) => {
 						dispatch(
 							updateCharacterField({
 								field: 'gold',
-								value: character.gold + value
+								value: character.gold + value < 0 ? 0 : character.gold + value
 							})
 						),
 					health: (value) => {
@@ -101,14 +101,13 @@ const Play = ({ supabase }) => {
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
-					handlers[stat] = (value) => {
-						console.log(stat, value, character.stats[stat] + value);
-						return dispatch(
+					handlers[stat] = (value) =>
+						dispatch(
 							updateStat({
 								statName: stat,
 								value: stat === 'health' && character.stats[stat] + value > classDefaultValues[character.charClass] ? classDefaultValues[character.charClass] : character.stats[stat] + value,
 							})
-						)};
+						);
 				});
 				// dynamically updates items
 				itemNames.forEach((item) => {
@@ -186,6 +185,7 @@ const Play = ({ supabase }) => {
 						currentLevelObject={currentLevelObject}
 						choiceSelect={handleChoiceSelect}
 						pastLevels={pastLevels}
+						character={character}
 					/>
 				)}
 			</div>

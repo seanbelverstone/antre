@@ -7,6 +7,7 @@ const EnemyImageAndPlayerHealth = (props) => {
 	const { enemyData, currentEnemyHealth, character, currentPlayerHealth } = props;
 	const [enemyHealthWidth, setEnemyHealthWidth] = useState('0%');
 	const [playerHealthWidth, setPlayerHealthWidth] = useState('0%');
+	// TODO: Add image for UNDEAD_MANTICORE, SCARLET_KNIGHT, INFANTRY and SWORDSMAN
 
 	useEffect(() => {
 		setEnemyHealthWidth(`${(100 * currentEnemyHealth) / enemyData.stats.health}%`)
