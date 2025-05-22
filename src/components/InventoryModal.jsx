@@ -10,6 +10,7 @@ import './css/InventoryModal.css';
 import CustomTooltip from './Tooltip.jsx';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 export default function InventoryModal(props) {
@@ -47,6 +48,8 @@ export default function InventoryModal(props) {
 			}
 		]
 	};
+
+	// TODO: Move gold, torch, health potions, and amulet number to be on top of the icon inside a circle
 
   return (
     <>
@@ -100,23 +103,27 @@ export default function InventoryModal(props) {
 								<section id="topMisc">
 									<div id="torch">
 										<img className="icon" src={invImages.torch} />
-										<div className="iconText">Torch: {torch}</div>
+										<div className="iconValue" id="torchValue">{torch ? <CheckIcon /> : "X"}</div>
+										<div className="iconText">Torch</div>
 									</div>
 
 									<div id="amulet">
 										<img className="icon" src={invImages.amulet} />
-										<div className="iconText">Amulet: {amulet}</div>
+										<div className="iconValue" id="amuletValue">{amulet ? <CheckIcon /> : "X"}</div>
+										<div className="iconText">Amulet</div>
 									</div>
 								</section>
 								<section id="bottomMisc">
 									<div id="healthPotion">
 										<img className="icon" src={invImages.healthPotion} />
-										<div className="iconText">Health Potions: {healthPotions}</div>
+										<div className="iconValue" id="healthPotionValue">{healthPotions}</div>
+										<div className="iconText">Health Potions</div>
 									</div>
 
 									<div id="gold">
 										<img className="icon" src={invImages.gold} />
-										<div className="iconText">Gold: {gold}</div>
+										<div className="iconValue" id="goldValue">{gold}</div>
+										<div className="iconText">Gold</div>
 									</div>
 								</section>
 							</section>

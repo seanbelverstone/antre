@@ -123,6 +123,61 @@
   text-align: center;
 }
 
+.iconValue {
+	background-color: var(--primary);
+	color: white;
+	padding: 4px 10px;
+	border-radius: 10em;
+}
+
+#torch, #amulet, #healthPotion, #gold {
+  display: grid;
+  grid-template-areas:
+    "stack"
+    "text-area";
+  justify-items: center;
+  align-items: center;
+  padding: 10px;
+  margin: 5px;
+}
+
+.icon {
+  grid-area: stack;
+  z-index: 0;
+}
+#torch .iconValue {
+	margin-left: 25px;
+}
+
+.iconValue {
+  grid-area: stack;
+  justify-self: right;
+  align-self: flex-end;
+
+	background-color: var(--primary);
+	border: solid black 5px;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%; /* Makes it a circle */
+  padding: 0.2em; /* Adjust padding to make it look good */
+  min-width: 1.5em; /* Ensures it's a circle even for single digits */
+  text-align: center;
+  line-height: 1.5em; /* Centers text vertically in the circle */
+
+  /* z-index ensures it's on top of the icon */
+  z-index: 1;
+  /* Optional: Adjust margin to fine-tune position relative to the icon */
+  margin-top: -5px; /* Pull it up slightly */
+  /* margin-right: -5px; Pull it right slightly */
+}
+
+.iconText {
+  grid-area: text-area;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 5px;
+}
+
 .equipmentIcon {
   max-width: 2em;
 	margin-right: 2px;
