@@ -7,9 +7,9 @@ export const classDefaultValues = {
 }
 
 export const classSkills = {
-	warrior: { name: 'boneCrush', effect: 'Bypass enemy defenses on the next attack' },
-	rogue: { name: 'throwKnives', effect: 'Throw your trusty knives at the enemy for a free hit'},
-	paladin: { name: 'holyBlade', effect: 'Your next attack combines your strength and wisdom to calculate damage'}
+	warrior: { name: 'boneCrush', effect: 'Bypass enemy defenses on your attack! This attack never misses.' },
+	rogue: { name: 'throwKnives', effect: 'Throw your trusty knives at the enemy for a free hit.'},
+	paladin: { name: 'holyBlade', effect: 'Your next attack combines your strength and wisdom to calculate damage.'}
 
 }
 
@@ -200,11 +200,12 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 	}
 }
 
-export const damageRange = (character, enemyData, risky = false) => {
-	const playerWeapon = playerWeapons[character.items.weapon];
+export const damageRange = (character, enemyData, risky = false, holyBlade = false) => {
+	console.log(titleToCamel(character.items.weapon));
+	const playerWeapon = playerWeapons[titleToCamel(character.items.weapon)];
 	console.log(playerWeapon)
-	const minDamage = Math.ceil((((playerWeapon.damage + character.stats.strength) * 0.91) - enemyData.stats.defense) * (risky ? 1.8 : 1));
-	const maxDamage = Math.ceil((((playerWeapon.damage + character.stats.strength) * 1.10) - enemyData.stats.defense) * (risky ? 1.8 : 1));
+	const minDamage = Math.ceil((((playerWeapon.damage + (holyBlade ? (character.stats.strength * character.stats.wisdom) : character.stats.strength)) * 0.91) - enemyData.stats.defense) * (risky ? 1.8 : 1));
+	const maxDamage = Math.ceil((((playerWeapon.damage + (holyBlade ? (character.stats.strength * character.stats.wisdom) : character.stats.strength)) * 1.10) - enemyData.stats.defense) * (risky ? 1.8 : 1));
 	const critMinDamage = Math.ceil(minDamage * playerWeapon.crit * (risky ? 1.8 : 1));
 	const critMaxDamage = Math.ceil(maxDamage * playerWeapon.crit * (risky ? 1.8 : 1));
 	return {
@@ -224,7 +225,7 @@ export const missAndCritChance = (playerLuck, playerWisdom, extraChanceToMiss = 
   const wisdomBonus = playerWisdom * 0.005;
   const calculatedCritChance = baseCritChance + wisdomBonus;
   return {
-		missChance: `${calculatedMissChance * 100}%`,
-		critChance: `${calculatedCritChance * 100}%`
+		missChance: `${(calculatedMissChance * 100).toFixed(0)}%`,
+		critChance: `${(calculatedCritChance * 100).toFixed(0)}%`
 	}
 };

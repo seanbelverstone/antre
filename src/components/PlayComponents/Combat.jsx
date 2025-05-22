@@ -77,9 +77,15 @@ const Combat = (props) => {
 
 
 	const damageTotals = damageRange(character, enemyData);
-	const regularMissChance = missAndCritChance(character.stats.luck, character.stats.wisdom);
 	const riskyDamageTotals = damageRange(character, enemyData, true);
+	const regularMissChance = missAndCritChance(character.stats.luck, character.stats.wisdom);
 	const riskyMissAndCrit = missAndCritChance(character.stats.luck, character.stats.wisdom, 0.4)
+	const rogueWeaponObject = { ...character, items: { ...character.items, weapon: 'Throwing Knives' } };
+	const skillDamageRanges = {
+		warrior: damageRange(character, { stats: { defense: 0 }}),
+		paladin: damageRange(character, enemyData, false, true),
+		rogue: damageRange(rogueWeaponObject, enemyData)
+	}
 
   return (
 		<div id="combatArea">
@@ -105,15 +111,6 @@ const Combat = (props) => {
 						<div ref={bottomRef}></div>
 					</div>
 				</div>
-
-					{/* <h3>Stats</h3> */}
-					{/* Maybe move this to a tooltip or something */}
-					{/* <ul>
-						<li>Weapon: {toTitleCase(character.items.weapon)}</li>
-						<li>Damage: {playerWeapons[playerWeaponName].damage ?? 0}</li>
-						<li>Crit Multiplier: {playerWeapons[playerWeaponName].crit ?? 0}</li>
-					</ul> */}
-					{/* TODO: Add tooltip for attacking, which shows damage ranges and chance to miss & chance to crit */}
 					<div id="attacks">
 						<Button
 							onClick={() => handleAttack('attack')}
@@ -145,11 +142,24 @@ const Combat = (props) => {
 							onClick={() => handleAttack(classSkills[character.charClass].name)}
 							disabled={cooldown > 0 || state.value !== 'idle'}
 							text={`Skill: ${camelToTitle(classSkills[character.charClass].name)}${cooldown > 0 ? `\nCooldown: ${cooldown}` : ''}`}
+							tooltipContent={
+								<>
+									<div>{classSkills[character.charClass].effect}</div>
+									<div>Normal: <b>{skillDamageRanges[character.charClass].minDamage}-{skillDamageRanges[character.charClass].maxDamage}</b> damage</div>
+									<div>Critical: <b>{skillDamageRanges[character.charClass].critMinDamage}-{skillDamageRanges[character.charClass].critMaxDamage}</b> damage</div>
+									{character.charClass === 'rogue' && <div>Miss Chance: <b>{regularMissChance.missChance}</b></div>}
+								</>
+							}
 						/>
 						<Button
 							onClick={() => send({ type: 'heal' })}
 							disabled={state.context.healthPotions === 0 || state.value !== 'idle' || state.context.playerHealth === classDefaultValues[character.charClass]}
 							text={`Use a Health Potion\n(${state.context.healthPotions} remaining)`}
+							tooltipContent={
+								<>
+									<div>Healing range: <b>15-30HP</b></div>
+								</>
+							}
 						/>
 					</div>
 			</div>		
