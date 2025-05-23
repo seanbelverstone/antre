@@ -52,7 +52,7 @@ const Play = ({ supabase }) => {
 		if (currentLevelObject?.modifier && currentLevelObject?.name && !pastLevels?.includes(currentLevelObject.name)) {
 			const getModifierHandlers = () => {
 				const statNames = ['health', 'strength', 'defense', 'wisdom', 'luck'];
-				const itemNames = ['head', 'chest', 'hands', 'legs', 'torch', 'amulet', 'weapon', 'healthPotions'];
+				const itemNames = ['head', 'chest', 'hands', 'legs', 'feet', 'torch', 'amulet', 'weapon', 'healthPotions'];
 				const handlers = {
 					gold: (value) =>
 						dispatch(

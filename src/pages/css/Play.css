@@ -35,6 +35,7 @@
 	border-radius: 1em;
 	padding: 1em;
 	min-width: 95%;
+	max-width: 95%;
 }
 
 .deathButtons {
@@ -46,27 +47,31 @@
 }
 
 @media screen and (max-width: 992px) {
-	#playPage {
-		min-width: unset;
+	#playPage, .Typewriter {
+		min-width: 90vw;
 		width: 90%;
 	}
 	#storyTextArea {
 		min-width: unset;
 	}
-	.Typewriter {
-		min-width: unset;
-	}
 }
 
 @media screen and (max-width: 768px) {
-
+	.Typewriter {
+		min-width: 75vw;
+	}
 }
 
 @media screen and (max-width: 600px) {
-	
+	#playPage, .Typewriter {
+		width: 95%;
+	}
 }
 
 @media screen and (max-width: 480px) {
+	.Typewriter {
+		width: 85%;
+	}
 	#storyButtonArea {
 		flex-direction: column;
 	}
