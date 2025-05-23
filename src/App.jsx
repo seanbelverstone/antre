@@ -24,6 +24,7 @@ function App({ supabase }) {
 				<Route path="/antre/select" element={<CharacterSelect supabase={supabase} />} />
 				<Route path="/antre/create" element={<CharacterCreatePage supabase={supabase} />} />
 				<Route path="/antre/play" element={<Play supabase={supabase} />} />
+				<Route path="*" element={<Navigate to="/antre" replace />} />
 			</Route>
 		)
 	)
