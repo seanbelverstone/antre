@@ -1840,7 +1840,17 @@ const storylines = {
 	'20a-Knight Fight': {
 	  name: '20a-Knight Fight',
 		text: "You hear a whistling grow louder, and an arrow flies towards you. Before you can react, the arrow flies past your greatsword and hits you square in the chest, but it bounces harmlessly off your full plate armor. You realize that you are wearing the armor and wielding the weapon that you once owned, when this battle was not just a memory. You're really here, defending the King's honor once more. \n\nAnother arrow streaks towards you, but you are ready this time. You deflect it easily, and move forward to an enemy knight.",
-		modifier: { fight: true },
+		modifier: {
+			fight: true,
+			head: 'Plate Helmet',
+			chest: 'Plate Armor',
+			arms: 'Plate Gauntlets',
+			legs: 'Plate Greaves',
+			feet: 'Plate Boots',
+			weapon: 'Steel Greatsword',
+			defense: 6,
+			strength: 4
+		},
 		enemy: {
 				name: "KNIGHT",
 				stats: {
@@ -2004,8 +2014,16 @@ const storylines = {
 	},
 	'22aa-Awoken': {
 	  name: '22aa-Awoken',
-		text: "Laying in a pool of your own mushroom smelling vomit, you open your eyes once more. You're back in the prison. \n\nWas any of that real? Are these memories your own? Whatever it was, your mind feels the effects. The way ahead of you is now clear. Whatever was blocking it before you took the mushrooms must have cleared a path for you. Shaking your head and attempting to suppress your painful memories, you continue on.",
-		modifier: {},
+		text: "Laying in a pool of your own mushroom smelling vomit, you open your eyes once more. You're back in the prison. You glance down and see that you've been stripped down to the clothes you had when you got here, although your greatsword from the memory is still in your hand...\n\nWas any of that real? Surely if you've still got the weapon, then... You shake your head, helplessly.\n\nThe way ahead of you is now clear. Whatever was blocking it before you took the mushrooms must have cleared a path for you. Shaking your head and attempting to suppress your painful memories, you continue on.",
+		modifier: {
+			head: 'none',
+			chest: 'Ragged shirt',
+			hands: 'none',
+			legs: 'Ragged pants',
+			feet: 'Old boots',
+			defense: -6,
+			strength: -3
+		},
 		options: [
 				{
 						label: "Continue",

@@ -89,11 +89,11 @@ export const combatMachine = createMachine({
 					{
 						guard: 'isEnemyDead',
 						target: 'enemyDead',
-						actions: 'enemyTakeDamage'
+						actions: 'enemyTakeDamageAndHeal'
 					},
 					{
 						target: 'enemyAttack',
-						actions: 'enemyTakeDamage'
+						actions: 'enemyTakeDamageAndHeal'
 					}
 				]
 			}
@@ -187,6 +187,18 @@ export const combatMachine = createMachine({
 				const damage = res.event.damage ?? 15;
 				const newEnemyHealth = res.context.enemyHealth - damage;
 				return newEnemyHealth <= 0 ? 0 : newEnemyHealth;
+			}
+		}),
+		enemyTakeDamageAndHeal: assign({
+			enemyHealth: (res) => {
+				const damage = res.event.damage ?? 15;
+				const newEnemyHealth = res.context.enemyHealth - damage;
+				return newEnemyHealth <= 0 ? 0 : newEnemyHealth;
+			},
+			playerHealth: (res) => {
+				const healValue = res.event.healValue ?? 15
+				const newHealth = res.context.playerHealth + healValue;
+				return newHealth >= res.event.maxHealth ? res.event.maxHealth : newHealth;
 			}
 		})
   },

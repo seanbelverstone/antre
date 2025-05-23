@@ -55,7 +55,7 @@ const CharacterCreatePage = ({ supabase }) => {
 				luck: 3
 			},
 			description: 'Using holy powers to surpass their foes, the paladin is the wisest of them all.',
-			skill: 'Holy Blade: Call upon the heavens to infuse your blade with light, allowing the paladin to strike with strength and wisdom combined.'
+			skill: 'Holy Blade: Call upon the heavens to infuse your blade with light, allowing the paladin to strike with strength and wisdom combined and heal for half of the damage inflicted.'
 		}
 	}), [])
 

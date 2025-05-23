@@ -9,7 +9,7 @@ export const classDefaultValues = {
 export const classSkills = {
 	warrior: { name: 'boneCrush', effect: 'Bypass enemy defenses on your attack! This attack never misses.' },
 	rogue: { name: 'throwKnives', effect: 'Throw your trusty knives at the enemy for a free hit.'},
-	paladin: { name: 'holyBlade', effect: 'Your next attack combines your strength and wisdom to calculate damage.'}
+	paladin: { name: 'holyBlade', effect: 'Your next attack combines your strength and wisdom to calculate damage, and heals you for half of the damage inflicted.'}
 
 }
 
@@ -24,7 +24,8 @@ export const playerWeapons = {
 	halberd: { damage: 30, crit: 1.5 },
 	blackIronLongsword: { damage: 22, crit: 2.5 },
 	warHammer: { damage: 20, crit: 2 },
-	throwingKnives: { damage: 7, crit: 2.5 }
+	throwingKnives: { damage: 7, crit: 2.5 },
+	steelGreatsword: { damage: 20, crit: 2 }
 }
 
 export const enemyWeapons = {
@@ -130,11 +131,11 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, 0, -0.1, true)
 		const {type, value: damage} = result;
 		if (type === 'crit') {
-			textFunc(prev => [...prev, `A blinding flash erupts as your holy blade smites the enemy for a massive ${damage} damage!`])
-			send({ type: 'hit', damage });			
+			textFunc(prev => [...prev, `A blinding flash erupts as your holy blade smites the enemy for a massive ${damage} damage and heals you for ${Math.floor(damage / 2)}HP!`])
+			send({ type: 'hit', damage, healValue: Math.floor(damage / 2), maxHealth: classDefaultValues[charClass] });
 		} else {
-			textFunc(prev => [...prev, `Your blessed blade strikes true, dealing ${damage} holy damage.`])
-			send({ type: 'hit', damage });			
+			textFunc(prev => [...prev, `Your blessed blade strikes true, dealing ${damage} holy damage, and heals you for ${Math.floor(damage / 2)}HP!`])
+			send({ type: 'hit', damage, healValue: Math.floor(damage / 2), maxHealth: classDefaultValues[charClass] });
 		}
 	}
 	if (phase === 'throwingKnives') {
