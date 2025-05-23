@@ -42,12 +42,48 @@
 	background-color: var(--defense);
 }
 
+.wrap {
+	position:relative;
+	overflow:hidden;
+	width:350px;
+}
+
+#battleTextArea {
+	background-color: black;
+	width: 300px;
+	height: 300px;
+	padding: 10px;
+	margin-left: 20px;
+	overflow-y: auto;
+	color: white;
+	display: inline-block;
+	border: solid .25em var(--primary);
+	border-radius: 1em;
+}
+
+.textGradient {
+	width: 91.5%;
+	height: 30%;
+	position: absolute;
+	top: 1.5%;
+	right: 1.5%;
+	background: -webkit-linear-gradient(rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+	background: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgba(255, 255, 255, 0) 100%);
+	border-radius: 0.8em 0.8em 0 0;
+	z-index: 5;
+}
+
 #attacks {
 	/* width: 100%; */
 	display: flex;
 	flex-direction: row;
 	justify-content: space-evenly;
 	align-items: center;
+	flex-wrap: wrap;
+}
+
+#attacks .button {
+	flex-basis: 50%;
 }
 
 #enemyAndTextArea {
@@ -59,4 +95,40 @@
 
 .MuiFormControlLabel-labelPlacementEnd {
 	margin-left: 1em !important;
+}
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 800px) {
+	#enemyAndTextArea {
+		flex-direction: column;
+	}
+	#battleTextArea {
+		height: 100px;
+		width: 90%;
+		margin: 5px 0;
+	}
+	.textGradient {
+		top: 6.5%;
+		right: 2.75%;
+		width: 96%;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#attacks {
+		gap: 5px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+}
+
+@media screen and (max-width: 480px) {
+	#attacks {
+		gap: 0;
+	}
 }
