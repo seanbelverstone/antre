@@ -77,3 +77,33 @@
 .backButton {
 	background-color: var(--strength);
 }
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+	#createCharacterForm {
+		min-width: 20em;
+	}
+	#raceAndClass, #statsAndSkills {
+		flex-direction: column;
+		width: auto;
+	}
+	#desAndSkill {
+		max-width: 20em;
+		margin-top: 0.5em;
+	}
+}
+
+@media screen and (max-width: 480px) {
+
+}
