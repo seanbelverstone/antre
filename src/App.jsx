@@ -1,4 +1,4 @@
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider, Navigate } from 'react-router-dom';
 import Start from './pages/Start';
 import Play from './pages/Play';
 import CharacterSelect from './pages/CharacterSelect';
