@@ -97,3 +97,39 @@ section.health {
 .deleteCharacter {
 	background-color: var(--strength);
 }
+
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+}
+
+@media screen and (max-width: 768px) {
+	.characterWrapper {
+		width: auto;
+		flex-direction: column;
+	}
+	.identity, .raceAndClass {
+		width: 100%;
+		text-align: center;
+	}
+	.raceAndClass {
+		justify-content: center;
+	}
+	.stats {
+		justify-content: center;
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+}
+
+@media screen and (max-width: 480px) {
+	.characterWrapper {
+		padding: 5px 0;
+	}
+}
