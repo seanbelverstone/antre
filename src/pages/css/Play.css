@@ -40,3 +40,37 @@
 .deathButtons {
 	min-width: 14em;
 }
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+	#playPage {
+		min-width: unset;
+		width: 90%;
+	}
+	#storyTextArea {
+		min-width: unset;
+	}
+	.Typewriter {
+		min-width: unset;
+	}
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+	
+}
+
+@media screen and (max-width: 480px) {
+	#storyButtonArea {
+		flex-direction: column;
+	}
+	.storyChoiceButton {
+		min-width: 15em;
+	}
+}
