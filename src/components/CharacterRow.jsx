@@ -1,6 +1,7 @@
 import { classDefaultValues } from "../utils/damageCalculations";
 import Button from "./Button";
 import Modal from "./Modal";
+import { camelToTitle } from '../utils/functions.js';
 import './css/CharacterRow.css';
 
 const CharacterRow = (props) => {
@@ -13,8 +14,8 @@ const CharacterRow = (props) => {
 				<section className="identity">
 					<div className="name">{character.name}</div>
 					<section className="raceAndClass">
-						<div className="race">{character.race}</div>
-						<div className="charClass">  {character.charClass}</div>
+						<div className="race">{camelToTitle(character.race)}</div>
+						<div className="charClass">  {camelToTitle(character.charClass)}</div>
 					</section>
 				</section>
 

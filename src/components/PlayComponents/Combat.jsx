@@ -112,9 +112,12 @@ const Combat = (props) => {
 						character={character}
 						currentPlayerHealth={state.context.playerHealth}
 					/>
-					<div id="battleTextArea" style={{ backgroundColor: 'black', width: '300px', height: '300px', padding: '10px', marginLeft: '20px', overflowY: 'auto', color: 'white' }}>
-						{battleText?.map((text, i) => <p key={`${i}_${text[0]}`}>{text}</p>)}
-						<div ref={bottomRef}></div>
+					<div className="wrap">
+						<div className="textGradient"></div>
+						<div id="battleTextArea">
+							{battleText?.map((text, i) => <p key={`${i}_${text[0]}`}>{text}</p>)}
+							<div ref={bottomRef}></div>
+						</div>
 					</div>
 				</div>
 					<div id="attacks">
@@ -175,6 +178,7 @@ const Combat = (props) => {
 							onChange={() => setToggleTips(!toggleTips)}
 						/>}
 						label="Disable combat tips"
+						// TODO: Needs to be "Show combat tips" on mobile because hovering doesn't work
 					/>
 			</div>		
 		</div>

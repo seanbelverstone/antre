@@ -26,7 +26,9 @@ const EnemyImageAndPlayerHealth = (props) => {
 				</div>
 				<div id="enemyBar" style={{ width: enemyHealthWidth }}></div>
 			</div>
-			<img className="enemyImage" src={enemyIcons[enemyData.name]} />
+			<div className="enemyImageWrapper">
+				<img className="enemyImage" src={enemyIcons[enemyData.name]} />
+			</div>
 			<div className="healthArea">
 				<div className="healthText">
 					{currentPlayerHealth}/{classDefaultValues[character.charClass]}

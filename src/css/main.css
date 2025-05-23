@@ -11,6 +11,8 @@
   --secondary: darkred;
   --choice: darkgoldenrod;
   --gold: darkgoldenrod;
+	display: flex;
+	justify-content: center;
 }
 
 /* Combat font:

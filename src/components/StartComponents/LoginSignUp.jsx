@@ -171,6 +171,7 @@ const LoginSignUp = (props) => {
 				<>
 					<TextField
 						className="outlined-basic"
+						id="confirmPassword"
 						label="Confirm Password"
 						variant="outlined"
 						type="password"

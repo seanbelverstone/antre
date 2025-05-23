@@ -35,8 +35,47 @@
 	border-radius: 1em;
 	padding: 1em;
 	min-width: 95%;
+	max-width: 95%;
 }
 
 .deathButtons {
 	min-width: 14em;
+}
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+	#playPage, .Typewriter {
+		min-width: 90vw;
+		width: 90%;
+	}
+	#storyTextArea {
+		min-width: unset;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.Typewriter {
+		min-width: 75vw;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#playPage, .Typewriter {
+		width: 95%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.Typewriter {
+		width: 85%;
+	}
+	#storyButtonArea {
+		flex-direction: column;
+	}
+	.storyChoiceButton {
+		min-width: 15em;
+	}
 }

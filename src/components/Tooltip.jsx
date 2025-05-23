@@ -14,7 +14,7 @@ const MyTooltip = styled(({ className, ...props }) => (
     border: '1px solid #dadde9',
   },
 }));
-
+// TODO: Get tooltip to work on mobile
 export const CustomTooltip = (props) => {
 	const { children, tooltipTitle, tooltipContent } = props;
   return (

@@ -110,6 +110,12 @@ export const combatMachine = createMachine({
 						target: 'idle',
             actions: 'enemyTakeDamage'
           }
+				],
+				miss: [
+					{
+						target: 'idle',
+            actions: 'enemyTakeDamage'
+          }
 				]
       },
     },

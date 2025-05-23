@@ -5,3 +5,30 @@
 #mainLogo {
 	max-width: 600px;
 }
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+	#mainLogo {
+		max-width: 400px;
+	}
+	#startPage {
+		justify-content: space-evenly;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#mainLogo {
+		max-width: 300px;
+	}
+}

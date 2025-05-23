@@ -4,15 +4,20 @@
 	align-items: center;
 	justify-content: center;
 	min-width: 50%;
+	min-height: 25%;
 }
 
-/* #enemyName {
-	width: 100%;
-} */
+.enemyImageWrapper {
+	min-height: 10em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
 .enemyImage {
 	max-height: 20em;
 	max-width: 15em;
+	/* SET MIN HEIGHT */
 }
 
 .healthArea {
@@ -40,4 +45,26 @@
     z-index: 2;
 		color: black;
 		font-weight: bold;
+}
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 800px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+	#enemyArea {
+		min-width: 70%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+
 }
