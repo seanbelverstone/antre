@@ -59,3 +59,9 @@ body {
 .luck {
   color: var(--luck);
 }
+
+@media screen and (max-width: 480px) {
+	.page {
+		padding: 10px;
+	}
+}

@@ -27,7 +27,8 @@ const characterData = createSlice({
 		gold: 0,
 		level: '',
 		pastLevels: [],
-		user_id: null
+		user_id: null,
+		textSpeed: 20
 	},
   reducers: {
     setCharacterData(state, action) {
@@ -42,7 +43,8 @@ const characterData = createSlice({
 				gold: action.payload.gold,
 				level: action.payload.level,
 				pastLevels: action.payload.pastLevels,
-				user_id: action.payload.user_id
+				user_id: action.payload.user_id,
+				textSpeed: action.payload.textSpeed
       }
     },
 		updateCharacterField(state, action) {

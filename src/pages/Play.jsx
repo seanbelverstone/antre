@@ -24,7 +24,8 @@ const Play = ({ supabase }) => {
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
 		setPastLevels(character.pastLevels || []);
-	}, [character.level, character.pastLevels])
+		setTypewriterDelay(character.textSpeed)
+	}, [character.level, character.pastLevels, character.textSpeed])
 
 	useEffect(() => {
 		if (currentLevelObject?.name && !(pastLevels?.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
@@ -148,7 +149,7 @@ const Play = ({ supabase }) => {
 	return (
 		<div id="playPage" className="page">
 			<div id="topRow">
-				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels }} supabase={supabase} />
+				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels, textSpeed: typewriterDelay }} supabase={supabase} />
 				<div id="speedDropdown">
 					<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
 					<Select
@@ -179,6 +180,7 @@ const Play = ({ supabase }) => {
 						callback={setCurrentLevelObject}
 						supabase={supabase}
 						pastLevels={pastLevels}
+						textSpeed={typewriterDelay}
 					/>
 				) : (
 					<Story
@@ -192,8 +194,8 @@ const Play = ({ supabase }) => {
 			{(currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end) && (
 				<>
 					<h2 id="finalText">{currentLevelObject.modifier.death ? "You have died." : "Congratulations! You have won!"}</h2>
-						<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="deathButtons"/>
-						<LogoutButton text="Sign Out" customClassName="deathButtons"/>
+					<LogoutButton type="backToSelect" text="Back to Character Select" customClassName="deathButtons"/>
+					<LogoutButton text="Sign Out" customClassName="deathButtons"/>
 				</>
 			)}
 		</div>

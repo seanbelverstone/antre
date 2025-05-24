@@ -36,6 +36,7 @@
 	padding: 1em;
 	min-width: 95%;
 	max-width: 95%;
+	min-height: 5em;
 }
 
 .deathButtons {
@@ -47,9 +48,12 @@
 }
 
 @media screen and (max-width: 992px) {
-	#playPage, .Typewriter {
+	#playPage {
 		min-width: 90vw;
 		width: 90%;
+	}
+	.Typewriter {
+		min-width: 75vw;
 	}
 	#storyTextArea {
 		min-width: unset;
@@ -63,12 +67,15 @@
 }
 
 @media screen and (max-width: 600px) {
-	#playPage, .Typewriter {
-		width: 95%;
+	#playPage {
+		width: 85%;
 	}
 }
 
 @media screen and (max-width: 480px) {
+	#storyTextArea {
+		width: 90%;
+	}
 	.Typewriter {
 		width: 85%;
 	}

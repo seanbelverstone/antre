@@ -166,7 +166,8 @@ const CharacterCreatePage = ({ supabase }) => {
 					stats,
 					items,
 					gold,
-					user_id: user.id
+					user_id: user.id,
+					textSpeed: 20
 				}
 			])
 			.select();

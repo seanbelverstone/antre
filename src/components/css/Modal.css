@@ -11,3 +11,26 @@
 .modalAgree {
 	background-color: var(--primary);
 }
+
+@media screen and (max-width: 1382px) {
+
+}
+
+@media screen and (max-width: 992px) {
+
+}
+
+@media screen and (max-width: 768px) {
+
+}
+
+@media screen and (max-width: 600px) {
+
+}
+
+@media screen and (max-width: 480px) {
+	.modal .MuiPaper-root {
+		margin: 5px;
+	}
+
+}
