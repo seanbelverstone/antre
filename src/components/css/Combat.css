@@ -134,6 +134,12 @@
 	}
 }
 
+@media screen and (max-width: 710px) {
+	#attacks .button {
+		flex-basis: 35%;
+	}
+}
+
 @media screen and (max-width: 600px) {
 	#victoryText, #continueButton {
 		font-size: 1em;
@@ -155,5 +161,8 @@
 	}
 	#battleTextArea {
 		min-width: 200px;
+	}
+	#attacks .button {
+		flex-basis: 60%;
 	}
 }
