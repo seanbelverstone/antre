@@ -1270,14 +1270,7 @@ const storylines = {
 	'12-Worm End': {
 	  name: '12-Worm End',
 		text: "Wounded and exhausted, you realize that in its defeat, the worm has created a way out of this hellhole. Using your weapon as a grapple of sorts, you hoist yourself up the creature's back. \n\nYou climb up and up, until you reach the top and collapse from exhaustion. The fresh air washes over you, dousing you in newly found freedom. The grass around you breathes and sighs with each gust of wind, and the sun caresses your face like an old partner. \n\nGrinning from ear to ear, you ease into the best sleep you've had since you can remember.",
-		modifier: { end: true },
-		options: [
-				{
-						label: "Return to the main menu",
-						target: "Main Menu"
-				}
-
-		]
+		modifier: { end: true }
 	},
 	'13-Single Door': {
 	  name: '13-Single Door',
@@ -2586,12 +2579,6 @@ const storylines = {
 	  name: '25-Skeletal Knight End',
 		text: "Exhausted, you strike the final blow against the skeletal knight. The ethereal glow from deep inside its eye sockets extinguish, and it erupts into an arcane explosion. You collapse on the floor. \n\nIt's over. \nYou've won. \n\nBreathing in the cool, fresh air, you allow yourself a few moments of respite. \n\nCollecting yourself and standing victorious once more, you begin your trek towards the horizon in search of civilization. Maybe someone is out there.",
 		modifier: { end: true },
-		options: [
-				{
-						label: "Return to the main menu",
-						target: "Main Menu"
-				}
-		]
 	},
 	'26-Small Path': {
 	  name: '26-Small Path',
@@ -2949,13 +2936,7 @@ const storylines = {
 	'33-Beastmaster End': {
 	  name: '33-Beastmaster End',
 		text: "Striking hard and true, you land the final blow on the beastmaster. Its undead corpse falls to the ground, defeated. \n\nA small roll of parchment, previously hidden under its fur cloak, falls to the ground at your feet. You unroll it and see that it is an incantation for a portal out of here. You recite the words on the parchment, and a portal opens up behind you. Taking one look back at the beastmaster and its manticore, you can't help but feel a pang of sorrow for their cursed existences. Hopefully you brought their souls some peace. \n\nYou step through the portal.",
-		modifier: { end: true },
-		options: [
-				{
-						label: "Return to the main menu",
-						target: "Main Menu"
-				}
-		]
+		modifier: { end: true }
 	},
 	'00-Death': {
 	  name: '00-Death',

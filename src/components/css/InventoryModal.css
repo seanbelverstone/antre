@@ -244,5 +244,12 @@
 }
 
 @media screen and (max-width: 480px) {
-
+	#weapon,
+	#head,
+	#chest,
+	#hands,
+	#legs,
+	#feet {
+		flex-grow: 1;
+	}
 }

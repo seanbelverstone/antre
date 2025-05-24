@@ -45,11 +45,11 @@ export const isBlacklistedChoice = (choice) => {
 export const handleModifierAlert = (dispatch, modifierObj) => {
 	const modifierEntries = Object.entries(modifierObj);
 	const messages = [];
-	if (modifierEntries[0][0] === 'torchCheck' || modifierEntries[0][0] === 'luckCheck' || modifierEntries[0][0] === 'death') return;
+	if (modifierEntries[0][0] === 'torchCheck' || modifierEntries[0][0] === 'luckCheck' || modifierEntries[0][0] === 'death' || modifierEntries[0][0] === 'fight') return;
 	modifierEntries.forEach((mod) => {
 		switch (typeof mod[1]) {
 			case 'string':
-				messages.push(`You gained a ${mod[1]}. `)
+				messages.push(`You ${mod[1] === 'none'? `lost your ${mod[0]} item.` : `gained a ${mod[1]}.`} `)
 				break;
 			case 'number':
 				if (mod[1] < 0) {

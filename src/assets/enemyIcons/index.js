@@ -10,6 +10,9 @@ import RUNED_MANTICORE from './runedManticore.png';
 import UNDEAD_MANTICORE from './undeadManticore.png'
 import NECRO_BEASTMASTER from './undeadBeastmaster.png';
 import COLOSSAL_WORM from './worm.png';
+import INFANTRY from './infantry.png';
+import SCARLET_KNIGHT from './scarletKnight.png';
+import SWORDSMAN from './swordsman.png';
 
 export default {
 	GIANT_RAT,
@@ -23,5 +26,8 @@ export default {
 	RUNED_MANTICORE,
 	UNDEAD_MANTICORE,
 	NECRO_BEASTMASTER,
-	COLOSSAL_WORM
+	COLOSSAL_WORM,
+	INFANTRY,
+	SCARLET_KNIGHT,
+	SWORDSMAN
 };

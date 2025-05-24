@@ -34,7 +34,7 @@ const Combat = (props) => {
 	}, [])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'instant' });
+    battleText.length > 0 && bottomRef.current?.scrollIntoView({ behavior: 'instant' });
   }, [battleText, bottomRef]);
 
 	useEffect(() => {
@@ -82,7 +82,7 @@ const Combat = (props) => {
 			cooldown > 0 && setCooldown(cooldown - 1);
 		}
 	}
-
+	console.log(window.innerWidth);
 
 	const damageTotals = damageRange(character, enemyData);
 	const riskyDamageTotals = damageRange(character, enemyData, true);
@@ -173,15 +173,18 @@ const Combat = (props) => {
 							: null}
 						/>
 					</div>
-					<FormControlLabel
-						control={
-						<Checkbox
-							checked={toggleTips}
-							onChange={() => setToggleTips(!toggleTips)}
-						/>}
-						label="Disable combat tips"
-						// TODO: Needs to be "Show combat tips" on mobile because hovering doesn't work
-					/>
+					{window.innerWidth <= 768 ? (
+						<i id="mobileNote">Hold onto an option for more information</i>
+					) : (
+						<FormControlLabel
+							control={
+							<Checkbox
+								checked={toggleTips}
+								onChange={() => setToggleTips(!toggleTips)}
+							/>}
+							label="Disable combat tips"
+						/>
+					)}
 			</div>		
 		</div>
   );
