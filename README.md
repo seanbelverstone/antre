@@ -1,12 +1,21 @@
-# React + Vite
+# Antre - A Turn-Based, Text-Based RPG
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Step into the world of Antre, a medieval text adventure where you choose your own destiny!
 
-Currently, two official plugins are available:
+Become a human, dwarf, or elf, and choose your role: a mighty warrior, a cunning rogue, or a holy paladin! Features 3 separate endings with many twists and turns inbetween, see if you can make it out of the dungeon!
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- No account necessary, users can try out the game without needing to log in!
+- 3 classes and 3 races to choose from.
+- Multiple chance checks to keep the stakes high.
+- A multitude of items and bonuses to make each run feel unique.
+- An inventory display system to keep track of all your gains and losses.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Technologies
+- Made with React and Redux
+- xState's state machine for combat scenarios. 
+- Supabase for authorization and saving progress
+- Material-Ui for logos and component bases
+
+[Play here!](seanbelverstone.github.io/antre)
