@@ -20,6 +20,12 @@
 	/* SET MIN HEIGHT */
 }
 
+.enemyInfoTooltipContent {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
 .healthArea {
 	border: 2px solid black;
 	border-radius: 5px;

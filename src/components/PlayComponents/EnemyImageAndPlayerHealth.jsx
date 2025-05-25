@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import enemyIcons from '../../assets/enemyIcons';
 import '../css/EnemyImageAndPlayerHealth.css';
-import { classDefaultValues } from '../../utils/damageCalculations';
+import { classDefaultValues, enemyWeapons } from '../../utils/damageCalculations';
+import CustomTooltip from '../Tooltip';
+import { camelToTitle, titleToCamel } from '../../utils/functions';
 
 const EnemyImageAndPlayerHealth = (props) => {
 	const { enemyData, currentEnemyHealth, character, currentPlayerHealth } = props;
@@ -17,6 +19,17 @@ const EnemyImageAndPlayerHealth = (props) => {
 		setPlayerHealthWidth(`${(100 * currentPlayerHealth) / classDefaultValues[character.charClass]}%`)
 	}, [currentPlayerHealth, character.stats.health, character.charClass])
 
+	const renderTooltipContent = () => {
+		return (
+			<div className="enemyInfoTooltipContent">
+				<span><b>Weapon:</b> {enemyData.weapon}</span>
+				<span><b>Damage:</b> {enemyWeapons[titleToCamel(enemyData.weapon)].damage}</span>
+				<span><b>Crit:</b> {enemyWeapons[titleToCamel(enemyData.weapon)].crit}x</span>
+				{Object.keys(enemyData.stats).map((key, value) => (<span key={key}><b className={key}>{camelToTitle(key)}</b>: {value}</span>))}
+			</div>
+		)
+	}
+
 	return (
 		<div id="enemyArea">
 			<div id="enemyName">{enemyData.name.replace('_', ' ')}</div>
@@ -27,7 +40,9 @@ const EnemyImageAndPlayerHealth = (props) => {
 				<div id="enemyBar" style={{ width: enemyHealthWidth }}></div>
 			</div>
 			<div className="enemyImageWrapper">
-				<img className="enemyImage" src={enemyIcons[enemyData.name]} />
+				<CustomTooltip tooltipTitle={enemyData.name.replace('_', ' ')} tooltipContent={renderTooltipContent()}>
+					<img className="enemyImage" src={enemyIcons[enemyData.name]} />
+				</CustomTooltip>
 			</div>
 			<div className="healthArea">
 				<div className="healthText">
