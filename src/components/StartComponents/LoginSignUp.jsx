@@ -125,9 +125,10 @@ const LoginSignUp = (props) => {
 				options: { captchaToken }
 			})
 		if (data.session === null) {
+			console.log(data, error);
 			dispatch(setSnackbar({
 				openSnackbar: true,
-				snackbarErrorMessage: error.message,
+				snackbarErrorMessage: data.user.id ? 'An account already exists for this email.' : error.message,
 				snackbarSeverity: 'error'
 			}))
 		} else {

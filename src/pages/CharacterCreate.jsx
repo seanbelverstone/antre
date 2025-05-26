@@ -59,26 +59,6 @@ const CharacterCreatePage = ({ supabase }) => {
 		}
 	}), [])
 
-	const handleStats = useCallback(() => {
-		if (charClass === '') {
-			setStats({
-				health: 0,
-				strength: 0,
-				defense: 0,
-				wisdom: 0,
-				luck: 0,
-			})
-			setDescription('');
-			setSkill('');
-		} else {
-			setStats(classInfo[charClass].stats)
-			setDescription(classInfo[charClass].description);
-			setSkill(classInfo[charClass].skill);
-		}
-		race !== '' && setRaceBuffs();
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [charClass, classInfo]);
-
 	const setRaceBuffs = useCallback(() => {
 		if (race === 'human') {
 			setWeapon('longsword');
@@ -99,18 +79,39 @@ const CharacterCreatePage = ({ supabase }) => {
 			setRaceDescription('Dwarves come equipped with a small bag of gold.')
 		}
 		if (race === 'elf') {
-			const newWisdom = stats.wisdom + 1;
-			setStats(prevState => ({
+			console.log(stats.wisdom);
+			setStats(prevState => {
+				const newWisdom = prevState.wisdom + 1;
+				return ({
 				...prevState,
 				wisdom: newWisdom
-			}));
+			})});
 			setWeapon('rusty shortsword');
 			setGold(0);
 			setRaceDescription('Elves start with a bonus to wisdom.')
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [race,charClass, classInfo])
+	}, [race, charClass, classInfo])
 
+	const handleStats = useCallback(() => {
+		console.log(charClass);
+		if (charClass === '') {
+			setStats({
+				health: 0,
+				strength: 0,
+				defense: 0,
+				wisdom: 0,
+				luck: 0,
+			})
+			setDescription('');
+			setSkill('');
+		} else {
+			setStats(classInfo[charClass].stats)
+			setDescription(classInfo[charClass].description);
+			setSkill(classInfo[charClass].skill);
+		}
+		// race !== '' && setRaceBuffs();
+	}, [charClass, classInfo]);
 	
 	useEffect(() => {
 		handleStats();
