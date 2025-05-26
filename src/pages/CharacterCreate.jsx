@@ -179,7 +179,7 @@ const CharacterCreatePage = ({ supabase }) => {
 					snackbarSeverity: 'error'
 				}))
 			} else {
-				navigate('/antre/select');
+				navigate('/select');
 			}
 	}
 	
@@ -247,7 +247,7 @@ const CharacterCreatePage = ({ supabase }) => {
 					<Button
 						customClassName="backButton"
 						text="Back"
-						onClick={() => navigate('/antre/select')}
+						onClick={() => navigate('/select')}
 					/>
 				</div>
 			</form>

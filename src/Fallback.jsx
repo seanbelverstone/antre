@@ -16,7 +16,7 @@ const Fallback = () => {
     // Check if userId is missing or undefined
     if (!userId && window.location.pathname !== '/antre') {
       // Navigate to the base path of your application, which is '/antre'
-      navigate('/antre');
+      navigate('/');
     }
   }, [userId, navigate]); // Dependencies: re-run if userId or navigate function changes
 
