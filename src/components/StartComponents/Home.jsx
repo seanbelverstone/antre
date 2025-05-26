@@ -32,7 +32,7 @@ const Home = (props) => {
 				<Modal
 					type="anonSignIn"
 					modalTitle="Warning"
-					modalText="Starting a game without logging in won't save your progress, but you will get the option to create an account later."
+					modalText="Starting a game without logging in won't save your progress, but you will get the option to create an account later (creating an account later is not currently available, coming soon)."
 					buttonClassName="homeButton"
 					buttonText="Start"
 					callback={signInAnonymously}
