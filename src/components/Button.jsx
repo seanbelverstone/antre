@@ -1,7 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import "./css/Button.css";
 
 const MyTooltip = styled(({ className, ...props }) => (

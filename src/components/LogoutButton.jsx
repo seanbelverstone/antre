@@ -20,10 +20,10 @@ export const LogoutButton = (props) => {
 	const handleLogout = () => {
 		if (type === 'logout') {
 			dispatch(logoutUser());
-			navigate('/antre');
+			navigate('/');
 		}
 		if (type === 'backToSelect') {
-			navigate('/antre/select');
+			navigate('/select');
 		}
 		dispatch(clearCharacter());
 	}

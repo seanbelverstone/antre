@@ -35,7 +35,7 @@ const LoginSignUp = (props) => {
 
 	useEffect(() => {
 		if (user?.id) {
-			navigate('/antre/select');
+			navigate('/select');
 		}
 	}, [user, navigate]);
 	
