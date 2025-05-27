@@ -2665,7 +2665,7 @@ const storylines = {
 			head: "Lucky cap",
 			luck: 1,
 			gold: 7,
-			weapon: "Warhammer",
+			weapon: "War Hammer",
 		},
 		options: [
 				{
