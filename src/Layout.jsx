@@ -40,7 +40,7 @@ class ErrorBoundary extends React.Component {
           <p>
             We're sorry, but an unexpected error occurred.
           </p>
-          <Button onClick={() => this.resetErrorBoundary(window.location.reload())} text="Refresh Page" />
+          <Button onClick={() => this.resetErrorBoundary(window.location.reload())} text="Back to Login" />
           {import.meta.env.MODE === 'development' && (
             <details>
               <summary>Error Details</summary>
@@ -97,7 +97,7 @@ const BugReportPage = (props) => {
       <p>
         We're truly sorry for the inconvenience. An unexpected error occurred while loading this page.
       </p>
-			<Button onClick={() => resetErrorBoundary(handleExit)} />
+			<Button onClick={() => resetErrorBoundary(handleExit)} text="Back to Login" />
       <div className="reportBugArea">
         <a
           href={createIssueUrl()}
