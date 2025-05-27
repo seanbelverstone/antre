@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import Button from "./components/Button";
 import './css/Layout.css';
 
@@ -18,12 +18,20 @@ class ErrorBoundary extends React.Component {
     this.setState({ errorInfo });
   }
 
+  resetErrorBoundary = (callback = () => {}) => {
+    this.setState({ hasError: false, error: null, errorInfo: null }, () => callback());
+  };
+	
+
   render() {
+
+	
     if (this.state.hasError) {
       if (this.props.fallback) {
         return React.cloneElement(this.props.fallback, {
           error: this.state.error,
-          errorInfo: this.state.errorInfo
+          errorInfo: this.state.errorInfo,
+					resetErrorBoundary: this.resetErrorBoundary
         });
       }
       return (
@@ -32,7 +40,7 @@ class ErrorBoundary extends React.Component {
           <p>
             We're sorry, but an unexpected error occurred.
           </p>
-          <Button customClassName="refreshButton" onClick={() => window.location.reload()} text="Refresh Page" />
+          <Button onClick={() => this.resetErrorBoundary(window.location.reload())} text="Refresh Page" />
           {import.meta.env.MODE === 'development' && (
             <details>
               <summary>Error Details</summary>
@@ -51,8 +59,10 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const BugReportPage = ({ error, errorInfo }) => {
+const BugReportPage = (props) => {
+	const { error, errorInfo, resetErrorBoundary } = props;
   const GITHUB_REPO_ISSUES_URL = "https://github.com/seanbelverstone/antre/issues";
+	const navigate = useNavigate();
 
   const createIssueUrl = () => {
     let issueBody = "## Bug Report\n\n";
@@ -75,6 +85,11 @@ const BugReportPage = ({ error, errorInfo }) => {
     return `${GITHUB_REPO_ISSUES_URL}/new?body=${encodedIssueBody}`;
   };
 
+	const handleExit = () => {
+		navigate('/');
+		window.location.reload();
+	}
+
   return (
     <div className="page">
       <h1>Oops!</h1>
@@ -82,7 +97,7 @@ const BugReportPage = ({ error, errorInfo }) => {
       <p>
         We're truly sorry for the inconvenience. An unexpected error occurred while loading this page.
       </p>
-			<Button customClassName="refreshButton" onClick={() => window.location.reload()} text="Refresh Page" />
+			<Button onClick={() => resetErrorBoundary(handleExit)} />
       <div className="reportBugArea">
         <a
           href={createIssueUrl()}
@@ -112,7 +127,7 @@ const BugReportPage = ({ error, errorInfo }) => {
 
 const Layout = () => {
   return (
-		<ErrorBoundary fallback={<BugReportPage />}>
+		<ErrorBoundary fallback={<BugReportPage th/>}>
 			<Outlet />
 		</ErrorBoundary>
   );
