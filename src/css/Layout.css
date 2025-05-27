@@ -1,0 +1,8 @@
+.refreshButton {
+	background-color: var(--primary);
+	width: min-content;
+}
+
+.reportBugArea {
+	margin-top: 10px;
+}
