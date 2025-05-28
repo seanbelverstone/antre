@@ -27,8 +27,7 @@ const characterData = createSlice({
 		gold: 0,
 		level: '',
 		pastLevels: [],
-		user_id: null,
-		textSpeed: 20
+		user_id: null
 	},
   reducers: {
     setCharacterData(state, action) {
@@ -43,8 +42,7 @@ const characterData = createSlice({
 				gold: action.payload.gold,
 				level: action.payload.level,
 				pastLevels: action.payload.pastLevels,
-				user_id: action.payload.user_id,
-				textSpeed: action.payload.textSpeed
+				user_id: action.payload.user_id
       }
     },
 		updateCharacterField(state, action) {
@@ -60,7 +58,6 @@ const characterData = createSlice({
 		updateItem(state, action) {
 			// updates a single stat, like strength/wisdom
 			const { itemName, value } = action.payload;
-			console.log('Item name: ', itemName, 'value: ', value)
 			state.items[itemName] = value;
 		},
 		clearCharacter() {
