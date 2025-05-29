@@ -38,7 +38,7 @@ export const PinnedInventory = (props) => {
 	return (
 		<div id="pinnedInventory">
 			<section id="stats">
-				<section className="">
+				<section id="health">
 					<div>HP: {health}/{classDefaultValues[charClass]}</div>
 				</section>
 				<section id="strength">
