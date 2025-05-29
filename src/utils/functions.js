@@ -207,16 +207,21 @@ export const timeToUnix = (dateTime) => {
  * Update the user's statistics
  * Only call this function for highestDamage type if current damage value is higher than user.userStatistics.highestDamage
  *
- * @param {string} type - highestDamage, enemiesDefeated, wins, deaths
- * @param {Number} value - New value, only applicable to highestDamage.
- * @param {string} weaponName - The name of the weapon, only applicable to highestDamage
- * @param {Object} user - The user object from the Redux store
- * @param {Function} dispatch - useDispatch() stored in const dispatch
+ * @param {string} type - highestDamage, highestEnemyDamage, totalHealed, enemiesDefeated, wins, deaths
+ * @param {Number} value - New value, only applicable to highestDamage, highestEnemyDamage, and totalHealed.
+ * @param {string} weaponName - The name of the weapon, only applicable to highestDamage and highestEnemyDamage.
+ * @param {Object} user - The user object from the Redux store.
+ * @param {Function} dispatch - useDispatch() stored in const dispatch.
  */
 export const handleUserStats = async (type, value, weaponName, user, dispatch) => {
-	const newValue = type === 'highestDamage' ? value : user[type] + 1;
-	// maybe add total amount healed? Would need to restructure the newValue logic as it would be additive
-	// also add highestEnemyDamage
+	let newValue;
+	if (type === 'highestDamage' || type === 'highestEnemyDamage') {
+		newValue = value;
+	} else {
+		const currentValue = isNaN(user.userStatistics[type]) ? 0 : user.userStatistics[type] ?? 0;
+		console.log(type, currentValue, currentValue + value)
+		newValue = type === 'totalHealed' ? currentValue + value : currentValue + 1;
+	}
 	const { error } = await supabase.auth.updateUser({
 		data: {
 			[type]: newValue
@@ -234,6 +239,12 @@ export const handleUserStats = async (type, value, weaponName, user, dispatch) =
 			// We also want to record the weapon name that caused the damage
 			dispatch(updateUserStatistic({
 				field: 'highestDamageWeapon',
+				value: weaponName
+			}))
+		}
+		if (type === 'highestEnemyDamage') {
+			dispatch(updateUserStatistic({
+				field: 'highestEnemyDamageWeapon',
 				value: weaponName
 			}))
 		}

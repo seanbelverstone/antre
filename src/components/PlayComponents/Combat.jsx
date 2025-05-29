@@ -82,7 +82,6 @@ const Combat = (props) => {
 			cooldown > 0 && setCooldown(cooldown - 1);
 		}
 	}
-	console.log(window.innerWidth);
 
 	const damageTotals = damageRange(character, enemyData);
 	const riskyDamageTotals = damageRange(character, enemyData, true);

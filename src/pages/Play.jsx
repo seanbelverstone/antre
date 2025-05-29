@@ -109,13 +109,15 @@ const Play = ({ supabase }) => {
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
-					handlers[stat] = (value) =>
+					handlers[stat] = (value) => {
+						handleUserStats('totalHealed', value, null, user, dispatch);
 						dispatch(
 							updateStat({
 								statName: stat,
 								value: stat === 'health' && character.stats[stat] + value > classDefaultValues[character.charClass] ? classDefaultValues[character.charClass] : character.stats[stat] + value,
 							})
 						);
+					}
 				});
 				// dynamically updates items
 				itemNames.forEach((item) => {
