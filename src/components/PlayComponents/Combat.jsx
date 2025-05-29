@@ -15,6 +15,7 @@ const Combat = (props) => {
 	const { currentLevelObject, callback, supabase, pastLevels } = props;
 	const enemyData = currentLevelObject.enemy;
 	const character = useSelector(state => state.character);
+	const user = useSelector(state => state.user);
 	const playerWeaponName = character.items.weapon;
 
   const [state, send] = useMachine(combatMachine);
@@ -38,7 +39,8 @@ const Combat = (props) => {
   }, [battleText, bottomRef]);
 
 	useEffect(() => {
-		handleMove(state.value, setBattleText, character.stats, playerWeaponName, enemyData, send, character.charClass)
+		handleMove(state.value, setBattleText, character.stats, playerWeaponName, enemyData, send, character.charClass, user, dispatch)
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [state.value, send, character, playerWeaponName, enemyData])
 
 	useEffect(() => {

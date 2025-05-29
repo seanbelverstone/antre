@@ -25,6 +25,7 @@ const Home = (props) => {
 				textSpeed: data.user.user_metadata.textSpeed ?? 20,
 				userStatistics: {
 					highestDamage: data.user.user_metadata.highestDamage ?? 0,
+					highestDamageWeapon: data.user.user_metadata.highestDamageWeapon ?? 'None recorded',
 					enemiesDefeated: data.user.user_metadata.enemiesDefeated ?? 0,
 					deaths: data.user.user_metadata.deaths ?? 0,
 					wins: data.user.user_metadata.wins ?? 0

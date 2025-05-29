@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
-import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
+import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, handleUserStats, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import { Checkbox, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
@@ -98,11 +98,13 @@ const Play = ({ supabase }) => {
 						if (!pastLevels.includes(currentLevelObject.name)) {
 							const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
 							saveGame(dispatch, supabase, characterData)
+							handleUserStats('deaths', null, null, user, dispatch)
 						}
 					},
 					end: async () => {
 						const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
-						saveGame(dispatch, supabase, characterData)
+						saveGame(dispatch, supabase, characterData);
+						handleUserStats('wins', null, null, user, dispatch)
 					}
 				};
 				// dynamically updates stats

@@ -11,6 +11,7 @@ const userData = createSlice({
 		textSpeed: 20,
 		userStatistics: {
 			highestDamage: 0,
+			highestDamageWeapon: 'None recorded',
 			enemiesDefeated: 0,
 			deaths: 0,
 			wins: 0
@@ -27,6 +28,7 @@ const userData = createSlice({
 				textSpeed: action.payload.textSpeed,
 				userStatistics: {
 					highestDamage: action.payload.userStatistics.highestDamage,
+					highestDamageWeapon: action.payload.userStatistics.highestDamageWeapon,
 					enemiesDefeated: action.payload.userStatistics.enemiesDefeated,
 					deaths: action.payload.userStatistics.deaths,
 					wins: action.payload.userStatistics.wins
