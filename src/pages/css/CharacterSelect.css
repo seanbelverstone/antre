@@ -25,6 +25,11 @@
 	opacity: 1;
 }
 
+#statsButton {
+	background-color: var(--info);
+	color: black;
+}
+
 .statKey {
 	font-weight: bold;
 }
