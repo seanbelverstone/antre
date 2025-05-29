@@ -41,7 +41,7 @@ const CharacterSelectPage = (props) => {
 				snackbarSeverity: 'error'
 			}))
 		}
-		setCharacters(characters.sort((a, b) => timeToUnix(a.created_at) > timeToUnix(b.created_at) ? 1 : -1));
+		setCharacters(characters?.sort((a, b) => timeToUnix(a.created_at) > timeToUnix(b.created_at) ? 1 : -1));
 		dispatch(setLoading({ loading: false }));
 	}, [supabase, user, dispatch])
 	

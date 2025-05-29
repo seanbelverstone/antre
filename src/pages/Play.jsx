@@ -10,10 +10,9 @@ import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
 import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
-import { updateTextSpeed } from '../redux/reducers/userSlice.js';
+import { updateUserField } from '../redux/reducers/userSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import './css/Play.css'
-import InventoryModal from '../components/InventoryModal.jsx';
 import PinnedInventory from '../components/PinnedInventory.jsx';
 
 const Play = ({ supabase }) => {
@@ -152,7 +151,7 @@ const Play = ({ supabase }) => {
 		const { error } = await supabase.auth.updateUser({
 			data: {
 				textSpeed: event.target.value
-			}, // New metadata to merge with existing
+			}
 		})
 		if (error) {
 				dispatch(setSnackbar({
@@ -161,7 +160,10 @@ const Play = ({ supabase }) => {
 					snackbarSeverity: 'error'
 				}))
 		} else {
-			dispatch(updateTextSpeed({ textSpeed: event.target.value }))
+			dispatch(updateUserField({
+				field: 'textSpeed',
+				value: event.target.value
+			}))
 			setTypewriterDelay(event.target.value);
 		}
 

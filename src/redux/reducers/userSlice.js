@@ -8,8 +8,13 @@ const userData = createSlice({
 		accessToken: null,
 		expiresAt: null,
 		expiresIn: null,
-		textSpeed: 20
-		
+		textSpeed: 20,
+		userStatistics: {
+			highestDamage: 0,
+			enemiesDefeated: 0,
+			deaths: 0,
+			wins: 0
+		}
 	}],
   reducers: {
     setUserData(state, action) {
@@ -22,8 +27,10 @@ const userData = createSlice({
 				textSpeed: action.payload.textSpeed
       }
     },
-		updateTextSpeed(state, action) {
-			state.textSpeed = action.payload.textSpeed
+		updateUserField(state, action) {
+			// updates a non-nested field, like gold/level/pastLevels etc
+			const { field, value } = action.payload;
+			state[field] = value;
 		},
 		logoutUser() {
 			return null;
@@ -31,5 +38,5 @@ const userData = createSlice({
   }
 })
 
-export const { setUserData, updateTextSpeed, logoutUser } = userData.actions
+export const { setUserData, updateUserField, logoutUser } = userData.actions
 export default userData.reducer

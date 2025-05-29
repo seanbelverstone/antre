@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { setSnackbar } from "../redux/reducers/snackbarSlice";
 import { setCharacterData } from "../redux/reducers/characterSlice";
+import { updateUserField } from "../redux/reducers/userSlice";
 
 export function useDebouncedValidator(fn, delay = 300, deps = []) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,6 +196,46 @@ export const toTitleCase = (str) => {
 
 export const timeToUnix = (dateTime) => {
 	return Math.floor(new Date(dateTime).getTime() / 1000);
+}
+
+export const handleUserStats = async (type, value, user, supabase, dispatch) => {
+	/*
+		Stats to implement:
+		- Highest damage dealt
+		- # times died
+		- # times won
+		- Play time
+	*/
+	switch (type) {
+		case 'damage':
+			if (user.highestDamage < value) {
+				const { error } = await supabase.auth.updateUser({
+					data: {
+						highestDamage: value
+					}
+				});
+				if (error) {
+					dispatch(setSnackbar({
+						openSnackbar: true,
+						snackbarErrorMessage: error.message,
+						snackbarSeverity: 'error'
+					}))
+				}
+				dispatch(updateUserField({
+					field: 'highestDamage',
+					value
+				}))
+			}
+			break;
+		case 'enemyDefeated':
+
+			break;
+		case 'death':
+			break;
+		case 'win':
+			break;
+		
+	}
 }
 
 
