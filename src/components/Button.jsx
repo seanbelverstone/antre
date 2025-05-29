@@ -68,7 +68,9 @@ const Button = React.forwardRef((props, ref) => {
           </React.Fragment>
         }
       >
-        {buttonContent}
+				<span>
+        	{buttonContent}
+				</span>
       </MyTooltip>
     );
   } else {

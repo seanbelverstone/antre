@@ -4,6 +4,7 @@ import './css/PinnedInventory.css';
 import { Divider } from "@mui/material";
 import { classDefaultValues, playerWeapons } from "../utils/damageCalculations";
 import { camelToTitle, titleToCamel } from "../utils/functions";
+import CheckIcon from '@mui/icons-material/Check';
 
 export const PinnedInventory = (props) => {
 	const { character } = props;

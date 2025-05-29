@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
@@ -8,7 +8,9 @@ import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import './css/CharacterSelect.css';
 import { setLoading } from '../redux/reducers/loaderSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
-import { timeToUnix } from '../utils/functions.js';
+import { camelToTitle, timeToUnix } from '../utils/functions.js';
+import Modal from '../components/Modal.jsx';
+import { Divider } from '@mui/material';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -41,7 +43,7 @@ const CharacterSelectPage = (props) => {
 				snackbarSeverity: 'error'
 			}))
 		}
-		setCharacters(characters.sort((a, b) => timeToUnix(a.created_at) > timeToUnix(b.created_at) ? 1 : -1));
+		setCharacters(characters?.sort((a, b) => timeToUnix(a.created_at) > timeToUnix(b.created_at) ? 1 : -1));
 		dispatch(setLoading({ loading: false }));
 	}, [supabase, user, dispatch])
 	
@@ -90,6 +92,45 @@ const CharacterSelectPage = (props) => {
 	return (
 		<div className="page" id="characterSelectPage">
 			<section id="allCharacters">
+				<Modal id="statsButton" modalTitle="Global Statistics" buttonText="Global Statistics" onlyClose disagreeText="Close" htmlContent={(
+					<div>
+						{Object.entries(user.userStatistics).map((stat, index) => {
+							if (Object.entries(user.userStatistics)[index][0] === 'highestDamage') {
+								return (
+									<React.Fragment key={stat[0]}>
+										<Divider />
+										<p>
+											<span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestDamageWeapon)}`}
+										</p>
+										<Divider />
+									</React.Fragment>
+								)
+							}
+							if (Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamage') {
+								return (
+								<React.Fragment key={stat[0]}>
+									<p>
+										<span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestEnemyDamageWeapon)}`}
+									</p>
+									<Divider />
+								</React.Fragment>
+								)
+							}
+							if (Object.entries(user.userStatistics)[index][0] === 'highestDamageWeapon' || Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamageWeapon') {
+								return;
+							}
+							return (
+							<React.Fragment key={stat[0]}>
+								<p>
+									<span className="statKey">{camelToTitle(stat[0])}:</span> {stat[1]}
+								</p>
+								<Divider />
+							</React.Fragment>
+							)
+						})
+					}
+					</div>
+				)}/>
 				{renderCharacters()}
 				<section id="buttonsSection">
 					{characters.length < 4 ? (

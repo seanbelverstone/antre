@@ -2,15 +2,24 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const userData = createSlice({
   name: 'userData',
-  initialState: [{
+  initialState: {
 		id: null,
 		email: null,
 		accessToken: null,
 		expiresAt: null,
 		expiresIn: null,
-		textSpeed: 20
-		
-	}],
+		textSpeed: 20,
+		userStatistics: {
+			highestDamage: 0,
+			highestDamageWeapon: 'None recorded',
+			highestEnemyDamage: 0,
+			highestEnemyDamageWeapon: 'None recorded',
+			totalHealed: 0,
+			enemiesDefeated: 0,
+			deaths: 0,
+			wins: 0
+		}
+	},
   reducers: {
     setUserData(state, action) {
       return {
@@ -19,11 +28,27 @@ const userData = createSlice({
         accessToken: action.payload.access_token,
 				expiresAt: action.payload.expires_at,
 				expiresIn: action.payload.expires_in,
-				textSpeed: action.payload.textSpeed
+				textSpeed: action.payload.textSpeed,
+				userStatistics: {
+					highestDamage: action.payload.userStatistics.highestDamage,
+					highestDamageWeapon: action.payload.userStatistics.highestDamageWeapon,
+					highestEnemyDamage: action.payload.userStatistics.highestEnemyDamage,
+					highestEnemyDamageWeapon: action.payload.userStatistics.highestEnemyDamageWeapon,
+					totalHealed: action.payload.userStatistics.totalHealed,
+					enemiesDefeated: action.payload.userStatistics.enemiesDefeated,
+					deaths: action.payload.userStatistics.deaths,
+					wins: action.payload.userStatistics.wins
+				}
       }
     },
-		updateTextSpeed(state, action) {
-			state.textSpeed = action.payload.textSpeed
+		updateUserField(state, action) {
+			// updates a single non-nested field
+			const { field, value } = action.payload;
+			state[field] = value;
+		},
+		updateUserStatistic(state, action) {
+			const { field, value } = action.payload;
+			state.userStatistics[field] = value;
 		},
 		logoutUser() {
 			return null;
@@ -31,5 +56,5 @@ const userData = createSlice({
   }
 })
 
-export const { setUserData, updateTextSpeed, logoutUser } = userData.actions
+export const { setUserData, updateUserField, updateUserStatistic, logoutUser } = userData.actions
 export default userData.reducer

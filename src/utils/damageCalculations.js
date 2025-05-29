@@ -1,4 +1,4 @@
-import { titleToCamel } from "./functions"
+import { handleUserStats, titleToCamel } from "./functions"
 
 export const classDefaultValues = {
 	warrior: 80,
@@ -63,7 +63,7 @@ export const damageCalculator = (selectedWeapon, stats, defense, bonusDamageMult
 }
 
 
-export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send, charClass) => {
+export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, send, charClass, user, dispatch) => {
 	console.log(phase);
 	const playerWeapon = playerWeapons[titleToCamel(weaponName)];
 	const enemyWeapon = enemyWeapons[titleToCamel(enemyData.weapon)];
@@ -72,6 +72,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		textFunc(prev => [...prev, 'You strike with a Balanced Attack!'])
 		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('highestDamage', damage, weaponName, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, 'Your attack misses!'])
@@ -91,6 +92,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		const extraChanceToMiss = 0.4;
 		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, bonusDamageMultiplier, extraChanceToMiss)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('highestDamage', damage, weaponName, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, 'You lose your balance, leaving an opening!'])
@@ -103,7 +105,6 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 				send({ type: 'hit', damage });			
 			}
 		}, 1000)
-
 	}
 	if (phase === 'healing') {
 		const randomPotionValue = Math.ceil(Math.random() * 15) + 15;
@@ -111,12 +112,14 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		setTimeout(() => {
 			send({ type: 'healed', healValue: randomPotionValue, maxHealth: classDefaultValues[charClass] });			
 		}, 1000)
+		handleUserStats('totalHealed', randomPotionValue, null, user, dispatch);
 	}
 	if (phase === 'crushingBone') {
 		textFunc(prev => [...prev, 'You unleash a devastating bone crush attack!'])
 		// Always hits, bypasses defense (hence 0, 0, -0.1)
 		const result = damageCalculator(playerWeapon, playerStats, 0, 0, -0.1)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('highestDamage', damage, weaponName, user, dispatch)
 		if (type === 'crit') {
 			textFunc(prev => [...prev, `With a sickening crunch, you shatter the enemy's vital bones for ${damage} damage!`])
 			send({ type: 'hit', damage });			
@@ -130,6 +133,8 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		// Always hits, adds wisdom to calculation (hence true at the end)
 		const result = damageCalculator(playerWeapon, playerStats, enemyData.stats.defense, 0, -0.1, true)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('highestDamage', damage, weaponName, user, dispatch);
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('totalHealed', Math.floor(damage / 2), null, user, dispatch);
 		if (type === 'crit') {
 			textFunc(prev => [...prev, `A blinding flash erupts as your holy blade smites the enemy for a massive ${damage} damage and heals you for ${Math.floor(damage / 2)}HP!`])
 			send({ type: 'hit', damage, healValue: Math.floor(damage / 2), maxHealth: classDefaultValues[charClass] });
@@ -143,6 +148,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		// Always hits, adds wisdom to calculation (hence true at the end)
 		const result = damageCalculator(playerWeapons.throwingKnives, playerStats, enemyData.stats.defense, 0, 0, true)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestDamage < damage) && handleUserStats('highestDamage', damage, weaponName, user, dispatch)
 		if (type === 'miss') {
 			textFunc(prev => [...prev, 'Your knives whizz past their target, missing narrowly!'])
 			send({ type: 'miss', damage });
@@ -160,6 +166,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		textFunc(prev => [...prev, 'The enemy attacks!'])
 		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyData.weapon, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, 'The enemy\'s attack misses you.'])
@@ -178,6 +185,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		const bonusDamageMultiplier = 0.13;
 		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense, bonusDamageMultiplier)
 		const {type, value: damage} = result;
+		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyData.weapon, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, `The enemy's wild attack misses!`])
@@ -194,10 +202,12 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 
 	// -- DEATH CONDITIONS --
 	if (phase === 'enemyDead') {
-		textFunc(prev => [...prev, 'The enemy has been defeated! Congratulations!'])
+		textFunc(prev => [...prev, 'The enemy has been defeated! Congratulations!']);
+		handleUserStats('enemiesDefeated', null, null, user, dispatch);
 	}
 	if (phase === 'dead') {
-		textFunc(prev => [...prev, 'You were slain at the hands of your foe.'])
+		textFunc(prev => [...prev, 'You were slain at the hands of your foe.']);
+		handleUserStats('deaths', null, null, user, dispatch);
 	}
 }
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typewriter from 'typewriter-effect';
 import storylines from '../utils/storylines.js';
-import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
+import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, handleUserStats, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
 import { Checkbox, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
@@ -10,10 +10,9 @@ import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
 import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
-import { updateTextSpeed } from '../redux/reducers/userSlice.js';
+import { updateUserField } from '../redux/reducers/userSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import './css/Play.css'
-import InventoryModal from '../components/InventoryModal.jsx';
 import PinnedInventory from '../components/PinnedInventory.jsx';
 
 const Play = ({ supabase }) => {
@@ -99,22 +98,26 @@ const Play = ({ supabase }) => {
 						if (!pastLevels.includes(currentLevelObject.name)) {
 							const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
 							saveGame(dispatch, supabase, characterData)
+							handleUserStats('deaths', null, null, user, dispatch)
 						}
 					},
 					end: async () => {
 						const characterData = {...character, level: currentLevelObject.name, pastLevels: pastLevels };
-						saveGame(dispatch, supabase, characterData)
+						saveGame(dispatch, supabase, characterData);
+						handleUserStats('wins', null, null, user, dispatch)
 					}
 				};
 				// dynamically updates stats
 				statNames.forEach((stat) => {
-					handlers[stat] = (value) =>
+					handlers[stat] = (value) => {
+						handleUserStats('totalHealed', value, null, user, dispatch);
 						dispatch(
 							updateStat({
 								statName: stat,
 								value: stat === 'health' && character.stats[stat] + value > classDefaultValues[character.charClass] ? classDefaultValues[character.charClass] : character.stats[stat] + value,
 							})
 						);
+					}
 				});
 				// dynamically updates items
 				itemNames.forEach((item) => {
@@ -152,7 +155,7 @@ const Play = ({ supabase }) => {
 		const { error } = await supabase.auth.updateUser({
 			data: {
 				textSpeed: event.target.value
-			}, // New metadata to merge with existing
+			}
 		})
 		if (error) {
 				dispatch(setSnackbar({
@@ -161,7 +164,10 @@ const Play = ({ supabase }) => {
 					snackbarSeverity: 'error'
 				}))
 		} else {
-			dispatch(updateTextSpeed({ textSpeed: event.target.value }))
+			dispatch(updateUserField({
+				field: 'textSpeed',
+				value: event.target.value
+			}))
 			setTypewriterDelay(event.target.value);
 		}
 

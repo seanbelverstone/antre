@@ -18,10 +18,6 @@ function App({ supabase }) {
   const loading = useSelector(state => state.loader?.loading ?? false);
   const snackbar = useSelector(state => state.snackbar);
 
-  window.onbeforeunload = function () {
-    return false;
-  }
-
   const router = createHashRouter(
     createRoutesFromElements(
       // The root route now refers to the part AFTER the hash (e.g., #/)

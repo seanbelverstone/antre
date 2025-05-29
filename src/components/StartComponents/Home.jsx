@@ -22,7 +22,17 @@ const Home = (props) => {
 				access_token: data.session.access_token,
 				expires_at: data.session.expires_at,
 				expires_in: data.session.expires_in,
-				textSpeed: data.user.user_metadata.textSpeed ?? 20
+				textSpeed: data.user.user_metadata.textSpeed ?? 20,
+				userStatistics: {
+					highestDamage: data.user.user_metadata.highestDamage ?? 0,
+					highestDamageWeapon: data.user.user_metadata.highestDamageWeapon ?? 'None recorded',
+					enemiesDefeated: data.user.user_metadata.enemiesDefeated ?? 0,
+					highestEnemyDamage: data.user.user_metadata.highestEnemyDamage ?? 0,
+					highestEnemyDamageWeapon: data.user.user_metadata.highestEnemyDamageWeapon ?? 'None recorded',
+					totalHealed: data.user.user_metadata.totalHealed ?? 0,
+					deaths: data.user.user_metadata.deaths ?? 0,
+					wins: data.user.user_metadata.wins ?? 0
+				}
 			}));
 			navigate('/create');
 		}

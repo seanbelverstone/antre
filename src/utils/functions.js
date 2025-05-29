@@ -1,6 +1,12 @@
 import { useCallback } from "react";
 import { setSnackbar } from "../redux/reducers/snackbarSlice";
 import { setCharacterData } from "../redux/reducers/characterSlice";
+import { updateUserStatistic } from "../redux/reducers/userSlice";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = 'https://tbwwbpochndpeltvsjxx.supabase.co'
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export function useDebouncedValidator(fn, delay = 300, deps = []) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -195,6 +201,61 @@ export const toTitleCase = (str) => {
 
 export const timeToUnix = (dateTime) => {
 	return Math.floor(new Date(dateTime).getTime() / 1000);
+}
+
+/**
+ * Update the user's statistics
+ * Only call this function for highestDamage type if current damage value is higher than user.userStatistics.highestDamage
+ *
+ * @param {string} type - highestDamage, highestEnemyDamage, totalHealed, enemiesDefeated, wins, deaths
+ * @param {Number} value - New value, only applicable to highestDamage, highestEnemyDamage, and totalHealed.
+ * @param {string} weaponName - The name of the weapon, only applicable to highestDamage and highestEnemyDamage.
+ * @param {Object} user - The user object from the Redux store.
+ * @param {Function} dispatch - useDispatch() stored in const dispatch.
+ */
+export const handleUserStats = async (type, value, weaponName, user, dispatch) => {
+	console.log(weaponName);
+	let newValue;
+	if (type === 'highestDamage' || type === 'highestEnemyDamage') {
+		newValue = value;
+	} else {
+		const currentValue = isNaN(user.userStatistics[type]) ? 0 : user.userStatistics[type] ?? 0;
+		console.log(type, currentValue, currentValue + value)
+		newValue = type === 'totalHealed' ? currentValue + value : currentValue + 1;
+	}
+	const { error } = await supabase.auth.updateUser({
+		data: {
+			[type]: newValue,
+			...type === 'highestDamage' && { highestDamageWeapon: weaponName },
+			...type === 'highestEnemyDamage' && { highestEnemyDamageWeapon: weaponName }
+		}
+	});
+	if (error) {
+		dispatch(setSnackbar({
+			openSnackbar: true,
+			snackbarErrorMessage: error.message,
+			snackbarSeverity: 'error'
+		}))
+		return;
+	} else {
+		if (type === 'highestDamage') {
+			// We also want to record the weapon name that caused the damage
+			dispatch(updateUserStatistic({
+				field: 'highestDamageWeapon',
+				value: weaponName
+			}))
+		}
+		if (type === 'highestEnemyDamage') {
+			dispatch(updateUserStatistic({
+				field: 'highestEnemyDamageWeapon',
+				value: weaponName
+			}))
+		}
+		dispatch(updateUserStatistic({
+			field: type,
+			value: newValue
+		}))
+	}
 }
 
 
