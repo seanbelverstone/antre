@@ -5,7 +5,7 @@ import storylines from '../utils/storylines.js';
 import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import { Checkbox, FormControlLabel, InputLabel, MenuItem, Select } from '@mui/material';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
@@ -23,6 +23,7 @@ const Play = ({ supabase }) => {
 	const [typewriterDelay, setTypewriterDelay] = useState(20);
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
+	const [toggleInventory, setToggleInventory] = useState(false);
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
@@ -164,23 +165,41 @@ const Play = ({ supabase }) => {
 
 	};
 
+	const handleInventoryToggle = () => {
+		setToggleInventory(!toggleInventory);
+	}
+
 	return (
 		<div id="playPage" className="page">
 			<div id="topRow">
 				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels, textSpeed: typewriterDelay }} supabase={supabase} />
-				<div id="speedDropdown">
-					<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
-					<Select
-						labelId="typewriterDropdownTextLabel"
-						id="typewriterDropdown"
-						value={typewriterDelay}
-						onChange={handleTyperwriterSpeedChange}
-					>
-						<MenuItem value={40}>Slow</MenuItem>
-						<MenuItem value={20}>Medium</MenuItem>
-						<MenuItem value={1}>Fast</MenuItem>
-						<MenuItem value={0}>Instant</MenuItem>
-					</Select>
+				<div className="inventoryAndSpeed">
+					<div className="pinInventoryToggle">
+						<FormControlLabel
+							className="inventoryToggle"
+							control={
+							<Checkbox
+								checked={toggleInventory}
+								onChange={handleInventoryToggle}
+								className="inventoryCheckbox"
+							/>}
+							label="Pin Inventory"
+						/>
+					</div>
+					<div id="speedDropdown">
+						<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
+						<Select
+							labelId="typewriterDropdownTextLabel"
+							id="typewriterDropdown"
+							value={typewriterDelay}
+							onChange={handleTyperwriterSpeedChange}
+						>
+							<MenuItem value={40}>Slow</MenuItem>
+							<MenuItem value={20}>Medium</MenuItem>
+							<MenuItem value={1}>Fast</MenuItem>
+							<MenuItem value={0}>Instant</MenuItem>
+						</Select>
+					</div>
 				</div>
 			</div>
 			<div id="storyTextArea">
