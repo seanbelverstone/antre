@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterRow from '../components/CharacterRow';
 import Button from '../components/Button.jsx';
@@ -10,6 +10,7 @@ import { setLoading } from '../redux/reducers/loaderSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import { camelToTitle, timeToUnix } from '../utils/functions.js';
 import Modal from '../components/Modal.jsx';
+import { Divider } from '@mui/material';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -95,15 +96,37 @@ const CharacterSelectPage = (props) => {
 					<div>
 						{Object.entries(user.userStatistics).map((stat, index) => {
 							if (Object.entries(user.userStatistics)[index][0] === 'highestDamage') {
-								return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestDamageWeapon)}`}</p>
+								return (
+									<React.Fragment key={stat[0]}>
+										<Divider />
+										<p>
+											<span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestDamageWeapon)}`}
+										</p>
+										<Divider />
+									</React.Fragment>
+								)
 							}
 							if (Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamage') {
-								return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestEnemyDamageWeapon)}`}</p>
+								return (
+								<React.Fragment key={stat[0]}>
+									<p>
+										<span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestEnemyDamageWeapon)}`}
+									</p>
+									<Divider />
+								</React.Fragment>
+								)
 							}
 							if (Object.entries(user.userStatistics)[index][0] === 'highestDamageWeapon' || Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamageWeapon') {
 								return;
 							}
-							return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {stat[1]}</p>
+							return (
+							<React.Fragment key={stat[0]}>
+								<p>
+									<span className="statKey">{camelToTitle(stat[0])}:</span> {stat[1]}
+								</p>
+								<Divider />
+							</React.Fragment>
+							)
 						})
 					}
 					</div>
