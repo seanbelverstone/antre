@@ -110,13 +110,27 @@ const storylines = {
 	},
 	'01ba-Goblin Flee': {
 	  name: '01ba-Goblin Flee',
-		text: "Terrified of what goblins might do if they see you, you attempt to run away. \n\nSprinting to the back of the cave, you are only met with a cold, hard wall. You grope around in the darkness for some kind of opening, some escape from this hellhole. \n\n\"Well, what do we have here then?\" a voice cackles behind you. You spin around to see your foe, but a goblin quickly dashes forward, plunging its dagger into your stomach and slashing it to the side, spilling your innards all over the floor. \n\nDarkness consumes everything.",
-		modifier: { death: true }
+		text: `Terrified of what goblins might do if they see you, you attempt to run away.
+		\n\nSprinting to the back of the cave, you are only met with a cold, hard wall. You grope around in the darkness for some kind of opening, some escape from this hellhole.
+		\n\n"Well, what do we have here then?" a voice cackles behind you. You spin around to see your foe, but an ugly looking goblin quickly dashes forward and manages to slash your leg, before springing back. You have no choice but to face this creature in battle.`,
+		modifier: { health: -20 },
+		options: [
+			{
+				label: "Fight",
+				target: "01bd-Goblin Alternate Battle"
+			}
+		]
 	},
 	'01bb-Goblin Hide': {
 	  name: '01bb-Goblin Hide',
-		text: "Realizing your only option may be to hide, you frantically search the room for a suitable hiding place, coming upon a boulder that might just be big enough to conceal you from your approaching doom. \n\nWiping sweat from your brow, you wait. The voices have stopped. Maybe they've turned around and gone the other way? After a few moments, your curiosity gets the better of you and you shuffle around to peer over the boulder. \n\nThere is a flash of steel, and you realize that the goblins were waiting for you. You hear their laughing and feel their blades as you die before them.",
-		modifier: { death: true }
+		text: "Realizing your only option may be to hide, you frantically search the room for a suitable hiding place, coming upon a boulder that might just be big enough to conceal you from your approaching doom. \n\nWiping sweat from your brow, you hide and wait. The voices have stopped. Maybe they've turned around and gone the other way? After a few moments, your curiosity gets the better of you and you shuffle around to peer over the boulder. \n\nThere is a flash of steel, and you realize that one of the goblins was waiting for you. He manages to cut your arm deeply before you fall backwards. Feeling noticibly weaker, you scramble to stand and face your foe.",
+		modifier: { health: -30, strength: -1 },
+		options: [
+			{
+				label: "Fight",
+				target: "01bd-Goblin Alternate Battle"
+			}
+		]
 	},
 	'01bc-Bargain': {
 	  name: '01bc-Bargain',
@@ -151,6 +165,25 @@ const storylines = {
 	'01bd-Goblin Battle': {
 	  name: '01bd-Goblin Battle',
 		text: "You shift to a battle stance as two goblins enter the cave. They stop in their tracks. \n\n\"This one looks feisty!\", the uglier one cackles. The goblin murmurs something to its partner, who runs off down the tunnel from which they entered. \n\n\"Don't worry sunshine, I'll deal with you myself.\" The goblin unsheathes a sharp looking dagger, and steps forward to attack.",
+		modifier: { fight: true },
+		enemy: {
+				name: "GOBLIN",
+				stats: {
+					health: 40,
+					strength: 2,
+					defense: 2,
+					wisdom: 1,
+					luck: 1,
+				},
+				weapon: "dagger"
+		},
+		victory: {
+				target: "01bda-Goblin Victory"
+		}
+	},
+	'01bd-Goblin Alternate Battle': {
+	  name: '01bd-Goblin Alternate Battle',
+		text: "Despite your blood pooling beneath you, you shift to a battle stance. This creature will pay for catching you unaware.",
 		modifier: { fight: true },
 		enemy: {
 				name: "GOBLIN",
