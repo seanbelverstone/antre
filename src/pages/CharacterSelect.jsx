@@ -160,14 +160,16 @@ const CharacterSelectPage = (props) => {
 						<Button id="createCharacterButton" text="Create a Character" />
 					</Link>
 					) : <></>}
-					<LogoutButton />
-					<Modal
-						id="deleteUserAccount"
-						buttonText="Delete Account"
-						callback={handleDeleteUser}
-						modalTitle="WARNING!!"
-						modalText="Are you sure you want to delete your user account? All characters will also be deleted. This action is irreversible."
-					/>
+					<section id="logoutDelete">
+						<LogoutButton />
+						<Modal
+							id="deleteUserAccount"
+							buttonText="Delete Account"
+							callback={handleDeleteUser}
+							modalTitle="WARNING!!"
+							modalText="Are you sure you want to delete your user account? All characters will also be deleted. This action is irreversible."
+						/>
+					</section>
 				</section>
 			</section>
 		</div>
