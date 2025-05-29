@@ -193,6 +193,10 @@ export const toTitleCase = (str) => {
     .join(' ');
 }
 
+export const timeToUnix = (dateTime) => {
+	return Math.floor(new Date(dateTime).getTime() / 1000);
+}
+
 
 
 export default debounce;
