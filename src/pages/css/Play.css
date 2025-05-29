@@ -17,7 +17,7 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 2em;
+	margin-bottom: 1em;
 }
 
 #speedDropdown > .MuiSelect-root, #speedDropdown > .MuiInputLabel-root {
@@ -27,6 +27,27 @@
 #storyTextArea {
 	margin-bottom: 2em;
 	min-width: 50em;
+}
+
+.inventoryAndSpeed {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: start;
+}
+
+.inventoryToggle {
+	flex-direction: column;
+	order: 2;
+	color: rgba(0, 0, 0, 0.6);
+}
+
+.inventoryCheckbox {
+	order: 1;
+}
+
+#typewriterDropdownTextLabel {
+	font-weight: 400 !important;
 }
 
 .Typewriter, .instantTextBlock {

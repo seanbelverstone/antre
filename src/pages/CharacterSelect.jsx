@@ -8,6 +8,7 @@ import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import './css/CharacterSelect.css';
 import { setLoading } from '../redux/reducers/loaderSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
+import { timeToUnix } from '../utils/functions.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -40,7 +41,7 @@ const CharacterSelectPage = (props) => {
 				snackbarSeverity: 'error'
 			}))
 		}
-		setCharacters(characters);
+		setCharacters(characters.sort((a, b) => timeToUnix(a.created_at) > timeToUnix(b.created_at) ? 1 : -1));
 		dispatch(setLoading({ loading: false }));
 	}, [supabase, user, dispatch])
 	
