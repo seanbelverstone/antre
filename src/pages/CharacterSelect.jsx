@@ -60,8 +60,7 @@ const CharacterSelectPage = (props) => {
 			gold: char.gold,
 			level: char.level,
 			pastLevels: char.pastLevels,
-			user_id: char.user_id,
-			textSpeed: char.textSpeed
+			user_id: char.user_id
 		}));
 	}
 

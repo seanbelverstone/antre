@@ -5,14 +5,17 @@ import storylines from '../utils/storylines.js';
 import { campaignLuckCheck, flattenToSingleKeys, handleModifierAlert, isBlacklistedChoice, saveGame } from '../utils/functions';
 import Story from '../components/PlayComponents/Story.jsx';
 import Combat from '../components/PlayComponents/Combat.jsx';
-import './css/Play.css'
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { LogoutButton } from '../components/LogoutButton.jsx';
 import { updateCharacterField, updateItem, updateStat } from '../redux/reducers/characterSlice.js';
 import { classDefaultValues } from '../utils/damageCalculations.js';
 import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
+import { updateTextSpeed } from '../redux/reducers/userSlice.js';
+import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
+import './css/Play.css'
 
 const Play = ({ supabase }) => {
+	const user = useSelector(state => state.user);
 	const character = useSelector(state => state.character);
 	const dispatch = useDispatch();
 
@@ -24,8 +27,8 @@ const Play = ({ supabase }) => {
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
 		setPastLevels(character.pastLevels || []);
-		setTypewriterDelay(character.textSpeed)
-	}, [character.level, character.pastLevels, character.textSpeed])
+		setTypewriterDelay(user.textSpeed)
+	}, [character.level, character.pastLevels, user.textSpeed])
 
 	useEffect(() => {
 		if (currentLevelObject?.name && !(pastLevels?.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
@@ -142,8 +145,23 @@ const Play = ({ supabase }) => {
 		setCurrentLevelObject(storylines[target])
 	}
 
-	const handleTyperwriterSpeedChange = (event) => {
-		setTypewriterDelay(event.target.value);
+	const handleTyperwriterSpeedChange = async (event) => {
+		const { error } = await supabase.auth.updateUser({
+			data: {
+				textSpeed: event.target.value
+			}, // New metadata to merge with existing
+		})
+		if (error) {
+				dispatch(setSnackbar({
+					openSnackbar: true,
+					snackbarErrorMessage: error.message,
+					snackbarSeverity: 'error'
+				}))
+		} else {
+			dispatch(updateTextSpeed({ textSpeed: event.target.value }))
+			setTypewriterDelay(event.target.value);
+		}
+
 	};
 
 	return (
@@ -161,19 +179,24 @@ const Play = ({ supabase }) => {
 						<MenuItem value={40}>Slow</MenuItem>
 						<MenuItem value={20}>Medium</MenuItem>
 						<MenuItem value={1}>Fast</MenuItem>
+						<MenuItem value={0}>Instant</MenuItem>
 					</Select>
 				</div>
 			</div>
 			<div id="storyTextArea">
-				<Typewriter
-					options={{
-						strings: storyText,
-						autoStart: true,
-						loop: false,
-						delay: typewriterDelay,
-						wrapperClassName: 'text'
-					}}
-				/>
+				{user.textSpeed === 0 ? (
+					<p className="instantTextBlock">{storyText}</p>
+				) : (
+					<Typewriter
+						options={{
+							strings: storyText,
+							autoStart: true,
+							loop: false,
+							delay: typewriterDelay,
+							wrapperClassName: 'text'
+						}}
+					/>
+				)}
 				{currentLevelObject.modifier && currentLevelObject?.modifier?.fight ? (
 					<Combat
 						currentLevelObject={currentLevelObject}

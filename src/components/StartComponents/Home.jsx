@@ -21,7 +21,8 @@ const Home = (props) => {
 				email: data.user.email,
 				access_token: data.session.access_token,
 				expires_at: data.session.expires_at,
-				expires_in: data.session.expires_in
+				expires_in: data.session.expires_in,
+				textSpeed: data.user.user_metadata.textSpeed ?? 20
 			}));
 			navigate('/create');
 		}

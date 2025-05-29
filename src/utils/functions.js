@@ -81,8 +81,7 @@ export const saveGame = async (dispatch, supabase, characterData) => {
 		gold: characterData.gold,
 		level: characterData.level,
 		pastLevels: characterData.pastLevels,
-		user_id: characterData.user_id,
-		textSpeed: characterData.textSpeed
+		user_id: characterData.user_id
 	}))
 	const { data, error } = await supabase
 		.from('characters')
@@ -91,8 +90,7 @@ export const saveGame = async (dispatch, supabase, characterData) => {
 			items: characterData.items,
 			gold: characterData.gold,
 			level: characterData.level,
-			pastLevels: characterData.pastLevels,
-			textSpeed: characterData.textSpeed
+			pastLevels: characterData.pastLevels
 		})
 		.eq('id', characterData.id);
 	console.log(data);

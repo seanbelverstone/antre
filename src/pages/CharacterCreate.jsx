@@ -20,8 +20,9 @@ const CharacterCreatePage = ({ supabase }) => {
 	const [weapon, setWeapon] = useState('rusty shortsword');
 	const [gold, setGold] = useState(0);
 
-	const user = useSelector(state => state.user);
 	const navigate = useNavigate();
+
+	const user = useSelector(state => state.user);
 
 	const classInfo = useMemo(() => ({
 		warrior: {
@@ -167,8 +168,7 @@ const CharacterCreatePage = ({ supabase }) => {
 					stats,
 					items,
 					gold,
-					user_id: user.id,
-					textSpeed: 20
+					user_id: user.id
 				}
 			])
 			.select();

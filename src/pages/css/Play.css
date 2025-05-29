@@ -29,7 +29,7 @@
 	min-width: 50em;
 }
 
-.Typewriter {
+.Typewriter, .instantTextBlock {
 	margin-bottom: 2em;
 	border: inset 2px black;
 	border-radius: 1em;
