@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Button from "../components/Button";
 import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import './css/CharacterCreate.css';
 import { camelToTitle } from "../utils/functions";
@@ -21,6 +21,8 @@ const CharacterCreatePage = ({ supabase }) => {
 	const [gold, setGold] = useState(0);
 
 	const navigate = useNavigate();
+
+	const user = useSelector(state => state.user);
 
 	const classInfo = useMemo(() => ({
 		warrior: {
@@ -165,7 +167,8 @@ const CharacterCreatePage = ({ supabase }) => {
 					charClass,
 					stats,
 					items,
-					gold
+					gold,
+					user_id: user.id
 				}
 			])
 			.select();
