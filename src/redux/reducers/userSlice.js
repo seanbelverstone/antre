@@ -33,7 +33,7 @@ const userData = createSlice({
 					highestDamage: action.payload.userStatistics.highestDamage,
 					highestDamageWeapon: action.payload.userStatistics.highestDamageWeapon,
 					highestEnemyDamage: action.payload.userStatistics.highestEnemyDamage,
-					highestEnemyWeapon: action.payload.userStatistics.highestEnemyWeapon,
+					highestEnemyDamageWeapon: action.payload.userStatistics.highestEnemyDamageWeapon,
 					totalHealed: action.payload.userStatistics.totalHealed,
 					enemiesDefeated: action.payload.userStatistics.enemiesDefeated,
 					deaths: action.payload.userStatistics.deaths,

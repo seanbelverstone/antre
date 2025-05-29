@@ -8,7 +8,8 @@ import { setCharacterData } from '../redux/reducers/characterSlice.js';
 import './css/CharacterSelect.css';
 import { setLoading } from '../redux/reducers/loaderSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
-import { timeToUnix } from '../utils/functions.js';
+import { camelToTitle, timeToUnix } from '../utils/functions.js';
+import Modal from '../components/Modal.jsx';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -90,6 +91,23 @@ const CharacterSelectPage = (props) => {
 	return (
 		<div className="page" id="characterSelectPage">
 			<section id="allCharacters">
+				<Modal modalTitle="Global Statistics" buttonText="Global Statistics" htmlContent={(
+					<div>
+						{Object.entries(user.userStatistics).map((stat, index) => {
+							if (Object.entries(user.userStatistics)[index][0] === 'highestDamage') {
+								return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestDamageWeapon)}`}</p>
+							}
+							if (Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamage') {
+								return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {`${stat[1]} dmg - ${camelToTitle(user.userStatistics.highestEnemyDamageWeapon)}`}</p>
+							}
+							if (Object.entries(user.userStatistics)[index][0] === 'highestDamageWeapon' || Object.entries(user.userStatistics)[index][0] === 'highestEnemyDamageWeapon') {
+								return;
+							}
+							return <p><span className="statKey">{camelToTitle(stat[0])}:</span> {stat[1]}</p>
+						})
+					}
+					</div>
+				)}/>
 				{renderCharacters()}
 				<section id="buttonsSection">
 					{characters.length < 4 ? (

@@ -214,6 +214,7 @@ export const timeToUnix = (dateTime) => {
  * @param {Function} dispatch - useDispatch() stored in const dispatch.
  */
 export const handleUserStats = async (type, value, weaponName, user, dispatch) => {
+	console.log(weaponName);
 	let newValue;
 	if (type === 'highestDamage' || type === 'highestEnemyDamage') {
 		newValue = value;
@@ -224,7 +225,9 @@ export const handleUserStats = async (type, value, weaponName, user, dispatch) =
 	}
 	const { error } = await supabase.auth.updateUser({
 		data: {
-			[type]: newValue
+			[type]: newValue,
+			...type === 'highestDamage' && { highestDamageWeapon: weaponName },
+			...type === 'highestEnemyDamage' && { highestEnemyDamageWeapon: weaponName }
 		}
 	});
 	if (error) {

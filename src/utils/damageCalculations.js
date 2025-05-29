@@ -166,7 +166,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		textFunc(prev => [...prev, 'The enemy attacks!'])
 		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense)
 		const {type, value: damage} = result;
-		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyWeapon, user, dispatch)
+		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyData.weapon, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, 'The enemy\'s attack misses you.'])
@@ -185,7 +185,7 @@ export const handleMove = (phase, textFunc, playerStats, weaponName, enemyData, 
 		const bonusDamageMultiplier = 0.13;
 		const result = damageCalculator(enemyWeapon, enemyData.stats, playerStats.defense, bonusDamageMultiplier)
 		const {type, value: damage} = result;
-		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyWeapon, user, dispatch)
+		(type !== 'miss' && user.userStatistics.highestEnemyDamage < damage) && handleUserStats('highestEnemyDamage', damage, enemyData.weapon, user, dispatch)
 		setTimeout(() => {
 			if (type === 'miss') {
 				textFunc(prev => [...prev, `The enemy's wild attack misses!`])

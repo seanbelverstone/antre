@@ -128,7 +128,7 @@ const LoginSignUp = (props) => {
 			console.log(data, error);
 			dispatch(setSnackbar({
 				openSnackbar: true,
-				snackbarErrorMessage: data.user.id ? 'An account already exists for this email.' : error.message,
+				snackbarErrorMessage: data?.user?.id ? 'An account already exists for this email.' : error.message,
 				snackbarSeverity: 'error'
 			}))
 		} else {
