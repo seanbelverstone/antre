@@ -176,18 +176,20 @@ const Play = ({ supabase }) => {
 			<div id="topRow">
 				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels, textSpeed: typewriterDelay }} supabase={supabase} />
 				<div className="inventoryAndSpeed">
-					<div className="pinInventoryToggle">
-						<FormControlLabel
-							className="inventoryToggle"
-							control={
-							<Checkbox
-								checked={toggleInventory}
-								onChange={handleInventoryToggle}
-								className="inventoryCheckbox"
-							/>}
-							label="Pin Inventory"
-						/>
-					</div>
+					{window.innerWidth >= 900 && (
+						<div className="pinInventoryToggle">
+							<FormControlLabel
+								className="inventoryToggle"
+								control={
+								<Checkbox
+									checked={toggleInventory}
+									onChange={handleInventoryToggle}
+									className="inventoryCheckbox"
+								/>}
+								label="Pin Inventory"
+							/>
+						</div>
+					)}
 					<div id="speedDropdown">
 						<InputLabel id="typewriterDropdownTextLabel">Text Speed</InputLabel>
 						<Select
@@ -234,7 +236,7 @@ const Play = ({ supabase }) => {
 						character={character}
 					/>
 				)}
-				{toggleInventory && (<PinnedInventory character={character}/>)}
+				{window.innerWidth >= 900 && toggleInventory && (<PinnedInventory character={character}/>)}
 			</div>
 			{(currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end) && (
 				<>
