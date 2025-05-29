@@ -13,6 +13,8 @@ import MenuDrawer from '../components/PlayComponents/MenuDrawer.jsx';
 import { updateTextSpeed } from '../redux/reducers/userSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import './css/Play.css'
+import InventoryModal from '../components/InventoryModal.jsx';
+import PinnedInventory from '../components/PinnedInventory.jsx';
 
 const Play = ({ supabase }) => {
 	const user = useSelector(state => state.user);
@@ -232,6 +234,7 @@ const Play = ({ supabase }) => {
 						character={character}
 					/>
 				)}
+				{toggleInventory && (<PinnedInventory character={character}/>)}
 			</div>
 			{(currentLevelObject?.modifier?.death || currentLevelObject.modifier?.end) && (
 				<>

@@ -1,0 +1,53 @@
+#pinnedInventory {
+	margin-top: 1em;
+	border: solid gray 2px;
+	border-radius: 1em;
+	padding: 1em;
+	display: flex;
+	flex-direction: row;
+}
+
+#pinnedInventory #stats {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 5em;
+	min-width: 5em;
+}
+
+#pinnedInventory #strength, #pinnedInventory #defense, #pinnedInventory #wisdom, #pinnedInventory #luck {
+	justify-content: start;
+	width: 5em;
+}
+
+#pinnedInventory #misc {
+	display: flex;
+	width: 14em;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-right: 2em;
+}
+
+#pinnedInventory #misc div {
+	max-width: 4em;
+}
+
+#pinnedInventory #misc #healthPotion .iconText, #pinnedInventory #misc #amulet .iconText, #pinnedInventory #misc #gold .iconText {
+	margin-left: 1em;
+}
+
+#pinnedInventory #misc .iconValue {
+	margin: 0;
+	font-size: 0.75em;
+}
+
+#pinnedInventory #items {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 1em;
+}
+
+#pinnedInventory #items #weapon {
+	width: 100%;
+}
