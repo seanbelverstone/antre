@@ -22,10 +22,11 @@ const captchaKey = import.meta.env.VITE_CAPTCHA_KEY;
  * @param {Boolean} disagreeText - Replaces the text on the Disagree modal button
  * @param {Boolean} agreeText - Replaces the text on the Agree modal button
  * @param {Component} htmlContent - You can pass HTML content in here to render instead of a string
+ * @param {Boolean} onlyClose - defaults to false, pass in false if you want to hide the agree button
  */
 
 export default function Modal(props) {
-	const { id, type, modalTitle, modalText, buttonClassName, buttonText, callback, disagreeText, agreeText, htmlContent } = props;
+	const { id, type, modalTitle, modalText, buttonClassName, buttonText, callback, disagreeText, agreeText, htmlContent, onlyClose = false } = props;
 
   const [open, setOpen] = useState(false);
 	const [captchaToken, setCaptchaToken] = useState()
@@ -74,10 +75,16 @@ export default function Modal(props) {
 						/>
 						</div>
 				)}
-        <DialogActions>
-          <Button customClassName="modalDisagree" onClick={() => handleClose('disagree')} text={disagreeText ?? "Disagree"} />
-          <Button customClassName="modalAgree" onClick={() => handleClose('agree')} autoFocus disabled={type === 'anonSignIn' && !captchaToken} text={agreeText ?? "Agree"} />
-        </DialogActions>
+				{onlyClose ? (
+					<DialogActions>
+						<Button customClassName="modalDisagree" onClick={() => handleClose('disagree')} text={disagreeText ?? "Disagree"} />
+					</DialogActions>
+				) : (
+					<DialogActions>
+						<Button customClassName="modalDisagree" onClick={() => handleClose('disagree')} text={disagreeText ?? "Disagree"} />
+						<Button customClassName="modalAgree" onClick={() => handleClose('agree')} autoFocus disabled={type === 'anonSignIn' && !captchaToken} text={agreeText ?? "Agree"} />
+					</DialogActions>
+				)}
       </Dialog>
     </>
   );

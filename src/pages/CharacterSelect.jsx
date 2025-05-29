@@ -91,7 +91,7 @@ const CharacterSelectPage = (props) => {
 	return (
 		<div className="page" id="characterSelectPage">
 			<section id="allCharacters">
-				<Modal modalTitle="Global Statistics" buttonText="Global Statistics" htmlContent={(
+				<Modal modalTitle="Global Statistics" buttonText="Global Statistics" onlyClose disagreeText="Close" htmlContent={(
 					<div>
 						{Object.entries(user.userStatistics).map((stat, index) => {
 							if (Object.entries(user.userStatistics)[index][0] === 'highestDamage') {
