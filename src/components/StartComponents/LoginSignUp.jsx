@@ -132,7 +132,6 @@ const LoginSignUp = (props) => {
 				snackbarSeverity: 'error'
 			}))
 		} else {
-			console.log(data.user.user_metadata);
 			dispatch(setUserData({
 				id: data.user.id,
 				email: data.user.email,

@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const userData = createSlice({
   name: 'userData',
-  initialState: [{
+  initialState: {
 		id: null,
 		email: null,
 		accessToken: null,
@@ -15,7 +15,7 @@ const userData = createSlice({
 			deaths: 0,
 			wins: 0
 		}
-	}],
+	},
   reducers: {
     setUserData(state, action) {
       return {
@@ -26,17 +26,21 @@ const userData = createSlice({
 				expiresIn: action.payload.expires_in,
 				textSpeed: action.payload.textSpeed,
 				userStatistics: {
-					highestDamage: action.payload.highestDamage,
-					enemiesDefeated: action.payload.enemiesDefeated,
-					deaths: action.payload.deaths,
-					wins: action.payload.wins
+					highestDamage: action.payload.userStatistics.highestDamage,
+					enemiesDefeated: action.payload.userStatistics.enemiesDefeated,
+					deaths: action.payload.userStatistics.deaths,
+					wins: action.payload.userStatistics.wins
 				}
       }
     },
 		updateUserField(state, action) {
-			// updates a non-nested field, like gold/level/pastLevels etc
+			// updates a single non-nested field
 			const { field, value } = action.payload;
 			state[field] = value;
+		},
+		updateUserStatistic(state, action) {
+			const { field, value } = action.payload;
+			state.userStatistics[field] = value;
 		},
 		logoutUser() {
 			return null;
@@ -44,5 +48,5 @@ const userData = createSlice({
   }
 })
 
-export const { setUserData, updateUserField, logoutUser } = userData.actions
+export const { setUserData, updateUserField, updateUserStatistic, logoutUser } = userData.actions
 export default userData.reducer

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { setSnackbar } from "../redux/reducers/snackbarSlice";
 import { setCharacterData } from "../redux/reducers/characterSlice";
-import { updateUserField } from "../redux/reducers/userSlice";
+import { updateUserStatistic } from "../redux/reducers/userSlice";
 
 export function useDebouncedValidator(fn, delay = 300, deps = []) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,42 +199,32 @@ export const timeToUnix = (dateTime) => {
 }
 
 export const handleUserStats = async (type, value, user, supabase, dispatch) => {
-	/*
-		Stats to implement:
-		- Highest damage dealt
-		- # times died
-		- # times won
-		- Play time
-	*/
-	switch (type) {
-		case 'damage':
-			if (user.highestDamage < value) {
-				const { error } = await supabase.auth.updateUser({
-					data: {
-						highestDamage: value
-					}
-				});
-				if (error) {
-					dispatch(setSnackbar({
-						openSnackbar: true,
-						snackbarErrorMessage: error.message,
-						snackbarSeverity: 'error'
-					}))
-				}
-				dispatch(updateUserField({
-					field: 'highestDamage',
-					value
-				}))
-			}
-			break;
-		case 'enemyDefeated':
-
-			break;
-		case 'death':
-			break;
-		case 'win':
-			break;
-		
+	/**
+	 * Update the user's statistics
+	 * Only call this function for highestDamage type if current damage value is higher than user.highestDamage
+	 *
+	 * @param {string} type - highestDamage, enemiesDefeated, wins, deaths
+	 * @param {Number} value - new value, only applicable to highestDamage. 
+	 */
+	
+	const newValue = type === 'highestDamage' ? value : user[type] + 1;
+	const { error } = await supabase.auth.updateUser({
+		data: {
+			[type]: newValue
+		}
+	});
+	if (error) {
+		dispatch(setSnackbar({
+			openSnackbar: true,
+			snackbarErrorMessage: error.message,
+			snackbarSeverity: 'error'
+		}))
+		return;
+	} else {
+		dispatch(updateUserStatistic({
+			field: type,
+			value: newValue
+		}))
 	}
 }
 
