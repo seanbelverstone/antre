@@ -11,6 +11,7 @@ import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import { camelToTitle, timeToUnix } from '../utils/functions.js';
 import Modal from '../components/Modal.jsx';
 import { Divider } from '@mui/material';
+import { logoutUser } from '../redux/reducers/userSlice.js';
 
 const CharacterSelectPage = (props) => {
 	const { supabase } = props;
@@ -89,6 +90,27 @@ const CharacterSelectPage = (props) => {
 		});
 	};
 
+	const handleDeleteUser = async () => {
+		const { error } = await supabase.auth.admin.deleteUser(
+  		user.id
+		)
+		if (error) {
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: `There was an issue deleting your account. Please contact support at support@antregame.com. ${error.message}`,
+				snackbarSeverity: 'error'
+			}))
+		} else {
+			dispatch(setSnackbar({
+				openSnackbar: true,
+				snackbarErrorMessage: "Account successfully deleted.",
+				snackbarSeverity: 'success'
+			}))
+			dispatch(logoutUser());
+			navigate('/');
+		}
+	}
+
 	return (
 		<div className="page" id="characterSelectPage">
 			<section id="allCharacters">
@@ -139,6 +161,13 @@ const CharacterSelectPage = (props) => {
 					</Link>
 					) : <></>}
 					<LogoutButton />
+					<Modal
+						id="deleteUserAccount"
+						buttonText="Delete Account"
+						callback={handleDeleteUser}
+						modalTitle="WARNING!!"
+						modalText="Are you sure you want to delete your user account? All characters will also be deleted. This action is irreversible."
+					/>
 				</section>
 			</section>
 		</div>
