@@ -24,7 +24,13 @@ const userData = createSlice({
         accessToken: action.payload.access_token,
 				expiresAt: action.payload.expires_at,
 				expiresIn: action.payload.expires_in,
-				textSpeed: action.payload.textSpeed
+				textSpeed: action.payload.textSpeed,
+				userStatistics: {
+					highestDamage: action.payload.highestDamage,
+					enemiesDefeated: action.payload.enemiesDefeated,
+					deaths: action.payload.deaths,
+					wins: action.payload.wins
+				}
       }
     },
 		updateUserField(state, action) {
