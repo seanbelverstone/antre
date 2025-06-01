@@ -48,7 +48,7 @@
 }
 
 #battleTextArea {
-	background-color: black;
+	background-color: rgba(0, 0, 0, 0.7);
 	width: 300px;
 	height: 300px;
 	padding: 10px;
@@ -79,10 +79,12 @@
 	justify-content: space-evenly;
 	align-items: center;
 	flex-wrap: wrap;
+	margin-top: 1em;
 }
 
 #attacks .button {
 	flex-basis: 50%;
+	background-color: var(--primary);
 }
 
 #enemyAndTextArea {

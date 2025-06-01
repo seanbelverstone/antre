@@ -1,5 +1,5 @@
 import start from './01-Start.png';
-import tunnel from './01-Tunnel.png';
+import tunnel from './02-Tunnel.png';
 import threePaths from './03-Three Paths.png';
 import darkPath from './04-Dark Path.png';
 import sleepingGoblins from './05-Sleeping Goblins.png';
@@ -14,8 +14,12 @@ import correctRoomBB from './13bb-Correct Room.png';
 
 export const backgroundImages = {
 	'01-Start': start,
-	'01-Tunnel': tunnel,
+	'02-Tunnel': tunnel,
+	'02c-Dead Adventurer': tunnel, // Needed due to 02-Tunnel being blacklisted
+	'02b-Relight Fire': tunnel, // Needed due to 02-Tunnel being blacklisted
+	'02a-Locked': tunnel, // Needed due to 02-Tunnel being blacklisted
 	'03-Three Paths': threePaths,
+	'03-Three Paths Variant': threePaths, // Needed due to 03-Three Paths being blacklisted
 	'04-Dark Path': darkPath,
 	'05-Sleeping Goblins': sleepingGoblins,
 	'07-Mahogany Door': mahoganyDoor,

@@ -38,9 +38,10 @@ const Play = ({ supabase }) => {
 		if (currentLevelObject?.name && !(pastLevels?.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
 			setPastLevels(prev => [...prev, currentLevelObject.name])
 		}
-		console.log(backgroundImages[currentLevelObject.name]);
-		if (backgroundImages[currentLevelObject?.name]) {
-			setBackgroundImage(backgroundImages[currentLevelObject?.name ?? ''])
+		const lastBackgroundUsed = pastLevels.length > 0 && pastLevels.findLast(level => backgroundImages[level]);
+		console.log(lastBackgroundUsed, backgroundImages[currentLevelObject?.name]);
+		if (backgroundImages[currentLevelObject?.name] || lastBackgroundUsed) {
+			setBackgroundImage(backgroundImages[currentLevelObject?.name] ?? backgroundImages[lastBackgroundUsed] ?? '')
 		}
 	}, [currentLevelObject, pastLevels]);
 

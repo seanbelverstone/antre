@@ -43,7 +43,7 @@
 	align-items: start;
 	background-color: var(--foregroundFaded);
 	border-radius: 1em;
-	padding: 5px 15px 5px 5px;
+	padding: 5px 15px 0 0;
 }
 
 .inventoryToggle {
@@ -116,5 +116,11 @@
 	}
 	.storyChoiceButton {
 		min-width: 15em;
+	}
+}
+
+@media screen and (max-width: 430px) {
+	.inventoryAndSpeed {
+		padding: 5px;
 	}
 }

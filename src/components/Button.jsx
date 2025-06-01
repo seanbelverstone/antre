@@ -68,7 +68,7 @@ const Button = React.forwardRef((props, ref) => {
           </React.Fragment>
         }
       >
-				<span>
+				<span className="buttonContentWrapper">
         	{buttonContent}
 				</span>
       </MyTooltip>
