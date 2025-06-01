@@ -43,6 +43,7 @@ export const isBlacklistedChoice = (choice) => {
 	case '13aa-Wrong room':
 	case '13b-Correct room':
 	case '13bb-Correct room':
+	case '18-Prison':
 		return true;
 	default: return false;
 	}
