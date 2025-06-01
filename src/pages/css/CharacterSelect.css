@@ -13,8 +13,24 @@
 #buttonsSection {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
+	width: 100%;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	margin-top: 1em;
+}
+
+#buttonsSection button {
+	margin: 10px;
+}
+
+#logoutDelete {
+	display: flex;
+	flex-direction: row;
+}
+
+#createCharacterButton {
+	background-color: var(--primary);
 }
 
 .hidden {
@@ -28,10 +44,15 @@
 #statsButton {
 	background-color: var(--info);
 	color: black;
+	margin-bottom: 1em;
 }
 
 .statKey {
 	font-weight: bold;
+}
+
+#deleteUserAccount {
+	background-color: var(--strength);
 }
 
 
@@ -44,7 +65,9 @@
 }
 
 @media screen and (max-width: 768px) {
-
+	#buttonsSection {
+		flex-direction: column;
+	}
 }
 
 @media screen and (max-width: 600px) {
@@ -62,5 +85,11 @@
 	}
 	.level, .time {
 		font-weight: 500;
+	}
+	#buttonsSection button {
+		margin: 5px;
+	}
+	#logoutDelete {
+		flex-direction: column;
 	}
 }

@@ -43,6 +43,7 @@ export const isBlacklistedChoice = (choice) => {
 	case '13aa-Wrong room':
 	case '13b-Correct room':
 	case '13bb-Correct room':
+	case '18-Prison':
 		return true;
 	default: return false;
 	}
@@ -125,7 +126,7 @@ export const campaignLuckCheck = (luck, eventNumber) => {
   const badLuckLevel = '04bac-Bad Luck';
   const bestLuckLevel = '04bad-Best Luck';
 
-  const wormDeath = '09caa-Worm Death';
+  const wormFailure = '09caa-Worm Failure';
   const wormSuccess = '09cab-Worm Success';
 
   const slipToHang = '28baa-Gap Slip';
@@ -135,6 +136,9 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 
 	const blindLizardDeath = '05bac-Lizard Death';
 	const blindLizardSuccess = '05bad-Lizard Success';
+
+	const blindLizardFireFight = '06ac-Another Lizard Fight'
+	const blindLizardFireSuccess = '06ad-Fire Wisdom Success';
 
   // Story 1 is Dark path traps
   if (eventNumber === 1) {
@@ -146,7 +150,7 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 	// Story 2 is Worm Attack
   } else if (eventNumber === 2) {
     const targetNumber = 4;
-    if (totalLuck <= targetNumber) return wormDeath;
+    if (totalLuck <= targetNumber) return wormFailure;
     else return wormSuccess;
 
 	// Story 3 is Gap cross, with weapon
@@ -172,6 +176,10 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 		const targetNumber = 3;
 		if (totalLuck <= targetNumber) return blindLizardDeath;
     else return blindLizardSuccess;
+	} else if (eventNumber === 7) {
+		const targetNumber = 3;
+		if (totalLuck <= targetNumber) return blindLizardFireFight;
+		else return blindLizardFireSuccess;
 	}
 }
 
