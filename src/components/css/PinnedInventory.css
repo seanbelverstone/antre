@@ -5,6 +5,7 @@
 	padding: 1em;
 	display: flex;
 	flex-direction: row;
+	background-color: var(--foregroundFaded);
 }
 
 #pinnedInventory #stats {
@@ -27,9 +28,9 @@
 
 #pinnedInventory #misc {
 	display: flex;
-	width: 14em;
+	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: space-evenly;
 }
 
 #pinnedInventory #misc #torch, #pinnedInventory #misc #amulet, #pinnedInventory #misc #healthPotion, #pinnedInventory #misc #gold {

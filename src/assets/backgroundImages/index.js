@@ -1,0 +1,31 @@
+import start from './01-Start.png';
+import tunnel from './01-Tunnel.png';
+import threePaths from './03-Three Paths.png';
+import darkPath from './04-Dark Path.png';
+import sleepingGoblins from './05-Sleeping Goblins.png';
+import mahoganyDoor from './07-Mahogany Door.png';
+import goblinMerchant from './08-Goblin Merchant.png';
+import time from './09-Time.png';
+import wormFight from './10-Worm Fight.png';
+import wormEnd from './12-Worm End.png';
+import singleDoor from './13-Single Door.png';
+import correctRoomB from './13b-Correct Room.png';
+import correctRoomBB from './13bb-Correct Room.png';
+
+export const backgroundImages = {
+	'01-Start': start,
+	'01-Tunnel': tunnel,
+	'03-Three Paths': threePaths,
+	'04-Dark Path': darkPath,
+	'05-Sleeping Goblins': sleepingGoblins,
+	'07-Mahogany Door': mahoganyDoor,
+	'08-Goblin Merchant': goblinMerchant,
+	'09-Time': time,
+	'10-Worm Fight': wormFight,
+	'12-Worm End': wormEnd,
+	'13-Single Door': singleDoor,
+	'13b-Correct Room': correctRoomB,
+	'13bb-Correct Room': correctRoomBB
+}
+
+export default backgroundImages;
