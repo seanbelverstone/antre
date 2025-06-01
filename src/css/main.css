@@ -48,6 +48,8 @@ body {
 	min-height: 80vh;
 	background-position: center;
 	background-attachment: fixed;
+	background-size: 60%;
+	background-repeat: no-repeat;
 	border: double black 5px;
 }
 

@@ -2121,7 +2121,7 @@ const storylines = {
 	},
 	'19b-Burn Tapestry': {
 	  name: '19b-Burn Tapestry',
-		text: "Using the torch, you light the corner of the tapestry on fire. The fire quickly spreads up the images, but too fast. It engulfs the tapestry and begins to spread through the entire room, and you realize that you have to move now, lest you wish to become a charred corpse. \n\nAs you turn to flee, you catch a glimpse of a small figure behind the bars, whose bright saffron eyes glint as you run in the only direction left available to you.",
+		text: "Using the torch, you light the corner of the tapestry on fire. The fire quickly spreads up the images, but too fast. It engulfs the tapestry and begins to spread through the entire room, causing the damaged wall behind it to crumble. You realize that you have to move now, lest you wish to become a charred corpse. \n\nAs you sprint towards your new exit, you catch a glimpse of a small figure behind the bars, whose bright saffron eyes glint as you run in the only direction left available to you.",
 		modifier: {},
 		options: [
 			{
