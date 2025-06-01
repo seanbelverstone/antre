@@ -125,7 +125,7 @@ export const campaignLuckCheck = (luck, eventNumber) => {
   const badLuckLevel = '04bac-Bad Luck';
   const bestLuckLevel = '04bad-Best Luck';
 
-  const wormDeath = '09caa-Worm Death';
+  const wormFailure = '09caa-Worm Failure';
   const wormSuccess = '09cab-Worm Success';
 
   const slipToHang = '28baa-Gap Slip';
@@ -149,7 +149,7 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 	// Story 2 is Worm Attack
   } else if (eventNumber === 2) {
     const targetNumber = 4;
-    if (totalLuck <= targetNumber) return wormDeath;
+    if (totalLuck <= targetNumber) return wormFailure;
     else return wormSuccess;
 
 	// Story 3 is Gap cross, with weapon
