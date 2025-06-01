@@ -17,5 +17,7 @@ Become a human, dwarf, or elf, and choose your role: a mighty warrior, a cunning
 - xState's state machine for combat scenarios. 
 - Supabase for authorization and saving progress
 - Material-Ui for logos and component bases
+- Backgrounds and enemy images generated with Google Gemini to increase immersion.
+
 
 [Play here!](seanbelverstone.github.io/antre)
