@@ -7,6 +7,12 @@
 	min-height: 25%;
 }
 
+#enemyName {
+	background-color: var(--foregroundFaded);
+	padding: 0 1em;
+	border-radius: 1em 1em 0 0;
+}
+
 .enemyImageWrapper {
 	min-height: 10em;
 	display: flex;
@@ -32,6 +38,7 @@
 	height: 20px;
 	position: relative;
 	width: 100%;
+	background-color: var(--foregroundFaded);
 }
 
 #enemyBar, #playerBar {
@@ -41,16 +48,16 @@
 }
 
 #enemyBar {
-    background-color: darkred;
+  background-color: darkred;
 }
 
 .healthText {
-    position: absolute;
-    bottom: 0%;
-    left: 43%;
-    z-index: 2;
-		color: black;
-		font-weight: bold;
+	position: absolute;
+	bottom: 0%;
+	left: 43%;
+	z-index: 2;
+	color: black;
+	font-weight: bold;
 }
 
 @media screen and (max-width: 1382px) {

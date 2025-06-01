@@ -5,8 +5,9 @@
 	align-items: center;
 }
 
-#storyButtonArea > .button {
+#storyButtonArea .button {
 	flex: 50%;
+	min-width: 20em !important;
 }
 
 .storyChoiceButton {

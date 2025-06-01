@@ -14,6 +14,7 @@ import { updateUserField } from '../redux/reducers/userSlice.js';
 import { setSnackbar } from '../redux/reducers/snackbarSlice.js';
 import './css/Play.css'
 import PinnedInventory from '../components/PinnedInventory.jsx';
+import backgroundImages from '../assets/backgroundImages/index.js';
 
 const Play = ({ supabase }) => {
 	const user = useSelector(state => state.user);
@@ -25,6 +26,7 @@ const Play = ({ supabase }) => {
 	const [currentLevelObject, setCurrentLevelObject] = useState({});
 	const [pastLevels, setPastLevels] = useState([]);
 	const [toggleInventory, setToggleInventory] = useState(false);
+	const [backgroundImage, setBackgroundImage] = useState('');
 
 	useEffect(() => {
 		setCurrentLevelObject(storylines[character.level])
@@ -35,6 +37,11 @@ const Play = ({ supabase }) => {
 	useEffect(() => {
 		if (currentLevelObject?.name && !(pastLevels?.includes(currentLevelObject.name)) && !(isBlacklistedChoice(currentLevelObject.name))) {
 			setPastLevels(prev => [...prev, currentLevelObject.name])
+		}
+		const lastBackgroundUsed = pastLevels.length > 0 && pastLevels.findLast(level => backgroundImages[level]);
+		console.log(lastBackgroundUsed, backgroundImages[currentLevelObject?.name]);
+		if (backgroundImages[currentLevelObject?.name] || lastBackgroundUsed) {
+			setBackgroundImage(backgroundImages[currentLevelObject?.name] ?? backgroundImages[lastBackgroundUsed] ?? '')
 		}
 	}, [currentLevelObject, pastLevels]);
 
@@ -178,7 +185,8 @@ const Play = ({ supabase }) => {
 	}
 
 	return (
-		<div id="playPage" className="page">
+		<div id="playPage" className={`page ${currentLevelObject?.name?.split('-')[1]}`} style={{ backgroundImage: `url(${backgroundImage})` }}>
+			{/* NOTE: Add white, semi transparent backgrounds to text areas and top bar so the text is readable. Add glow to page outline and white gradient towards the edges? */}
 			<div id="topRow">
 				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels, textSpeed: typewriterDelay }} supabase={supabase} />
 				<div className="inventoryAndSpeed">

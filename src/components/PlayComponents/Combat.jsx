@@ -173,9 +173,10 @@ const Combat = (props) => {
 						/>
 					</div>
 					{window.innerWidth <= 768 ? (
-						<i id="mobileNote">Hold onto an option (and the enemy) for more information</i>
+						<i id="mobileNote">Hold/hover an option (and the enemy) for more information</i>
 					) : (
 						<FormControlLabel
+							id="disableCombatTips"
 							control={
 							<Checkbox
 								checked={toggleTips}

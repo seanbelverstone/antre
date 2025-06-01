@@ -44,6 +44,10 @@ export const isBlacklistedChoice = (choice) => {
 	case '13b-Correct room':
 	case '13bb-Correct room':
 	case '18-Prison':
+	case '28baa-Gap Slip':
+	case '28baaa-Gap Slip Check Luck':
+	case '28baab-Pull up':
+	case '28ba-Check Luck':
 		return true;
 	default: return false;
 	}

@@ -35,3 +35,7 @@ button.warning {
 button.success {
 	background-color: var(--primary);
 }
+
+.buttonContentWrapper {
+	display: flex;
+}

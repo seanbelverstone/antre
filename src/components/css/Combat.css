@@ -48,7 +48,7 @@
 }
 
 #battleTextArea {
-	background-color: black;
+	background-color: rgba(0, 0, 0, 0.7);
 	width: 300px;
 	height: 300px;
 	padding: 10px;
@@ -79,10 +79,12 @@
 	justify-content: space-evenly;
 	align-items: center;
 	flex-wrap: wrap;
+	margin-top: 1em;
 }
 
 #attacks .button {
 	flex-basis: 50%;
+	background-color: var(--primary);
 }
 
 #enemyAndTextArea {
@@ -94,6 +96,22 @@
 
 .MuiFormControlLabel-labelPlacementEnd {
 	margin-left: 1em !important;
+}
+
+#mobileNote {
+	margin-top: 10px;
+	width: 100%;
+	text-align: center;
+	text-shadow: 1px 1px 5px var(--foregroundFaded);
+	font-weight: bold;
+}
+
+#disableCombatTips {
+	background-color: var(--foregroundFaded);
+	width: fit-content;
+	padding: 5px;
+	border-radius: 1em;
+	margin-top: 1em;
 }
 
 @media screen and (max-width: 887px) {
@@ -120,12 +138,6 @@
 		right: 7.75%;
 		width: 91%;
 	}
-}
-
-#mobileNote {
-	margin-top: 10px;
-	width: 100%;
-	text-align: center;
 }
 
 @media screen and (max-width: 768px) {
