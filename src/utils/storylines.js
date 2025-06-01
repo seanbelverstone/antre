@@ -1287,8 +1287,8 @@ const storylines = {
 	},
 	'09caa-Worm Failure': {
 	  name: '09caa-Worm Failure',
-		text: "You reach for your weapon, but your fingers slip past it. You continue fumbling in a panic, but it is too late. You fall back into the gullet of the colossal worm, screaming. \n\nIts intense stomach acid dissolves part of your armor, then it violently regurgitates you out and onto the floor below. Although you lost your weapon and some of your defenses during the struggle, the only thing you can do now is fight.",
-		modifier: { defense: -2, weapon: 'fists' },
+		text: "You reach for your weapon, but your fingers slip past it. You continue fumbling in a panic, but it is too late. You fall back into the gullet of the colossal worm, screaming. \n\nIts intense stomach acid dissolves part of your armor and weapon, then it violently regurgitates you out and onto the floor below. Although your weapon and some of your defenses melted away during the struggle, the only thing you can do now is fight.",
+		modifier: { defense: -2, strength: -2 },
 		options: [
 			{
 				label: "Continue",
@@ -1596,8 +1596,22 @@ const storylines = {
 	},
 	'16d-Rest': {
 	  name: '16d-Rest',
-		text: "The fumes from the dragonfire make you sleepy, so you decide to lie down and take a nap. It turns out that the dragon's flames contained a noxious fume, which is poisonous if inhaled for long periods of time. \n\nYou never wake up.",
-		modifier: { death: true }
+		text: "The fumes from the dragonfire make you sleepy, so you decide to lie down and take a nap. You wake up sometime later feeling not at all refreshed and something stole your armor while you were asleep. You realize that the fumes from the dragon probably caused this terrible nap, so you get up and consider your next move.",
+		modifier: { health: 5, chest: "Ragged shirt" },
+		options: [
+			{
+				label: "Go into crawl space",
+				target: "16b-Crawlspace"
+			},
+			{
+				label: "Make fire",
+				target: "16c-Make Fire"
+			},
+			{
+				label: "Rest",
+				target: "16d-Rest"
+			}
+		]
 	},
 	'17-Chests': {
 	  name: '17-Chests',
@@ -2107,8 +2121,14 @@ const storylines = {
 	},
 	'19b-Burn Tapestry': {
 	  name: '19b-Burn Tapestry',
-		text: "Using the torch, you light the corner of the tapestry on fire. The fire quickly spreads up the images, but too fast. It engulfs the tapestry and catches on the wooden ceiling beams, spreading through the entire room. Before you can react, you are surrounded by flames and begin to burn alive. \n\nA figure appears from behind the bars, and its bright saffron eyes are the last things you see before you perish.",
-		modifier: { death: true }
+		text: "Using the torch, you light the corner of the tapestry on fire. The fire quickly spreads up the images, but too fast. It engulfs the tapestry and begins to spread through the entire room, and you realize that you have to move now, lest you wish to become a charred corpse. \n\nAs you turn to flee, you catch a glimpse of a small figure behind the bars, whose bright saffron eyes glint as you run in the only direction left available to you.",
+		modifier: {},
+		options: [
+			{
+				label: "Continue",
+				target: "23-Corridor"
+			}
+		]
 	},
 	'19c-Inspect': {
 	  name: '19c-Inspect',
@@ -2157,7 +2177,7 @@ const storylines = {
 	},
 	'20a-Fight Goblin': {
 	  name: '20a-Fight Goblin',
-		text: "You rush at the goblin with a battle cry, but you're stopped mere feet away from it. You look down, and a giant black spear has entered your belly and exited the other side. The giant wielding it emerges from behind the goblin. You cough up blood. \n\n\"Tsk. Truly a shame to waste such talent.\" The goblin sighs, as you slip into darkness.",
+		text: "You rush at the goblin with a battle cry, but you're stopped mere feet away from it. You look down, and a giant black spear has entered your belly and exited the other side. The giant wielding it emerges from beside the goblin. You cough up blood. \n\n\"Tsk. Truly a shame to waste such talent.\" The goblin sighs, as you slip into darkness.",
 		modifier: { death: true }
 	},
 	'20b-Cry': {
@@ -2765,7 +2785,7 @@ const storylines = {
 	},
 	'28-Gap': {
 	  name: '28-Gap',
-		text: "Leaving the foul smelling room behind you, you step into the open tunnel, hoping you don't cross paths with whatever made that growl earlier. The tunnel continues winding on, until you come to a fairly wide gap, separating you from the next section of the sewer. It's too far to jump, however, the remains of a narrow pipe juts out in front of you, which looks like it could support your weight.",
+		text: "Leaving the foul smelling room behind you, you step into the open tunnel, hoping you don't cross paths with whatever made that growl earlier. The tunnel continues winding on, until you come to a fairly wide gap, separating you from the next section of the sewer. It's definitely too far to jump, however, the remains of a narrow pipe juts out in front of you, which looks like it could support your weight.",
 		modifier: {},
 		options: [
 			{
@@ -2773,7 +2793,7 @@ const storylines = {
 				target: "27-Sewers"
 			},
 			{
-				label: "Jump the gap",
+				label: "Jump anyway",
 				target: "28a-Death"
 			},
 			{
