@@ -78,7 +78,7 @@ const Play = ({ supabase }) => {
 					},
 					luckCheck: () => {
 						setTimeout(() => {
-							const result = campaignLuckCheck(character.stats.luck, currentLevelObject?.modifier?.event);
+							const result = campaignLuckCheck(currentLevelObject?.name === '06ab-Check Wisdom' ? character.stats.wisdom : character.stats.luck, currentLevelObject?.modifier?.event);
 							console.log('Luck check result: ', result);
 							setCurrentLevelObject(storylines[result])
 						}, 3000)

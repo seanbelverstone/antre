@@ -691,11 +691,6 @@ const storylines = {
 				}
 		]
 	},
-	'05bac-Lizard Death': {
-	  name: '05bac-Lizard Death',
-		text: "You quickly whip your body around the corner, in an attempt to hide from the lizard, but you have no such luck. It easily tracks you down by your scent and speeds round the corner, pouncing on you and clamping its jaws on your throat. \n\nKnocking you down, the giant lizard bites down with crushing jaws. The last thing you hear before you die is your own gurgling screams.",
-		modifier: { death: true }
-	},
 	'06-Lizard Victory': {
 	  name: '06-Lizard Victory',
 		text: "Blood oozes from the giant lizard's wounds, and it slumps over dead. \n\nThe light in this room is rapidly going out due to the fire's close proximity during your fight, however the corridor adjacent to you is relatively well lit.",
@@ -721,9 +716,61 @@ const storylines = {
 		]
 	},
 	'06a-Relight Fire': {
-	  name: '06a-Relight Fire',
-		text: "You hunch over the fire, and look for something to relight it. You notice that the goblins were using flint and steel, so you snatch them up and strike them. \n\nThe sound generated from the flint and steel is loud enough to attract another giant lizard, and also to mask its arrival. As you keep striking the flint and steel together, finally you get a spark and it ignites some small kindling in front of you. You look up. \n\nA drooling reptilian lower jaw is illuminated by your meagre fire. It licks its lips, and the drool from its mouth cascades down onto your kindling, extinguishing it. \n\nThe light goes out.",
-		modifier: { death: true }
+		name: '06a-Relight Fire',
+		text: 'Crouching down by the fire, you look for something to relight it. You notice that the goblins were using flint and steel, so you snatch them up. Something in the back of your mind gives you caution, and you consider this for a moment.',
+		modifier: {},
+		options: [
+			{
+				label: 'Check Wisdom',
+				target: '06ab-Check Wisdom'
+			}
+		]
+	},
+		'06ab-Check Wisdom': {
+	  name: '06ab-Check Wisdom',
+		text: "Checking wisdom...",
+		modifier: {
+			luckCheck: true,
+			event: 7
+		}
+	},
+	'06ac-Another Lizard Fight': {
+	  name: '06ca-Another Lizard Fight',
+		text: "Ignoring the little voice protesting in your head, you strike the flint and steel to relight the fire. Unsurprisingly, this attracts another lizard which pounces in front of you. Sighing and wishing you'd made a wiser decision, you stand ready to attack your foe.",
+		modifier: { fight: true },
+		enemy: {
+				name: "BLIND_LIZARD",
+				stats: {
+					health: 90,
+					strength: 4,
+					defense: 2,
+					wisdom: 1,
+					luck: 2,
+				},
+				weapon: "teeth"
+		},
+		victory: {
+				target: "06ca-Second Lizard Victory"
+		}
+	},
+	'06ad-Fire Wisdom Success': {
+	  name: '06ad-Fire Wisdom Success',
+		text: "Realizing that striking the flint and steel together would probably only attract more of those blind lizards, you carefully put them back where you found them and reconsider your options.",
+		modifier: {},
+		options: [
+				{
+						label: "Continue down corridor",
+						target: "06b-Corridor"
+				},
+				{
+						label: "Long Room Search",
+						target: "06c-Long Search"
+				},
+				{
+						label: "Quick room search",
+						target: "06d-Quick Search"
+				}
+		]
 	},
 	'06b-Corridor': {
 	  name: '06b-Corridor',
@@ -747,10 +794,10 @@ const storylines = {
 			gold: 20
 		},
 		options: [
-				{
-						label: "Attack",
-						target: "06ca-Second Lizard Fight"
-				}
+			{
+					label: "Attack",
+					target: "06ca-Second Lizard Fight"
+			}
 		]
 	},
 	'06ca-Second Lizard Fight': {
@@ -781,10 +828,10 @@ const storylines = {
 			gold: 3
 		},
 		options: [
-				{
-						label: "Continue",
-						target: "06b-Corridor"
-				}
+			{
+					label: "Continue",
+					target: "06b-Corridor"
+			}
 		]
 	},
 	'06ca-Second Lizard Victory': {
@@ -792,10 +839,10 @@ const storylines = {
 		text: "Gasping for air, you strike another lizard down. Keen not to fight another one, you quickly gather your loot and continue down the well lit hallway.",
 		modifier: {},
 		options: [
-				{
-						label: "Continue",
-						target: "07-Mahogany Door"
-				}
+			{
+					label: "Continue",
+					target: "07-Mahogany Door"
+			}
 		]
 	},
 	'07-Mahogany Door': {
@@ -1209,6 +1256,14 @@ const storylines = {
 				}
 		]
 	},
+	'09ca-Check Luck': {
+	  name: '09ca-Check Luck',
+		text: "Checking luck...",
+		modifier: {
+			luckCheck: true,
+			event: 2
+		}
+	},
 	'09a-Give Up': {
 	  name: '09a-Give Up',
 		text: "Realizing that there's probably no way out of this insane situation, you close your eyes and accept your fate. \n\nYou think of a spring meadow, filled with new flowers and joyful bees. The air is cool, and you feel utterly at peace. As the wall behind you crumbles away, you fall into the gullet of the colossal worm. Although your body will soon be consumed by the beast, you manage one last smile before the end.",
@@ -1243,14 +1298,6 @@ const storylines = {
 						target: "09ca-Check Luck"
 				}
 		]
-	},
-	'09ca-Check Luck': {
-	  name: '09ca-Check Luck',
-		text: "Checking luck...",
-		modifier: {
-			luckCheck: true,
-			event: 2
-		}
 	},
 	'09caa-Worm Death': {
 	  name: '09caa-Worm Death',
@@ -1320,7 +1367,7 @@ const storylines = {
 				},
 				{
 						label: "Door 3",
-						target: "13b-Correct room"
+						target: "13b-Correct Room"
 				},
 				{
 						label: "Door 4",
@@ -1343,7 +1390,7 @@ const storylines = {
 				},
 				{
 						label: "Door 3",
-						target: "13b-Correct room"
+						target: "13b-Correct Room"
 				},
 				{
 						label: "Door 4",
@@ -1366,7 +1413,7 @@ const storylines = {
 				},
 				{
 						label: "Door 3",
-						target: "13b-Correct room"
+						target: "13b-Correct Room"
 				},
 				{
 						label: "Door 4",
@@ -1374,8 +1421,8 @@ const storylines = {
 				}
 		]
 	},
-	'13b-Correct room': {
-	  name: '13b-Correct room',
+	'13b-Correct Room': {
+	  name: '13b-Correct Room',
 		text: "You select a door, and enter it. This room seems to be slightly different from the last one. There are the same number of doors, however, the sundial now points to the west.",
 		modifier: {},
 		options: [
@@ -1393,12 +1440,12 @@ const storylines = {
 				},
 				{
 						label: "Door 4",
-						target: "13bb-Correct room"
+						target: "13bb-Correct Room"
 				}
 		]
 	},
-	'13bb-Correct room': {
-	  name: '13bb-Correct room',
+	'13bb-Correct Room': {
+	  name: '13bb-Correct Room',
 		text: "You select a door, and enter it. Now you're making some progress! Excitedly you notice that the sundial is pointing to the north. Hoping this is the last one, begin to decide which door to choose.",
 		modifier: {},
 		options: [

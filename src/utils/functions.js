@@ -136,6 +136,9 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 	const blindLizardDeath = '05bac-Lizard Death';
 	const blindLizardSuccess = '05bad-Lizard Success';
 
+	const blindLizardFireFight = '06ac-Another Lizard Fight'
+	const blindLizardFireSuccess = '06ad-Fire Wisdom Success';
+
   // Story 1 is Dark path traps
   if (eventNumber === 1) {
     const targetNumber = 4;
@@ -172,6 +175,10 @@ export const campaignLuckCheck = (luck, eventNumber) => {
 		const targetNumber = 3;
 		if (totalLuck <= targetNumber) return blindLizardDeath;
     else return blindLizardSuccess;
+	} else if (eventNumber === 7) {
+		const targetNumber = 3;
+		if (totalLuck <= targetNumber) return blindLizardFireFight;
+		else return blindLizardFireSuccess;
 	}
 }
 
