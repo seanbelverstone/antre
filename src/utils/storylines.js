@@ -1882,15 +1882,15 @@ const storylines = {
 	'20-Continue': {
 	  name: '20-Continue',
 		text: "A low growl fills the chamber. The ground shakes as something gets to its feet, clearly annoyed by being rudely awoken. \n\nA massive fist plows through the iron bars, and catches you completely off guard. Catapulted across the room, your head bounces off the wall and you pass out. \n\nDarkness.",
-			modifier: {
-				health: -20
-			},
-			options: [
-				{
-					label: "Continue",
-					target: "21-Continue"
-				}
-			]
+		modifier: {
+			health: -20
+		},
+		options: [
+			{
+				label: "Continue",
+				target: "21-Continue"
+			}
+		]
 	},
 	'21-Continue': {
 	  name: '21-Continue',
@@ -2991,6 +2991,22 @@ const storylines = {
 	'30b-Rune Upgrade': {
 	  name: '30b-Rune Upgrade',
 		text: "Whether as a sign of respect or just to brace yourself, you kneel down and place a hand on the beast's body. \n\nThe runes covering its body begin to emit a slow pulsating light. The runes now begin to slide off the body of the dead beast and climb their way up your arm. You recoil in terror, but it is already too late. \n\nThe runes now circle your entire body like an elaborate tattoo. They shine brightly and your fear quickly dissipates. No wonder the beast was so difficult to kill, these runes were granting it extra special power! \n\nYou breathe in as this new-found power courses through your veins. Gripping your weapon tightly, you look around the room for an exit.",
+		modifier: {
+			health: 100,
+			strength: 3,
+			defense: 2,
+			wisdom: 1
+		},
+		options: [
+			{
+				label: "Continue",
+				target: "31-Undead Beastmaster Fight"
+			}
+		]
+	},
+	"30c-Manticore Trophy": {
+		name: "30c-Manticore Trophy",
+		text: "You crouch down by the fell beast, rest a hand upon its flank and prepare your {{weapon}} to take a trophy. Upon touching it, the runes covering its body begin to emit a slow pulsating light. The runes now begin to slide off the body of the dead beast and climb their way up your arm. You recoil in terror, but it is already too late. \n\nThe runes now circle your entire body like an elaborate tattoo. They shine brightly and your fear quickly dissipates. No wonder the beast was so difficult to kill, these runes were granting it extra special power! \n\nYou breathe in as this new-found power courses through your veins. Gripping your weapon tightly, you look around the room for an exit.",
 		modifier: {
 			health: 100,
 			strength: 3,

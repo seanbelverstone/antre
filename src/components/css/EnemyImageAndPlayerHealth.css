@@ -10,6 +10,7 @@
 #enemyName {
 	background-color: var(--foregroundFaded);
 	padding: 0 1em;
+	border-radius: 1em 1em 0 0;
 }
 
 .enemyImageWrapper {

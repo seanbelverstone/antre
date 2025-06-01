@@ -74,6 +74,17 @@
 	min-width: 14em;
 }
 
+.Home, .Nightmares {
+	background-size: cover;
+}
+
+#finalText {
+	background-color: var(--foregroundFaded);
+	padding: 1em;
+	border-radius: 1em;
+	box-shadow: 0 0 15px black;
+}
+
 
 @media screen and (max-width: 1382px) {
 

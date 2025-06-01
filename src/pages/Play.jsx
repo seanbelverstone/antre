@@ -185,7 +185,7 @@ const Play = ({ supabase }) => {
 	}
 
 	return (
-		<div id="playPage" className="page" style={{ backgroundImage: `url(${backgroundImage})` }}>
+		<div id="playPage" className={`page ${currentLevelObject?.name?.split('-')[1]}`} style={{ backgroundImage: `url(${backgroundImage})` }}>
 			{/* NOTE: Add white, semi transparent backgrounds to text areas and top bar so the text is readable. Add glow to page outline and white gradient towards the edges? */}
 			<div id="topRow">
 				<MenuDrawer characterData={{ ...character, level: currentLevelObject.name, pastLevels: pastLevels, textSpeed: typewriterDelay }} supabase={supabase} />

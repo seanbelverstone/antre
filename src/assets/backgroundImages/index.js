@@ -17,6 +17,7 @@ import chests from './17-Chests.png';
 import prison from './18-Prison.png';
 import mushrooms from './20-Mushrooms.png';
 import home from './22-Home.png';
+import corridor from './23-Corridor.png';
 import skeletalKnight from './24-Skeletal Knight.png';
 import falling from './26a-Falling.png'
 import gap from './28-Gap.png';
@@ -48,8 +49,11 @@ export const backgroundImages = {
 	'18a-Call Out': prison,
 	'18b-Attack': prison,
 	'19-Tapestry': prison,
-	'20-Mushrooms': mushrooms,
+	'20-Mushrooms': prison,
+	'22aa-Awoken': prison,
+	'20a-Knight Fight': mushrooms,
 	'22-Home': home,
+	'23-Corridor': corridor,
 	'24-Skeletal Knight': skeletalKnight,
 	'26a-Falling': falling,
 	'28-Gap': gap,

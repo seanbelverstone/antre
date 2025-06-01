@@ -69,6 +69,24 @@ body {
   color: var(--luck);
 }
 
+@media screen and (max-width: 1382px) {
+	.page {
+		background-size: 80%;
+	}
+}
+
+@media screen and (max-width: 1055px) {
+	.page {
+		background-size: 90%;
+	}
+}
+
+@media screen and (max-width: 992px) {
+	.page {
+		background-size: cover;
+	}
+}
+
 @media screen and (max-width: 768px) {
 	body {
 		font-size: 0.9em;
