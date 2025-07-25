@@ -1,32 +1,44 @@
 name: Supabase Ping
 
+# Keep the project active on Supabase's free tier.
+# Supabase pauses projects after 7 days of inactivity.
+
 on:
   schedule:
-    - cron: '0 0 */5 * *' # Runs every 6 days at midnight UTC
-  workflow_dispatch: # Allows manual triggering of the workflow
+    # Runs every day at 4:00 AM UTC. This is well within the 7-day
+    # inactivity window, ensuring the project remains active.
+    - cron: '0 4 * * *'
+  workflow_dispatch: # Allows manual triggering of the workflow for testing.
 
 jobs:
   ping-supabase:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Ping Supabase with curl
+      - name: Ping Supabase project URL
         env:
-          SUPABASE_URL: https://tbwwbpochndpeltvsjxx.supabase.co
+          # Get the Supabase URL and anon key from GitHub secrets
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
-          if [ -z "$SUPABASE_URL" ]; then
-            echo "Error: SUPABASE_URL environment variable not set."
+          # Check if secrets are set
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Error: SUPABASE_URL or SUPABASE_ANON_KEY secret not set."
+            echo "Please add them to your repository settings."
             exit 1
           fi
 
-          response=$(curl -s -o /dev/null -w "%{http_code}" -I "$SUPABASE_URL/rest/v1/")
-          http_code=$(echo "$response" | awk '{print $1}')
+          # Make an authenticated request to the Supabase API.
+          response_code=$(curl -s -o /dev/null -w "%{http_code}" \
+            --request GET \
+            --url "${SUPABASE_URL}/rest/v1/" \
+            --header "apikey: ${SUPABASE_ANON_KEY}" \
+            --header "Authorization: Bearer ${SUPABASE_ANON_KEY}")
 
-          if [[ "$http_code" -ge 200 && "$http_code" -lt 300 ]]; then
-            echo "Supabase ping successful! HTTP status: $http_code"
+          # Check the HTTP response code
+          if [[ "$response_code" -ge 200 && "$response_code" -lt 300 ]]; then
+            echo "✅ Supabase ping successful! Response code: $response_code"
           else
-            echo "Supabase ping failed with status: $http_code"
+            echo "❌ Supabase ping failed! Response code: $response_code"
+            exit 1
           fi
 
